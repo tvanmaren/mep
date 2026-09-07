@@ -26,18 +26,19 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 13, 14**. **1–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 13, 14**. **2–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
 | 0 | closed at checkpoint — extract lives on `tvanmaren/mep` (`8ae1f24`); stranger CI green; no post-brief implementation SHA (founding commit bundled brief + tree) |
-| 1–12 | not satisfied — no `executionRequest`; no slice-boundary litmus; unix contract unbuilt |
+| 1 | committed — `b0886e5`; envelope + exit map; `run-unix-contract.sh` |
+| 2–12 | not satisfied — no `executionRequest`; no slice-boundary litmus |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | forbidden until iter 4 litmus in the **standalone** repo |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **1** (unix command contract). Not 0, not 15.
+**Next implement:** iteration **2** (executor-neutral routing). Not 15.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -45,9 +46,11 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 13, 14**. *
 |----|------|
 | C1–C5 | 13 (locked); 15 must not regress |
 | C6 | 0 (core lock) |
+| C7 | 1 (core lock) |
 | I1–I3 | 13 skeleton; hydration skip-unless-gated |
 | I4 | 5 (golden matrix) — do not treat as slice-14 proof |
 | I5–I6 | 0 skeleton (finishes, not identity) |
+| I7 | 1 (seed paths / scaffolding flag tactic) |
 
 ---
 
@@ -126,7 +129,7 @@ usage/diagnostics, **exit codes aligned with JSON status**, help/version, comman
 
 **Checkpoint:** `tools/mep/test/` includes an exit-code + stderr discipline suite (FOSS; not host `run.sh`).
 
-**Status:** brief_ready — `iterations/01-unix-command-contract.md`
+**Status:** committed — `iterations/01-unix-command-contract.md` (`b0886e5`)
 
 ---
 
@@ -142,16 +145,16 @@ usage/diagnostics, **exit codes aligned with JSON status**, help/version, comman
 **Irreversible decision:** durable field is `executionRequest`; slash commands are optional presentation.
 
 **Approach:**
-- `executionRequest`: `{ kind, target, argv[], requiredAuthority, requiredEvidence[], allowedExecutorClasses[] }`.
-- Rows 7–8 resolve to `kind: implement`, `target: <briefPath>` — invokable via executor dispatch.
-- Human precondition gates emit `kind: evidence` with explicit artifact path, not chat prompts.
-- Golden tests lock packet shape; vendor adapters translate request → their native invoke surface.
+- `executionRequest`: `{ kind, target, argv }` only. kinds from resolver **row**: `implement` | `checkpoint` | `commit_prep` | `prep` | `cleanup` | `none`.
+- Rows 7–8: `kind: implement`, `target` = brief path, `argv` = `[briefPath]`.
+- `commit_prep` argv distinguishes `docs-bootstrap` / `docs-delta` / bare commit-prep. no `kind: evidence`.
+- FOSS tests lock packet shape. vendor invoke mapping is iteration 3.
 
-**Avoid:** embedding cursor slash commands as the durable contract.
+**Avoid:** embedding cursor slash commands as the durable contract; executor classes / authority fields.
 
 **Checkpoint:** `mep where <slug> --json | jq .executionRequest` is sufficient for a shell driver.
 
-**Status:** pending
+**Status:** brief_ready — `iterations/02-executor-neutral-routing.md`
 
 ---
 

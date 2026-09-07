@@ -12,6 +12,7 @@
 | C4 | Deterministic CLI owns git mechanics (`measure`, `validate`, `execute`); LLM owns synthesis only | Runtime calls a model for curate execute |
 | C5 | v0.1 ships **`preview` + `execute`** for curate | Either mode removed without AD amendment |
 | C6 | v0.1 ships from a **standalone repo**; host is a consumer | v0.1.0 tagged while canonical home is still this monorepo |
+| C7 | Machine-facing `mep` JSON `status` and process exit **never disagree**; the iter-1 table is public API | a command exits 0 for `blocked` / `desync` / `gated`, or stdout `status` lies about `$?` |
 
 ## Interchangeable (realizations)
 
@@ -23,6 +24,7 @@
 | I4 | git owned-path / revision-triplet as proof of "built" | realization of resolver landing; ≠ promised brief files |
 | I5 | host consumption path (submodule / path dep / package) | later host slice — not extract |
 | I6 | FOSS default profile name and repo public name | locked: `profile.active=default`; repo `tvanmaren/mep`; CLI `mep` |
+| I7 | FOSS `default.json` review-input paths; `check scaffolding` implied `--json` | envelope is identity (C7); these are tactics |
 
 ## Amendments
 
@@ -33,3 +35,4 @@
 | 14→0 | `01-invariant-goal.md` success #1 still false on this branch | promoted C6; I5–I6 home = iter 0; next brief is extract not release |
 | 0 | github `tvanmaren/mep` — avoid jdx/mise name collision | I6 public name = `mep`; CLI stays `mep` |
 | 0 close | `8ae1f24` extract + stranger CI green without host overlay | C6 confirmed; founding-commit seam (brief+tree same SHA) recorded on manifest; host pointer still open (I5 consume later) |
+| 1 | `b0886e5` unix-contract + `run-unix-contract.sh` | promoted C7; registered I7; category = envelope+exit map, not `where`-only |

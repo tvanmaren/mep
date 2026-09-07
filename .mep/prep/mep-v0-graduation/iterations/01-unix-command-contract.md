@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/01-unix-command-contract.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** architectural  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -52,13 +52,13 @@ Milestone U start. Iter 2+ may assume `mep where --json` exit matches `.status`.
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] Documented taxonomy (exact table in this brief) is implemented; JSON `status` → process exit never disagrees
-- [ ] `--json` is stdout-only; usage/diagnostics on stderr; success leaves stderr empty
-- [ ] `mep help` and `mep version` exist; usage on stderr; help/version derive from the registry
-- [ ] Every current machine-facing command is on the envelope (including `check scaffolding` — `--json` or a subcommand with the same envelope)
-- [ ] Conformance tests in FOSS `tools/mep/test/` (not host `run.sh`): stderr empty on success; fixture packets for 0 / 1 / 2 / 3 / 64
-- [ ] `run-stranger.sh` still green; this slice does not weaken the no-config defaults proof
-- [ ] No `executionRequest` field; no executor preset work
+- [x] Documented taxonomy (exact table in this brief) is implemented; JSON `status` → process exit never disagrees
+- [x] `--json` is stdout-only; usage/diagnostics on stderr; success leaves stderr empty
+- [x] `mep help` and `mep version` exist; usage on stderr; help/version derive from the registry
+- [x] Every current machine-facing command is on the envelope (including `check scaffolding` — `--json` or a subcommand with the same envelope)
+- [x] Conformance tests in FOSS `tools/mep/test/` (not host `run.sh`): stderr empty on success; fixture packets for 0 / 1 / 2 / 3 / 64
+- [x] `run-stranger.sh` still green; this slice does not weaken the no-config defaults proof
+- [x] No `executionRequest` field; no executor preset work
 
 ### Exit taxonomy (public API)
 
@@ -71,7 +71,7 @@ Milestone U start. Iter 2+ may assume `mep where --json` exit matches `.status`.
 | usage / bad argv | 64 |
 | internal error | 70 |
 
-Today: `mep_usage` exits **2**; `mep_require` returns **3**. This slice **changes** those to the table above.
+Before this slice: `mep_usage` exited **2**; `mep_require` returned **3**. This slice **changed** those to the table above.
 
 ## Finish-map (fragment classification)
 
@@ -87,7 +87,7 @@ Today: `mep_usage` exits **2**; `mep_require` returns **3**. This slice **change
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| exit taxonomy | `set -e` scripts branch on exit without `jq`; JSON `status` never lies about the exit | sysexits 64/70; current `mep_usage`=2 vs `mep_require`=3 (conflict to resolve) | which statuses share an exit vs get their own (esp. `desync` vs `blocked` vs `not_found`)? | `open` |
+| exit taxonomy | `set -e` scripts branch on exit without `jq`; JSON `status` never lies about the exit | sysexits 64/70; current `mep_usage`=2 vs `mep_require`=3 (conflict to resolve) | which statuses share an exit vs get their own (esp. `desync` vs `blocked` vs `not_found`)? | `done` |
 
 ## File ownership
 
@@ -96,17 +96,29 @@ Today: `mep_usage` exits **2**; `mep_require` returns **3**. This slice **change
 | `tools/mep/bin/mep` | modify | domain | dispatch + help/version + exit |
 | `tools/mep/lib/deps.sh` | modify | domain | `missing_dependency` exit 2 |
 | new registry module under `tools/mep/lib/` | new | domain | one table |
+| `tools/mep/lib/checks.sh` | modify | domain | scaffolding json envelope |
+| `tools/mep/lib/profile.sh` | modify | domain | envelope statuses only |
+| `tools/mep/lib/doctor.sh` | modify | domain | envelope statuses only |
+| `tools/mep/lib/events.sh` | modify | domain | envelope statuses only |
+| `tools/mep/lib/checkpoint.sh` | modify | domain | handler return matches envelope |
+| `tools/mep/lib/finish.sh` | modify | domain | handler return matches envelope |
+| `tools/mep/lib/lifecycle.sh` | modify | domain | handler return matches envelope |
+| `tools/mep/lib/pr.sh` | modify | domain | handler return matches envelope |
 | `tools/mep/test/*` unix-contract suite | new | integration | FOSS only |
 | `tools/mep/test/run-stranger.sh` | modify | integration | only if envelope change breaks it |
-| `tools/mep/docs/README.md` | modify | integration | document the contract; no skill-prose rewrite beyond CLI |
+| `tools/mep/docs/README.md` | modify | integration | document the contract |
+| `tools/mep/docs/event-ledger.md` | modify | integration | envelope status names |
+| `tools/mep/docs/profile-capabilities.md` | modify | integration | envelope status names; keep skill copy in sync |
+| `.cursor/skills/mise-en-place/profile-capabilities.md` | modify | integration | dual copy until cutover |
+| `.mep/profiles/default.json` | new | integration | structured seed the runtime already required |
 
 **Conflicts:** sequential — bin + deps + tests share the taxonomy.
 
 ## RED-phase gates (before GREEN)
 
-- [ ] A command that prints `"status":"desync"` (or `gated`) currently exits 0 — prove RED
-- [ ] `mep_usage` currently exits 2, not 64 — prove RED
-- [ ] No `executionRequest` in `where --json` yet (iter 2 owns that) — keep RED for that field
+- [x] A command that prints `"status":"desync"` (or `gated`) currently exits 0 — prove RED
+- [x] `mep_usage` currently exits 2, not 64 — prove RED
+- [x] No `executionRequest` in `where --json` yet (iter 2 owns that) — keep RED for that field
 
 ## Approach
 
@@ -130,11 +142,11 @@ Today: `mep_usage` exits **2**; `mep_require` returns **3**. This slice **change
 ## Brief preflight (checkpoint gate — plan only)
 
 - [x] **Single purpose** — shell contract (envelope + exit map) only
-- [x] **Ownership minimal** — bin + deps + registry + FOSS tests; no `.cursor/skills` prose rewrite
+- [x] **Ownership minimal** — bin + deps + registry + the lib files that emit envelope `status`; dual `profile-capabilities.md` copies stay in sync until cutover
 - [x] **Category before instance** — taxonomy/envelope before wrapping each verb
 - [x] **One place to edit** — registry + `mep_exit_for_status`
 - [x] **No planned shotgun surgery** — Avoid lists 2–4 and host `run.sh`
-- [x] **Consolidation routing** — extract debt (host pointer, dual docs) stays out
+- [x] **Consolidation routing** — host pointer stays out; dual docs only where envelope strings changed
 
 **Preflight note:** pass — roadmap’s `run.sh` checkpoint rewritten to FOSS tests (host suite is not in this tree)
 
@@ -152,24 +164,24 @@ Today: `mep_usage` exits **2**; `mep_require` returns **3**. This slice **change
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: JSON `status` and process exit can be one public map; unknown producer strings were a lie, not a second taxonomy.
+- Coupling increased: every machine-facing command exits through `mep_print_json_exit`; help/tests/docs read `mep_registry_print`.
+- Harder to change: adding a `status` string is semver-major unless it is rewritten to `internal`.
+- Easier to change: a new verb is a registry row + a json producer; argv-owned `--json` stays in `bin/mep`.
+- **Promote to core:** public exit taxonomy (C7).
+- **Newly interchangeable:** implied `--json` on `check scaffolding`; FOSS `default.json` seed (I7).
+- **Falsified:** none of C1–C6.
 
 ## Checkpoint
 
-**Seam smell test:** category = one exit map + stdout/stderr split. Instance = wrapping today’s subcommands. Fail if only `where` is honest and the rest still exit 0 on `desync`.
+**Seam smell test:** category closed — one envelope + one exit map, not only `where`. extra lib files were wrap-each-command, not a second slice.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 1`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 2 brief
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation` — code scope
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 1`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 2 brief
+- [x] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction
 

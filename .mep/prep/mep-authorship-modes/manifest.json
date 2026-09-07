@@ -1,0 +1,112 @@
+{
+  "slug": "mep-authorship-modes",
+  "framework": "mise-en-place",
+  "sessionMode": "greenfield",
+  "createdAt": "2026-06-08",
+  "phase": 5,
+  "phaseApproved": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": false
+  },
+  "deliveryTrack": null,
+  "handoffApproved": false,
+  "initiativeStatus": "graduated",
+  "prepDocsBootstrapped": true,
+  "ownedPaths": [
+    ".cursor/skills/mise-en-place/**",
+    ".cursor/commands/mep.md",
+    ".cursor/commands/prep.md",
+    ".cursor/commands/prep-cleanup.md",
+    ".cursor/commands/implement-plan.md",
+    "hooks/**"
+  ],
+  "masterPlanPath": ".mep/plans/mep-authorship-modes.md",
+  "consolidationTrigger": "fired after I5 (manual) \u2014 shape stable (substrate+directive+manual); consolidated before the autopilot/wiring back-half",
+  "currentIteration": 8,
+  "iterations": [
+    {
+      "number": 1,
+      "title": "classification back-test (spike)",
+      "sliceType": "architectural",
+      "fanout": "parallel",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/01-classification-back-test.md"
+    },
+    {
+      "number": 2,
+      "title": "anti-line-fighting boundary (mechanism; polarity \u2192 I3)",
+      "sliceType": "architectural",
+      "fanout": "parallel",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/02-anti-fighting-fence.md"
+    },
+    {
+      "number": 3,
+      "title": "shared-substrate contract (the finish-map)",
+      "sliceType": "architectural",
+      "fanout": "sequential",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/03-shared-substrate.md"
+    },
+    {
+      "number": 4,
+      "title": "amend prime directive (AD1)",
+      "sliceType": "architectural",
+      "fanout": "sequential",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/04-amend-prime-directive.md"
+    },
+    {
+      "number": 5,
+      "title": "manual execution policy (finishes + frames + ratchet)",
+      "sliceType": "architectural",
+      "fanout": "sequential",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/05-manual-execution-policy.md"
+    },
+    {
+      "number": 6,
+      "title": "autopilot execution policy",
+      "sliceType": "architectural",
+      "fanout": "sequential",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/06-autopilot-execution-policy.md"
+    },
+    {
+      "number": 7,
+      "title": "mode-switch UX + resolver rows",
+      "sliceType": "architectural",
+      "fanout": "sequential",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/07-mode-switch-resolver.md"
+    },
+    {
+      "number": 8,
+      "title": "graduation cleanup",
+      "sliceType": "cleanup",
+      "fanout": "sequential",
+      "status": "committed",
+      "briefPath": ".mep/prep/mep-authorship-modes/iterations/08-graduation-cleanup.md"
+    }
+  ],
+  "deviations": [
+    "I1 (e5128bea9) back-tested the classifier on TICKET-2210 and ratified AD2 (path-2); refined it to fail-open-to-hole on decision-clothed-in-a-known-mechanism \u2014 classification granularity is the decisive knob, carried into the I3 substrate as a hardened constraint.",
+    "I2 scope-correction: the slice proved the anti-line-fighting *mechanism* (a comment boundary the agent honors and never re-asserts into, polarity-agnostic) \u2014 that ships @provisional. The marker *polarity* was litigated inside I2's naming (@custom marking the human \u2192 @stock/@mise marking the agent) until a default/autopilot stress-test showed mark-the-agent covers ~100% and is vacuous in two of three modes. Polarity + vocabulary + cross-mode hole-map are therefore the I3 substrate keystone, NOT settled in I2; working direction recorded for I3 = mark-the-decision-points (holes), the informative minority in every mode.",
+    "I3 keystone resolved as TWO orthogonal markers, not one (the single-marker polarity war was a category error). (a) Authorship/ownership axis = `@mise`: the agent marks its own generated code; unmarked = the human's, no-touch; the human claims any region by deleting its `@mise` (subtractive). This resolves I2's lifted polarity to the inversion (mark AI code), failure-safe. ~100% coverage in default/autopilot is accurate, not noise, and is stripped at graduation. (b) Direction/decision axis = `@finish`: marks a decision the agent directs the chef to author; mode-invariant set (the seamless interrupt-trail); carries state `@finish:open \u2192 :done \u2192 :ratified`; the informative minority in every mode; fail-open-to-finish (I1) mitigates the dangerous miss direction. The two overlay (AI-authored decision = `@mise`+`@finish`). `@finish` is prescriptive (AI-directed); un-marking `@mise` is discretionary (human-chosen) \u2014 kept distinct so claiming code never masquerades as an AI directive. A brief detour that deferred the in-code marker entirely to I5/I6 was rejected on the seamless-interrupt criterion (the `@finish` set must be mode-invariant \u2192 it lives in the substrate). Nouns fixed in I3 (`mechanical|finish`, `@mise`, `@finish`, states); verbs (who moves the states) stay in I5/I6. The 'hole' vocabulary from 01/04 is superseded by 'finish' and reconciled when I3 implements.",
+    "I4 (8fb3db2c3) amended the prime directive, but implement surfaced two corrections to the brief's own 'space being named' geometry \u2014 caught at human review, missed by the no-contradiction scout (which only checked SKILL hard-rules/gates, not 01-invariant-goal L57). (a) GOVERNANCE IS TWO SENSES: *semantic* governance (who owns meaning/ontology) is the always-human invariant and sits ABOVE the grid; the grid's vertical axis is *approval* governance (who signs off at the merge gate). This let autopilot occupy its distinct corner (AI-authors / AI-approves) instead of collapsing into default's cell \u2014 restoring L57's three-distinct-corners. The 'melt blob' is recast as that corner's failure-mode (autopilot minus the finish-map), not a separate corner. (b) AUTOPILOT IS BOUNDED to *up to* graduation, never through it: graduation (stripping the @mise/@finish trail) stays a human gate so the audit survives. default vs autopilot now differ only at the per-slice gate; both graduate through a human. 01-invariant-goal L38 + roadmap I6 'start\u2192graduation' wording tightened to match.",
+    "I5 implement refined AD4 + resolved the lifecycle's two open finishes in a design session (dogfooding manual mode on itself). (a) AD4 CLARIFIED: the succinct 'a test asserts only what already exists' read as anti-TDD; tightened to its falsifier's *mechanism-level* scope \u2014 contract-level acceptance tests precede code (normal TDD red); only mechanism-level characterization waits for the code. Two test moments result: red AC tests (assert the *what*) at @finish:open which the human greens, then blackbox validation (characterizes the existing solution) at :ratified. Node rewritten clean in 03-core-vs-volatile (AD4 row + AD-candidate) and 01-invariant-goal (invariant row). (b) FORK 1 (ratchet output) resolved = tests, NOT prose invariants \u2014 invariant-comments clutter; where untestable the bar is code-speaks-for-itself (clean/cleaner). (c) FORK 3 (fill ergonomics) resolved = codeless guided region: inline guidance (what/recommendations/libraries, no code), and the guidance is TRANSIENT \u2014 stripped by the ratchet at :ratified, not deferred to graduation; the @finish:ratified marker persists as the audit map. (d) source of truth = in-code marker; done human-claimed, ratified human-only/never-inferred; readiness = a grep clause, not a new engine/resolver row (that's I7).",
+    "I6 refines I4's autopilot *mechanism* prose only (grid corner unchanged): SKILL.md autopilot cell 'self-approves' \u2192 'dispatches a cross-model proxy operator'. The autopilot policy is the manual lifecycle (I5) run verbatim by a dispatched cross-model sub-agent in the chef's seat \u2014 no new lifecycle, so the seam holds (an interrupt drops a real human into manual from the identical @finish states). Both RED gates passed on paper: no-contradiction (the three reconciliations hold \u2014 proxy-ratify is allowed only with retained proxy-provenance + the human graduation backstop; no self-grading because the proxy is cross-model + separate context; SKILL refine touches mechanism not corner) and the worked-example dry-run. Two open forks resolved with the operator: FORK 1 (dispatch contract) = one proxy PER SLICE (cross-finish context) + proxy writes to the worktree, parent gates on tests-green + finish-map-complete before the non-blocking advance; FORK 2 (graduation review depth: re-ratify vs spot-audit) DEFERRED to I8 (graduation cleanup) \u2014 I6 only guarantees finish-map retention + proxy-provenance so the human gate has something to audit. (Implement follow-up: 'worktree' wording corrected to in-place editing \u2014 no isolated git worktree, since there is no parallel competition to sandbox and isolation would strand an interrupted run away from where the human resumes, breaking the seam.)",
+    "I7 wires authorshipMode into the manifest, /mep, and the resolver \u2014 no engine, resolver stays a pure function of state. Three open finishes resolved with the operator (representation \u2192 rows \u2192 UX, each constraining the next): FINISH 1 (representation) = initiative-level authorshipMode field defaulting to 'default' (absent \u21d2 today's behavior) + optional per-iteration override (iterations[].authorshipMode, absent \u21d2 inherit); per-finish status is GREPPED from in-code @finish:open (honors I3 'marker is source of truth'), NOT mirrored in the manifest (no second source / no drift). FINISH 2 (resolver row) = ONE mode-agnostic row keyed on the @finish:open grep \u2192 /implement-plan <briefPath>, inserted as row 8 (before the commit row) so an unmade decision is never committable; renumbered old rows 8/9/10 \u2192 9/10/11 and updated the explanatory prose + dogfood-aside reference. Mode-agnostic because default never leaves an open finish and an interrupted autopilot resuming as manual IS the manual case (the seam). FINISH 3 (mode-switch UX) = a new '/mep mode <slug> <mode> [iteration N]' verb (N \u2192 per-iteration override, else initiative default); flag-on-start was rejected (can't switch mid-flight) and raw field-edit rejected (not plain-language) \u2014 a verb is the only survivor of the contract. Initial pick also offered at /prep bootstrap parallel to sessionMode. Widened /mep's v1 charter: 'mode' is the one verb that writes a manifest field rather than routing; mep.md out-of-scope note updated to match. Both RED gates passed on paper (purity+totality: new row reads only the marker grep, table stays total/first-match-wins; behavior-compat back-test: absent/'default' \u21d2 byte-for-byte today's routing) + the finishes-open dry-run. Commit-prep cross-model audit caught a row-8 totality gap (added a status guard so it can't collide with the committed row) + a stale verb count; both fixed before commit 147c2c419.",
+    "I7-checkpoint draft of I8 sharpened it past pure marker-strip into TWO finishes. FINISH 1 (strip-predicate): this initiative graduates the FRAMEWORK ITSELF, whose ownedPaths document the very @experimental/@provisional/@finish/@mise vocabulary they planted \u2014 so /prep-cleanup's .js/.vue-scoped sweep no longer separates live markers from their documentation. The brief carries a curated live-marker inventory (7 HTML-comment markers across SKILL/glossary/autopilot/manual/maturity-tags/slice-brief) + an explicit spare-list (the vocabulary docs) as two predicate candidates against a third (extend /prep-cleanup with an .md-aware exclusion rule). FINISH 2: I6's deferred FORK 2 (autopilot proxy-map graduation-review depth) framed with a re-ratify-all / spot-audit / risk-tiered fork. Flagged bundle-vs-split for the gate \u2014 splitting FINISH 2 out \u2192 roadmap renumber (8 \u2192 8a policy / 8b cleanup). Roadmap I8 entry rewritten clean (irreversible decision no longer 'n/a (cleanup)')."
+  ],
+  "prohibitedActions": [
+    "git commit",
+    "git push",
+    "gh pr create",
+    "gh pr merge",
+    "application code writes"
+  ]
+}

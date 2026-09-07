@@ -1,0 +1,28 @@
+{
+  "slug": "fixture-demo",
+  "schemaVersion": 1,
+  "framework": "mise-en-place",
+  "phase": 5,
+  "phaseApproved": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true
+  },
+  "initiativeStatus": "active",
+  "prepDocsBootstrapped": true,
+  "currentIteration": 1,
+  "ownedPaths": [
+    ".mep/prep/fixture-demo/**"
+  ],
+  "iterations": [
+    {
+      "number": 1,
+      "title": "Fixture ready",
+      "briefPath": ".mep/prep/fixture-demo/iterations/01-ready.md",
+      "status": "brief_ready",
+      "sliceType": "behavioral"
+    }
+  ]
+}

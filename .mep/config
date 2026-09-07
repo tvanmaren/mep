@@ -1,0 +1,5 @@
+runtime.adapter=cursor
+runtime.sessionActiveFile=.cursor/prep-active
+runtime.spine=.cursor/skills
+runtime.spine=.cursor/commands
+vcs.defaultTrunk=master

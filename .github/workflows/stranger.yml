@@ -1,0 +1,15 @@
+# @provisional — stranger gate still proving extract
+name: stranger
+on:
+  push:
+  pull_request:
+jobs:
+  run-stranger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: stranger suite
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+          bash tools/mep/test/run-stranger.sh

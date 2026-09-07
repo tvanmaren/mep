@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 2,
+  "status": "draft",
+  "slug": "<slug>",
+  "sourceBranch": null,
+  "sourceSha": null,
+  "trunk": "develop",
+  "retrofitRequired": false,
+  "curationOptimize": "reviewer-comprehension",
+  "mergeBudget": {
+    "targetLocAdded": 2000,
+    "softMaxLocAdded": 3000
+  },
+  "reviewBudget": {
+    "targetLocAdded": 300,
+    "maxLocAdded": 500
+  },
+  "requirements": [
+    {
+      "id": "r1",
+      "statement": "Example requirement from invariant goal",
+      "evidence": [
+        "wiki/prep/<slug>/01-invariant-goal.md"
+      ]
+    }
+  ],
+  "architecturalDecisions": [
+    {
+      "id": "ad4",
+      "statement": "Preview is a read service \u2014 no persistence",
+      "evidence": [
+        "wiki/architecture/example.md"
+      ]
+    }
+  ],
+  "discoveries": [
+    {
+      "id": "d1",
+      "statement": "Example exploration learning (not a chosen AD)",
+      "evidence": [
+        "wiki/prep/<slug>/iterations/01-*.md"
+      ]
+    }
+  ],
+  "reviewerLearningPath": [
+    {
+      "afterCourse": "1",
+      "understand": [
+        "Concept A",
+        "Concept B"
+      ]
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "kind": "merge-course",
+      "title": "Example merge course",
+      "dependsOn": [],
+      "whyNow": "Exists because R1 must land before platform seam (conceptual, cites ids)",
+      "whyNotMergedWithPrevious": "First course \u2014 N/A or explain boundary vs prior trunk work",
+      "concern": "platform",
+      "reviewerCognition": {
+        "level": "low",
+        "reason": "Pure correctness / seams"
+      },
+      "mergeability": "sequential-to-develop",
+      "productLocAdded": 0,
+      "paths": [
+        "host-api/utils/domain/**"
+      ],
+      "gating": {
+        "flag": "example.feature",
+        "default": false,
+        "activatesThrough": "1",
+        "stubInventory": []
+      },
+      "reviewShards": 3,
+      "commitMessage": "feat(example): merge course 1 integration commit",
+      "suggestedPrTitle": "Example merge course",
+      "smokeClosure": [],
+      "trunkStateAfterMerge": "What becomes true on trunk after this merge (flag-off and flag-on)",
+      "watchFor": "Easy misunderstanding if reader stops at this PR alone"
+    }
+  ],
+  "confidenceReport": {
+    "synthesis": "autonomous",
+    "high": [
+      "Course boundaries"
+    ],
+    "medium": [],
+    "low": [],
+    "alternativesConsidered": []
+  },
+  "reviewShardsPlan": [
+    {
+      "shard": "1a",
+      "parentCourse": "1",
+      "productLocTarget": 300,
+      "paths": [
+        "host-api/utils/domain/**"
+      ],
+      "mergeability": "stacked-only",
+      "conceptualStep": "One stable conceptual completion the reviewer can keep (~300 LOC attention budget)"
+    }
+  ],
+  "execute": null
+}

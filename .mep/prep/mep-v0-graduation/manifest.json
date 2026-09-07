@@ -1,0 +1,256 @@
+{
+  "slug": "mep-v0-graduation",
+  "schemaVersion": 1,
+  "framework": "mise-en-place",
+  "sessionMode": "checkpoint",
+  "authorshipMode": "default",
+  "createdAt": "2026-06-19T23:00:00Z",
+  "phase": 5,
+  "phaseApproved": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true
+  },
+  "deliveryTrack": "mixed",
+  "handoffApproved": false,
+  "initiativeStatus": "active",
+  "prepDocsBootstrapped": true,
+  "ownedPaths": [
+    "tools/mep/**",
+    ".cursor/skills/mise-en-place/**",
+    ".cursor/commands/mep.md",
+    ".cursor/commands/prep.md",
+    ".cursor/commands/prep-cleanup.md",
+    ".cursor/commands/prep-curate.md",
+    ".cursor/commands/prep-pr-description.md",
+    ".cursor/commands/prep-stage.md",
+    ".mep/prep/mep-v0-graduation/**",
+    ".mep/plans/mep-curate-outline.md"
+  ],
+  "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
+  "consolidationTrigger": null,
+  "currentIteration": 0,
+  "targetRepo": "standalone-foss",
+  "v010BlockedUntilIteration": 4,
+  "iterations": [
+    {
+      "number": 0,
+      "title": "Repo extract & self-host bootstrap",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/00-repo-extract-self-host-bootstrap.md",
+      "status": "brief_ready",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "MEP moves from embedded host concern to standalone self-hosting product",
+      "maturityTarget": "embedded -> provisional",
+      "blocksAll": true
+    },
+    {
+      "number": 1,
+      "title": "Unix command contract",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/01-unix-command-contract.md",
+      "status": "pending",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "MEP becomes scriptable with set -e not jq-only branching",
+      "maturityTarget": "provisional -> stable",
+      "blocksProductWork": true
+    },
+    {
+      "number": 2,
+      "title": "Executor-neutral routing",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/02-executor-neutral-routing.md",
+      "status": "pending",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "runtime stops leaking adapter vocabulary into public API",
+      "maturityTarget": "provisional -> stable",
+      "blocksProductWork": true
+    },
+    {
+      "number": 3,
+      "title": "Workflow CLI primitives & executor adapters",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/03-workflow-cli-primitives.md",
+      "status": "pending",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "lifecycle representable in shell; LLM via configured executors only",
+      "maturityTarget": "provisional -> stable",
+      "blocksProductWork": true
+    },
+    {
+      "number": 4,
+      "title": "Shell litmus & pipe harness",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/04-shell-litmus-pipe-harness.md",
+      "status": "pending",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "unix compliance via stub executor CI gate not no-LLM product",
+      "maturityTarget": "provisional -> stable",
+      "blocksV010": true
+    },
+    {
+      "number": 5,
+      "title": "Resolver totality & golden matrix",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/05-resolver-totality-golden-matrix.md",
+      "status": "pending",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "resolver moves from dogfooding misroutes to contract-tested totality",
+      "maturityTarget": "provisional -> stable"
+    },
+    {
+      "number": 6,
+      "title": "Manual mode workflow closure",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/06-manual-mode-workflow-closure.md",
+      "status": "pending",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "manual execution becomes honest about incompleteness",
+      "maturityTarget": "experimental -> provisional"
+    },
+    {
+      "number": 7,
+      "title": "Autopilot ratification path",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/07-autopilot-ratification-path.md",
+      "status": "pending",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "autopilot moves from prototype to alpha-capable",
+      "maturityTarget": "experimental -> provisional"
+    },
+    {
+      "number": 8,
+      "title": "Mechanical authorship markers",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/08-mechanical-authorship-markers.md",
+      "status": "pending",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "authorship markers move from planned to mechanically enforced",
+      "maturityTarget": "absent -> provisional"
+    },
+    {
+      "number": 9,
+      "title": "Install path & stranger smoke test",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/09-install-stranger-smoke-test.md",
+      "status": "pending",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "getting started is executor preset plus minimal override",
+      "maturityTarget": "provisional -> stable"
+    },
+    {
+      "number": 10,
+      "title": "Runtime \u2260 policy hardening",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
+      "status": "pending",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "policy/runtime boundary becomes test-guarded",
+      "maturityTarget": "provisional -> stable"
+    },
+    {
+      "number": 11,
+      "title": "Lifecycle observability completion",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/11-lifecycle-observability-completion.md",
+      "status": "pending",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "observability matches runtime spine",
+      "maturityTarget": "provisional -> stable"
+    },
+    {
+      "number": 12,
+      "title": "Curation externalized",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/12-curation-externalized.md",
+      "status": "pending",
+      "sliceType": "consolidation",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "curation moves from author memory to repo artifacts",
+      "maturityTarget": "n/a"
+    },
+    {
+      "number": 13,
+      "title": "Integration curation (preview + execute)",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/13-integration-curation.md",
+      "status": "committed",
+      "implementationRevision": "954828bdd1df5117bc3591ac3e6c85e34fa98be1",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "discovery history compresses into reviewer-facing merge narrative",
+      "maturityTarget": "provisional -> stable"
+    },
+    {
+      "number": 14,
+      "title": "Default mode end-to-end pilot",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/14-default-mode-pilot.md",
+      "status": "committed",
+      "sliceType": "behavioral",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "default mode proven on non-fixture slug; txn-adjustment curate dogfood",
+      "maturityTarget": "provisional -> stable",
+      "briefRevision": "9826558630deb7ca416faaebec74b4570a358383",
+      "implementationRevision": "64802ec14a97891ce6a57ccfa37899eb245d561e",
+      "checkpointRevision": "376853be37f097f60c55a2f1f453ec4c7c6d2a6c"
+    },
+    {
+      "number": 15,
+      "title": "v0.1.0 release package (incl. Sator Square)",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/15-v010-release-package.md",
+      "status": "pending",
+      "sliceType": "cleanup",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "MEP graduates to FOSS v0.1.0 with honest scope",
+      "maturityTarget": "n/a"
+    },
+    {
+      "number": 16,
+      "title": "Document-colocated workflow state (eliminate manifest)",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/16-document-colocated-workflow-state.md",
+      "status": "pending",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "manifest.json retires; workflow state lives on plan documents",
+      "maturityTarget": "transitional -> document-native",
+      "postV010": true
+    }
+  ],
+  "deviations": [
+    {
+      "at": "2026-06-30",
+      "iteration": 13,
+      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1\u20134); ledger reconciled at checkpoint; iters 0\u201312 remain pending until evidenced",
+      "evidence": "954828bdd"
+    },
+    {
+      "at": "2026-09-07",
+      "iteration": 14,
+      "summary": "checkpoint --fix marked 14 committed from post-brief owned-path git (64802ec14 curate docs); pilot-default-mode-report.md never created; 14a/14b unproven",
+      "evidence": "64802ec14"
+    },
+    {
+      "at": "2026-09-07",
+      "iteration": 0,
+      "summary": "after 14, next implement is extract (0) not v0.1.0 (15); 15 remains blocked on iter 4; 0\u201312 still pending",
+      "evidence": "C6"
+    }
+  ]
+}

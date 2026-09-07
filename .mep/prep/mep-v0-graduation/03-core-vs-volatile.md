@@ -22,7 +22,7 @@
 | I3 | partial execute rollback | deferred hardening; backup ref exists |
 | I4 | git owned-path / revision-triplet as proof of "built" | realization of resolver landing; ≠ promised brief files |
 | I5 | host consumption path (submodule / path dep / package) | later host slice — not extract |
-| I6 | FOSS default profile name and repo public name | locked: `profile.active=default`; repo `mise-en-place`; CLI `mep` |
+| I6 | FOSS default profile name and repo public name | locked: `profile.active=default`; repo `tvanmaren/mep`; CLI `mep` |
 
 ## Amendments
 
@@ -31,3 +31,4 @@
 | 13 | `954828bdd` — curate CLI + adapter + v2 template + fixture execute | promoted C1–C5; I1–I3 registered |
 | 14 | `64802ec14` on owned paths after brief `982655863`; `pilot-default-mode-report.md` absent | confirmed C1–C5; registered I4; **did not** promote default-mode pilot to core — promised evidence never landed |
 | 14→0 | `01-invariant-goal.md` success #1 still false on this branch | promoted C6; I5–I6 home = iter 0; next brief is extract not release |
+| 0 | github `tvanmaren/mep` — avoid jdx/mise name collision | I6 public name = `mep`; CLI stays `mep` |

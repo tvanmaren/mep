@@ -90,7 +90,7 @@ repo whose skills are **MEP-native**, not host-coupled. Dogfooding `mep-v0-gradu
 would keep lying about portability.
 
 **Approach — extract shell:**
-- Publish a **new remote** (`mise-en-place`) from the MEP path set. Second publish: host pointer only. No consumer wiring. No host history rewrite.
+- Publish a **new remote** (`https://github.com/tvanmaren/mep`) from the MEP path set. Second publish: host pointer only. No consumer wiring. No host history rewrite. Copied from host `ucg@31cf767ca5131c9559f2d33a09926da091e2af2c`.
 - Stranger CI: temp root, no config, `run-stranger.sh` + `.mep/prep/fixture-demo` (engine storage defaults).
 - FOSS `.mep/config`: Cursor `runtime.*` plus `vcs.defaultTrunk=master` (this repo's trunk). Never copy host `storage.prepRoot=wiki/prep` or `a host profile.active`. Engine default trunk stays `main`.
 - Relocate this initiative to `.mep/prep/mep-v0-graduation/` (narrow `ownedPaths`). Further slices run there.

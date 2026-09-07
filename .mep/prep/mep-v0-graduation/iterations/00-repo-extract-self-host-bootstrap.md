@@ -23,7 +23,7 @@
 
 **Relocation vs improvement (the slice boundary).** *Relocation* = move an artifact that already exists, unchanged — plus whatever a directory needs in order to **be** a repo (`LICENSE`, `README`, CI workflow, `.mep/config`, the fixture that proves the move). *Improvement* = change what MEP says or does; authored **in FOSS**, after the move. Every MEP doc under `.mep/plans/mep-*.md` is relocation. The prepRoot authoring-contract rewrite is improvement and is **out of this slice**.
 
-**Instance certainty (this slice only):** repo `mise-en-place`, CLI `mep`; this initiative continues at `.mep/prep/mep-v0-graduation/`; checked-in FOSS `.mep/config` sets Cursor runtime (adapter + spine + session file) **and** `vcs.defaultTrunk=master` so `/mep` works after clone on this repo's actual trunk. Engine default trunk stays `main`; stranger CI with no config must still see that.
+**Instance certainty (this slice only):** github `tvanmaren/mep`, CLI `mep`; this initiative continues at `.mep/prep/mep-v0-graduation/`; checked-in FOSS `.mep/config` sets Cursor runtime (adapter + spine + session file) **and** `vcs.defaultTrunk=master` so `/mep` works after clone on this repo's actual trunk. Engine default trunk stays `main`; stranger CI with no config must still see that.
 
 **Acceptance order:** defaults storage + stranger fixture CI, then relocate this slug, then Cursor overlay. Never “green CI by copying host `.mep/config`.”
 
@@ -58,10 +58,10 @@ Milestone 0. Unix 1–4 runs **in the FOSS remote**. v0.1.0 stays forbidden unti
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] New git remote `mise-en-place`; tree is the **export path set** only
-- [ ] `LICENSE` MIT; `README.md`: chef/sous, CLI `mep`, repo `mise-en-place`, **open** roadmap (no present-tense unix / `executionRequest` / litmus)
-- [ ] README: stranger path = no config + `.mep/prep`; Cursor path = committed overlay below
-- [ ] FOSS `.mep/config` contains **only**:
+- [x] New git remote `tvanmaren/mep` (instance: not `mise-en-place`; jdx/mise collision); tree is the **export path set** only
+- [x] `LICENSE` MIT; `README.md`: chef/sous, CLI `mep`, repo `tvanmaren/mep`, **open** roadmap (no present-tense unix / `executionRequest` / litmus)
+- [x] README: stranger path = no config + `.mep/prep`; Cursor path = committed overlay below
+- [x] FOSS `.mep/config` contains **only**:
   ```ini
   runtime.adapter=cursor
   runtime.sessionActiveFile=.cursor/prep-active
@@ -70,21 +70,21 @@ Milestone 0. Unix 1–4 runs **in the FOSS remote**. v0.1.0 stays forbidden unti
   vcs.defaultTrunk=master
   ```
   No `storage.*`, no `a host profile.active`. `vcs.defaultTrunk` is instance (this repo's branch), not a storage overlay.
-- [ ] Stranger fixture `.mep/prep/fixture-demo/` (minimal `brief_ready` manifest)
-- [ ] `tools/mep/test/run-stranger.sh` uses a **temp git root and no FOSS `.mep/config`**; asserts engine defaults (`prepRoot=.mep/prep`, `adapter=plain`, `profile.active=default`); `mep where fixture-demo --json` `status=ok`; **must not** assert `wiki/prep`, `example`, or `host-api`
-- [ ] `.github/workflows/stranger.yml` runs `run-stranger.sh` only; CI green
-- [ ] Graduation ledger at `.mep/prep/mep-v0-graduation/` (not `wiki/prep/`). Rewrite `briefPath`, `masterPlanPath`, in-doc links, and **narrow** `ownedPaths` (see table). Do **not** keep `.mep/**` or `wiki/**`. Do **not** invent missing iter 1–12 brief files.
-- [ ] All five `.mep/plans/mep-*.md` relocated to `.mep/plans/` (engine `storage.plansRoot` default): `mep-vision-proposal`, `mep-vision-one-pager`, `mep-curate-outline`, `mep-v0.2-outline`, `mep-authorship-modes`. **Verbatim** — link fixups only, no prose rewrites. Their relative cross-links resolve inside the set
-- [ ] `.mep/prep/mep-authorship-modes/**` relocated to `.mep/prep/` so `mep-authorship-modes.md`'s architecture-doc link resolves. It is **graduated**: copy the ledger verbatim, do **not** rewrite its `ownedPaths` (a historical record of what it touched in host, including paths FOSS does not carry)
-- [ ] No `.mep/plans` hole: the engine defaults `storage.plansRoot=.mep/plans` and the FOSS tree populates it
-- [ ] On a FOSS clone **with** the Cursor overlay, `mep where mep-v0-graduation --json` runs (`status=ok`). At `currentIteration` 0 `pending` this may be checkpoint/plan-only — smoke that routing **works**, not that iter 0 is `committed`
-- [ ] Further MEP work (iter 1+) is in the FOSS remote on that slug. host `.mep/prep/mep-v0-graduation/` is a **pointer** (remote URL + live path). No dual-edit
-- [ ] host diff is the **pointer only**. No edits to host `tools/mep/**` or `.cursor/skills/mise-en-place/**` — host's docs saying `wiki/prep` are locally true, because host's `.mep/config` sets `storage.prepRoot=wiki/prep`
-- [ ] host **keeps** tracked MEP artifacts that already live there (`.mep/plans/mep-curate-outline.md`, `.mep/plans/mep-authorship-modes.md`, `.mep/prep/mep-authorship-modes/**`, `tools/mep/**`). Relocate into FOSS by **copy**, not by deleting the host originals. Improvements that happened inside host stay in host until I5
-- [ ] `pack-foss.sh`, `run-stranger.sh`, and `fixture-demo/` are **not** committed to host. They ship in the FOSS tree; host's `tools/mep/**` becomes a stale fork until I5 and gains nothing from carrying them
-- [ ] host `main` not rewritten; no host consumer pointer
-- [ ] Two publishes: FOSS remote (tree) **and** host docs-delta (pointer). `commit-prep` on host cannot stage the FOSS remote
-- [ ] No unix-foundation implementation in the export diff
+- [x] Stranger fixture `.mep/prep/fixture-demo/` (minimal `brief_ready` manifest)
+- [x] `tools/mep/test/run-stranger.sh` uses a **temp git root and no FOSS `.mep/config`**; asserts engine defaults (`prepRoot=.mep/prep`, `adapter=plain`, `profile.active=default`); `mep where fixture-demo --json` `status=ok`; **must not** assert `wiki/prep`, `example`, or `host-api`
+- [x] `.github/workflows/stranger.yml` runs `run-stranger.sh` only; CI green
+- [x] Graduation ledger at `.mep/prep/mep-v0-graduation/` (not `wiki/prep/`). Rewrite `briefPath`, `masterPlanPath`, in-doc links, and **narrow** `ownedPaths` (see table). Do **not** keep `.mep/**` or `wiki/**`. Do **not** invent missing iter 1–12 brief files.
+- [x] All five `.mep/plans/mep-*.md` relocated to `.mep/plans/` (engine `storage.plansRoot` default): `mep-vision-proposal`, `mep-vision-one-pager`, `mep-curate-outline`, `mep-v0.2-outline`, `mep-authorship-modes`. **Verbatim** — link fixups only, no prose rewrites. Their relative cross-links resolve inside the set
+- [x] `.mep/prep/mep-authorship-modes/**` relocated to `.mep/prep/` so `mep-authorship-modes.md`'s architecture-doc link resolves. It is **graduated**: copy the ledger verbatim, do **not** rewrite its `ownedPaths` (a historical record of what it touched in host, including paths FOSS does not carry)
+- [x] No `.mep/plans` hole: the engine defaults `storage.plansRoot=.mep/plans` and the FOSS tree populates it
+- [x] On a FOSS clone **with** the Cursor overlay, `mep where mep-v0-graduation --json` runs (`status=ok`). At `currentIteration` 0 `pending` this may be checkpoint/plan-only — smoke that routing **works**, not that iter 0 is `committed`
+- [x] Further MEP work (iter 1+) is in the FOSS remote on that slug. host `wiki/prep/mep-v0-graduation/README.md` is a **pointer** (remote URL + live path). No dual-edit of the live ledger
+- [x] host diff is the **pointer only**. No edits to host `tools/mep/**` or `.cursor/skills/mise-en-place/**` — host's docs saying `wiki/prep` are locally true, because host's `.mep/config` sets `storage.prepRoot=wiki/prep`
+- [x] host **keeps** tracked MEP artifacts that already live there (`.mep/plans/mep-curate-outline.md`, `.mep/plans/mep-authorship-modes.md`, `.mep/prep/mep-authorship-modes/**`, `tools/mep/**`). Relocate into FOSS by **copy**, not by deleting the host originals. Improvements that happened inside host stay in host until I5
+- [x] `pack-foss.sh`, `run-stranger.sh`, and `fixture-demo/` are **not** committed to host. They ship in the FOSS tree; host's `tools/mep/**` becomes a stale fork until I5 and gains nothing from carrying them
+- [x] host `main` not rewritten; no host consumer pointer
+- [ ] Two publishes: FOSS remote (tree) **and** host docs-delta (pointer). `commit-prep` on host cannot stage the FOSS remote *(FOSS pushed; host pointer uncommitted)*
+- [x] No unix-foundation implementation in the export diff
 
 ### FOSS `ownedPaths` after rewrite
 
@@ -157,9 +157,9 @@ No open finishes.
 
 ## RED-phase gates (before GREEN)
 
-- [ ] Temp git root, export-shaped tree, **no** `.mep/config`: `run-stranger.sh` red until fixture-demo + default assertions exist
-- [ ] Same temp root: do **not** run host `run.sh` as the FOSS gate
-- [ ] Temp root that **copies host `.mep/config`** must **not** be how CI goes green
+- [x] Temp git root, export-shaped tree, **no** `.mep/config`: `run-stranger.sh` red until fixture-demo + default assertions exist
+- [x] Same temp root: do **not** run host `run.sh` as the FOSS gate
+- [x] Temp root that **copies host `.mep/config`** must **not** be how CI goes green
 
 ## Approach
 

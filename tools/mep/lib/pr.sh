@@ -129,13 +129,13 @@ mep_pr_scaffold() {
   manifest=$(mep_manifest_path "$slug")
   if [[ ! -f "$manifest" ]]; then
     printf '{"status":"not_found","path":%s}\n' "$(mep_json_string "$manifest")"
-    return 1
+    return 0
   fi
 
   iteration=$(mep_pr_iteration_json "$manifest" "$n")
   if [[ "$iteration" == "null" ]]; then
     printf '{"status":"not_found","iteration":%s}\n' "$(mep_json_string "$n")"
-    return 1
+    return 0
   fi
 
   title=$(jq -r '.title // "untitled"' <<<"$iteration")

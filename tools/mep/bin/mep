@@ -6,6 +6,8 @@ MEP_HOME=$(cd "$MEP_BIN_DIR/.." && pwd)
 
 # shellcheck source=../lib/json.sh
 . "$MEP_HOME/lib/json.sh"
+# shellcheck source=../lib/registry.sh
+. "$MEP_HOME/lib/registry.sh"
 # shellcheck source=../lib/deps.sh
 . "$MEP_HOME/lib/deps.sh"
 # shellcheck source=../lib/config.sh
@@ -38,25 +40,8 @@ MEP_HOME=$(cd "$MEP_BIN_DIR/.." && pwd)
 . "$MEP_HOME/lib/curate.sh"
 
 mep_usage() {
-  cat >&2 <<'EOF'
-usage:
-  mep config dump --json
-  mep profile dump --json
-  mep paths <slug> --json
-  mep status <slug> --compact --json
-  mep check scaffolding [--broad|--product-code] [paths...]
-  mep check prep-active --json
-  mep doctor <slug> --json [--fix] [--trunk <ref>]
-  mep where <slug> --json
-  mep events tail --json [--slug <slug>] [--event <name>] [--version <n>] [--limit <n>]
-  mep pr scaffold <slug> <n> --json
-  mep finish scan <slug> --json
-  mep checkpoint <slug> --json [--fix]
-  mep lifecycle status <slug> --mode <manual|default|autopilot> --json
-  mep curate <slug> --json [--preview|--measure|--validate|--execute] [--confirm] [--dry-run]
-  mep curate <slug> --json --template [--force]
-EOF
-  exit 2
+  mep_usage_from_registry
+  mep_exit_for_status usage
 }
 
 mep_load_runtime() {
@@ -72,7 +57,7 @@ mep_load_runtime() {
       printf '{"status":"missing_dependency","missing":[%s],"detail":' "$(mep_json_string "$MEP_VCS_KIND")"
       mep_json_string "unsupported vcs.kind '$MEP_VCS_KIND'"
       printf '}\n'
-      exit 3
+      mep_exit_for_status missing_dependency
       ;;
   esac
 }
@@ -82,39 +67,55 @@ mep_expect_json_flag() {
 }
 
 mep_load_runtime
+mep_require jq rg "$MEP_VCS_KIND" || mep_exit_for_status missing_dependency
 
 case "${1:-}" in
+  help)
+    mep_help
+    ;;
+  version)
+    mep_expect_json_flag "${2:-}"
+    mep_dispatch_json mep_version_json
+    ;;
   config)
     [[ "${2:-}" == "dump" ]] || mep_usage
     mep_expect_json_flag "${3:-}"
-    mep_config_dump_json
+    mep_dispatch_json mep_config_dump_json
     ;;
   profile)
     [[ "${2:-}" == "dump" ]] || mep_usage
     mep_expect_json_flag "${3:-}"
-    mep_profile_dump_json || exit $?
+    mep_dispatch_json mep_profile_dump_json
     ;;
   paths)
     slug=${2:-}
     [[ -n "$slug" ]] || mep_usage
     mep_expect_json_flag "${3:-}"
-    mep_paths_json "$slug"
+    mep_dispatch_json mep_paths_json "$slug"
     ;;
   status)
     slug=${2:-}
     [[ -n "$slug" ]] || mep_usage
     [[ "${3:-}" == "--compact" && "${4:-}" == "--json" ]] || mep_usage
-    mep_status_compact_json "$slug"
+    mep_dispatch_json mep_status_compact_json "$slug"
     ;;
   check)
     case "${2:-}" in
       scaffolding)
         shift 2
-        mep_check_scaffolding "$@"
+        args=()
+        while (( $# )); do
+          case "$1" in
+            --json) ;;
+            *) args+=("$1") ;;
+          esac
+          shift
+        done
+        mep_dispatch_json mep_check_scaffolding_json "${args[@]}"
         ;;
       prep-active)
         [[ "${3:-}" == "--json" ]] || mep_usage
-        mep_check_prep_active_json
+        mep_dispatch_json mep_check_prep_active_json
         ;;
       *)
         mep_usage
@@ -142,13 +143,13 @@ case "${1:-}" in
       shift
     done
     (( json )) || mep_usage
-    mep_doctor_json "$slug" "$fix" "$trunk"
+    mep_dispatch_json mep_doctor_json "$slug" "$fix" "$trunk"
     ;;
   where)
     slug=${2:-}
     [[ -n "$slug" ]] || mep_usage
     mep_expect_json_flag "${3:-}"
-    mep_where_json "$slug"
+    mep_dispatch_json mep_where_json "$slug"
     ;;
   events)
     [[ "${2:-}" == "tail" ]] || mep_usage
@@ -186,21 +187,22 @@ case "${1:-}" in
       shift
     done
     (( json )) || mep_usage
-    mep_events_tail_json "$limit" "$slug_filter" "$event_filter" "$version_filter" || exit $?
+    mep_dispatch_json mep_events_tail_json "$limit" "$slug_filter" "$event_filter" "$version_filter"
     ;;
   pr)
     [[ "${2:-}" == "scaffold" ]] || mep_usage
     slug=${3:-}
     n=${4:-}
     [[ -n "$slug" && "$n" =~ ^[0-9]+$ ]] || mep_usage
-    mep_pr_scaffold "$slug" "$n" "${5:-}" || exit $?
+    mep_expect_json_flag "${5:-}"
+    mep_dispatch_json mep_pr_scaffold "$slug" "$n" "${5:-}"
     ;;
   finish)
     [[ "${2:-}" == "scan" ]] || mep_usage
     slug=${3:-}
     [[ -n "$slug" ]] || mep_usage
     mep_expect_json_flag "${4:-}"
-    mep_finish_scan_json "$slug"
+    mep_dispatch_json mep_finish_scan_json "$slug"
     ;;
   checkpoint)
     slug=${2:-}
@@ -217,7 +219,7 @@ case "${1:-}" in
       shift
     done
     (( json )) || mep_usage
-    mep_checkpoint_json "$slug" "$fix"
+    mep_dispatch_json mep_checkpoint_json "$slug" "$fix"
     ;;
   lifecycle)
     [[ "${2:-}" == "status" ]] || mep_usage
@@ -240,7 +242,8 @@ case "${1:-}" in
     done
     [[ -n "$mode" ]] || mep_usage
     (( json )) || mep_usage
-    mep_lifecycle_status_json "$slug" "$mode"
+    mep_lifecycle_validate_mode "$mode" || mep_usage
+    mep_dispatch_json mep_lifecycle_status_json "$slug" "$mode"
     ;;
   curate)
     slug=${2:-}
@@ -269,24 +272,24 @@ case "${1:-}" in
     (( json )) || mep_usage
     case "$mode" in
       preview)
-        mep_curate_json "$slug" preview
+        mep_dispatch_json mep_curate_json "$slug" preview
         ;;
       measure)
-        mep_curate_json "$slug" measure
+        mep_dispatch_json mep_curate_json "$slug" measure
         ;;
       validate)
-        mep_curate_json "$slug" validate
+        mep_dispatch_json mep_curate_json "$slug" validate
         ;;
       template)
         extra=()
         (( force )) && extra+=(--force)
-        mep_curate_json "$slug" template "${extra[@]}"
+        mep_dispatch_json mep_curate_json "$slug" template "${extra[@]}"
         ;;
       execute)
         extra=()
         (( dry_run )) && extra+=(--dry-run)
         (( confirm )) && extra+=(--confirm)
-        mep_curate_json "$slug" execute "${extra[@]}"
+        mep_dispatch_json mep_curate_json "$slug" execute "${extra[@]}"
         ;;
       *)
         mep_usage

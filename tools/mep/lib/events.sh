@@ -112,15 +112,17 @@ mep_event_tail_ok_json() {
 }
 
 mep_event_tail_invalid_ledger_json() {
-  local ledger=$1 relative=$2 line_number=$3 detail=$4
+  local status=$1 ledger=$2 relative=$3 line_number=$4 detail=$5
   local ledger_ref_json
   ledger_ref_json=$(mep_event_tail_ledger_ref_json "$ledger" "$relative")
   jq -cn \
+    --arg status "$status" \
     --argjson ledger "$ledger_ref_json" \
     --argjson lineNumber "$line_number" \
     --arg detail "$detail" '
       {
-        status: "invalid_ledger",
+        status: $status,
+        reason: "invalid_ledger",
         ledger: $ledger,
         lineNumber: $lineNumber,
         detail: $detail
@@ -142,15 +144,15 @@ mep_events_tail_json() {
   fi
 
   if [[ ! -f "$ledger" ]]; then
-    mep_event_tail_invalid_ledger_json "$ledger" "$relative" 0 "event ledger path is not a file"
-    return 4
+    mep_event_tail_invalid_ledger_json "not_found" "$ledger" "$relative" 0 "event ledger path is not a file"
+    return 0
   fi
 
   while IFS= read -r line || [[ -n "$line" ]]; do
     line_number=$((line_number + 1))
     parsed=$(printf '%s' "$line" | jq -c . 2>/dev/null) || {
-      mep_event_tail_invalid_ledger_json "$ledger" "$relative" "$line_number" "malformed JSONL at line $line_number"
-      return 4
+      mep_event_tail_invalid_ledger_json "blocked" "$ledger" "$relative" "$line_number" "malformed JSONL at line $line_number"
+      return 0
     }
     rows+=("$parsed")
   done < "$ledger"

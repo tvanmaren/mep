@@ -82,6 +82,7 @@ Markdown profile prose remains human reference. Runtime reads structured JSON on
 execution, reducers, house patterns, authorship policy, templates, review-rubric schema, and broad
 Unix-hardening contracts stay out of this seed until a later slice proves they need structure.
 
-If the active seed is missing or malformed, `profile dump --json` exits nonzero and returns a JSON
-error packet. Commands that do not explicitly consume structured profile policy, including `where`,
-must continue to work without the seed.
+If the active seed is missing, `profile dump --json` returns `not_found` (exit 3) with
+`reason: missing_profile_seed`. If it is malformed, it returns `blocked` (exit 2) with
+`reason: invalid_profile_seed`. Commands that do not explicitly consume structured profile
+policy, including `where`, must continue to work without the seed.

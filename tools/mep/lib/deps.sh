@@ -62,5 +62,5 @@ mep_require() {
   printf '{"status":"missing_dependency","missing":'
   printf '%s\n' "${missing[@]}" | mep_json_string_array_from_lines
   printf '}\n'
-  return 3
+  return 2
 }

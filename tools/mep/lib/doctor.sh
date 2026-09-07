@@ -80,12 +80,12 @@ mep_doctor_json() {
   manifest=$(mep_manifest_path "$slug")
   if [[ ! -f "$manifest" ]]; then
     printf '{"status":"not_found","slug":%s,"manifest":%s}\n' "$(mep_json_string "$slug")" "$(mep_json_string "$manifest")"
-    return 2
+    return 0
   fi
 
   if ! git rev-parse --verify --quiet "$trunk^{commit}" >/dev/null; then
-    printf '{"status":"error","slug":%s,"error":"trunk_not_found","trunk":%s}\n' "$(mep_json_string "$slug")" "$(mep_json_string "$trunk")"
-    return 2
+    printf '{"status":"not_found","slug":%s,"reason":"trunk_not_found","trunk":%s}\n' "$(mep_json_string "$slug")" "$(mep_json_string "$trunk")"
+    return 0
   fi
 
   if mep_vcs_is_current_change_in_trunk "$trunk"; then

@@ -18,8 +18,9 @@ mep_profile_context_json() {
 }
 
 mep_profile_error_json() {
-  local status=$1 detail=$2 seed_rel=$3 seed_abs=$4
+  local status=$1 reason=$2 detail=$3 seed_rel=$4 seed_abs=$5
   printf '{"status":%s,' "$(mep_json_string "$status")"
+  printf '"reason":%s,' "$(mep_json_string "$reason")"
   printf '"profile":'
   mep_profile_context_json "$seed_rel" "$seed_abs"
   printf ',"detail":%s}\n' "$(mep_json_string "$detail")"
@@ -54,14 +55,14 @@ mep_profile_dump_json() {
   mep_require jq || return $?
 
   if [[ ! -f "$seed_abs" ]]; then
-    mep_profile_error_json "missing_profile_seed" "active structured profile seed is missing" "$seed_rel" "$seed_abs"
-    return 4
+    mep_profile_error_json "not_found" "missing_profile_seed" "active structured profile seed is missing" "$seed_rel" "$seed_abs"
+    return 0
   fi
 
   # Keep the structured profile reader deliberately small; broader policy stays outside runtime.
   if ! mep_profile_seed_is_valid "$seed_abs"; then
-    mep_profile_error_json "invalid_profile_seed" "malformed JSON or unsupported profile seed shape" "$seed_rel" "$seed_abs"
-    return 4
+    mep_profile_error_json "blocked" "invalid_profile_seed" "malformed JSON or unsupported profile seed shape" "$seed_rel" "$seed_abs"
+    return 0
   fi
 
   jq -c \

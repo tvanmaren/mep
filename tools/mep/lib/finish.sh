@@ -128,7 +128,7 @@ mep_finish_scan_json() {
   manifest_json=$(mep_manifest_summary_json "$slug")
   if [[ "$(printf '%s' "$manifest_json" | jq -r '.exists')" != true ]]; then
     printf '{"status":"not_found","slug":%s,"manifest":%s}\n' "$(mep_json_string "$slug")" "$(printf '%s' "$manifest_json" | jq '.path')"
-    return 2
+    return 0
   fi
 
   markers_json=$(mep_finish_marker_lines_json "$manifest_json")

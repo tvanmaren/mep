@@ -6,6 +6,10 @@ Current status:
 
 - `tools/mep/bin/mep` owns deterministic config, path, profile, status, check, doctor, resolver
   output, and local event-history reads.
+- Shell contract (public API): `--json` on stdout, diagnostics on stderr, process exit aligned with
+  JSON `status` — `ok`/`clean` 0; `desync`/`gated`/`warning` 1; `blocked`/`missing_dependency` 2;
+  `not_found` 3; usage 64; internal 70. Registry: `tools/mep/lib/registry.sh`. Proof:
+  `bash tools/mep/test/run-unix-contract.sh`.
 - These docs are copied from `.cursor/skills/mise-en-place/**` so non-Cursor users can inspect the
   framework without relying on Cursor skill discovery.
 - The old `.cursor` files remain live for Cursor until later adapter/mirror cutover slices.

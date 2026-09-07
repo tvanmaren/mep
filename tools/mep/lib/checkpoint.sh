@@ -145,7 +145,7 @@ mep_checkpoint_json() {
   manifest=$(mep_manifest_path "$slug")
   if [[ ! -f "$manifest" ]]; then
     printf '{"status":"not_found","slug":%s,"manifest":%s}\n' "$(mep_json_string "$slug")" "$(mep_json_string "$manifest")"
-    return 2
+    return 0
   fi
 
   manifest_json=$(mep_manifest_summary_json "$slug")

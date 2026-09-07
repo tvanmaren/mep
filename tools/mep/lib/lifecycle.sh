@@ -168,7 +168,7 @@ mep_lifecycle_status_json() {
   manifest_json=$(mep_manifest_summary_json "$slug")
   if [[ "$(printf '%s' "$manifest_json" | jq -r '.exists')" != true ]]; then
     printf '{"status":"not_found","slug":%s,"manifest":%s}\n' "$(mep_json_string "$slug")" "$(printf '%s' "$manifest_json" | jq '.path')"
-    return 2
+    return 0
   fi
 
   validation_mode=$(mep_lifecycle_validation_mode "$mode")

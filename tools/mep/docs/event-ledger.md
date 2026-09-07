@@ -148,8 +148,9 @@ tools/mep/bin/mep events tail --json --slug mep-runtime-evolution --event resolv
 
 Supported filters are deliberately envelope-shaped: `--slug <slug>`, `--event <name>`,
 `--version <n>`, and `--limit <n>`. Missing history is an empty `ok` packet with a
-`history_missing` warning and does not create the ledger. Malformed JSONL returns an
-`invalid_ledger` packet and exits nonzero so corruption is visible instead of silently becoming state.
+`history_missing` warning and does not create the ledger. A ledger path that is not a file
+returns `not_found` (exit 3). Malformed JSONL returns `blocked` (exit 2) with
+`reason: invalid_ledger` so corruption is visible instead of silently becoming state.
 
 ## Scope (this tranche)
 

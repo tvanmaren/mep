@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "profile": "default",
+  "capabilities": {
+    "classify": {
+      "zones": [
+        {
+          "name": "domain",
+          "home": "tools/mep/lib",
+          "tagRigor": "@stable"
+        },
+        {
+          "name": "integration",
+          "home": "tools/mep/test",
+          "tagRigor": "lowest AI autonomy"
+        }
+      ]
+    },
+    "review": {
+      "inputs": [
+        "tools/mep/docs/review-kernels/clean-code.md",
+        "tools/mep/docs/review-kernels/cleaner-code.md"
+      ]
+    }
+  },
+  "referenceOnly": [
+    ".mep/profiles/default.md",
+    "tools/mep/docs/SKILL.md"
+  ]
+}

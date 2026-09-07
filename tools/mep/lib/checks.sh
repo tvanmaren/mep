@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mep_check_scaffolding() {
+mep_check_scaffolding_json() {
   local precise broad allowlist archaeology hits
   precise='\biter[ -]?[0-9]|\bU-[A-Z][0-9]|\bPath-[A-Z]\b'
   broad='\biter(ation)?[ -]?[0-9]|\bU-[A-Z][0-9]|\bPath-[A-Z]\b|\bI[0-9]|\bU[0-9]|\bAD[0-9]'
@@ -18,15 +18,20 @@ mep_check_scaffolding() {
       ;;
   esac
 
-  [[ $# -gt 0 ]] || return 0
-  mep_require rg >/dev/null || return $?
+  if [[ $# -eq 0 ]]; then
+    printf '{"status":"ok","hits":[]}\n'
+    return 0
+  fi
+  mep_require rg || return $?
 
   hits=$(rg -n -i "$archaeology" "$@" 2>/dev/null | rg -v "$allowlist" || true)
   if [[ -n "$hits" ]]; then
-    printf '%s\n' "$hits"
-    return 1
+    printf '{"status":"warning","hits":'
+    printf '%s\n' "$hits" | mep_json_string_array_from_lines
+    printf '}\n'
+    return 0
   fi
-  return 0
+  printf '{"status":"ok","hits":[]}\n'
 }
 
 mep_check_prep_active_json() {

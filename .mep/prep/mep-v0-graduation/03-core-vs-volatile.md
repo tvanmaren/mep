@@ -32,3 +32,4 @@
 | 14 | `64802ec14` on owned paths after brief `982655863`; `pilot-default-mode-report.md` absent | confirmed C1–C5; registered I4; **did not** promote default-mode pilot to core — promised evidence never landed |
 | 14→0 | `01-invariant-goal.md` success #1 still false on this branch | promoted C6; I5–I6 home = iter 0; next brief is extract not release |
 | 0 | github `tvanmaren/mep` — avoid jdx/mise name collision | I6 public name = `mep`; CLI stays `mep` |
+| 0 close | `8ae1f24` extract + stranger CI green without host overlay | C6 confirmed; founding-commit seam (brief+tree same SHA) recorded on manifest; host pointer still open (I5 consume later) |

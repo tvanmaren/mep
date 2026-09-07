@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/00-repo-extract-self-host-bootstrap.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** architectural  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -221,25 +221,27 @@ No open finishes.
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: engine storage/profile defaults (`.mep/prep`, `adapter=plain`, trunk `main`) are independent of Cursor overlay; stranger CI is the self-host proof; github identity is `tvanmaren/mep` (not jdx/`mise`)
+- Coupling increased: stranger workflow now apt-installs `rg`; committed `.mep/config` pins Cursor spine + `vcs.defaultTrunk=master`
+- Harder to change: public clone URL; fixture-demo is the no-config proof
+- Easier to change: host `wiki/prep` overlay vs engine defaults (separate files)
+- **Promote to core:** C6 confirmed — standalone remote exists; stranger CI green without host overlay
+- **Newly interchangeable:** I6 instance locked `tvanmaren/mep` / CLI `mep`
+- **Falsified:** none of C1–C5; “github repo must be named `mise-en-place`” was never core
 
 ## Checkpoint
 
-**Seam smell test:** category = configured prep root + stranger CI without host overlay. Instance = `mise-en-place` + this slug + Cursor overlay. Fail if CI is green only via `wiki/prep` + `example`.
+**Seam smell test:** category = configured prep root + stranger CI without host overlay. Instance = `tvanmaren/mep` + this slug + Cursor overlay. **Pass** — CI green on `run-stranger.sh` after `rg` install, not via `wiki/prep` + `example`.
+
+Founding-commit seam: extract and brief share `8ae1f24`; checkpoint `--fix` cannot emit post-brief `implementationRevision`. Close is human-attested at this session (deviation on manifest).
 
 ## After commit
 
-- [ ] FOSS remote has the tree + stranger suite + relocated docs
+- [x] FOSS remote has the tree + stranger suite + relocated docs
 - [ ] FOSS initial commit names the host source SHA — the tree was copied, not `filter-repo`'d, so provenance lives in that message rather than in shared history
 - [ ] host: `/commit-prep mep-v0-graduation docs-delta` — **pointer only**
 - [ ] `/prep-pr-description mep-v0-graduation 0` optional
-- [ ] next slices (unix 1+) in the FOSS remote on `.mep/prep/mep-v0-graduation/`
+- [x] next slices (unix 1+) in the FOSS remote on `.mep/prep/mep-v0-graduation/`
 - [ ] **FOSS follow-up (unnumbered):** the prepRoot authoring-contract rewrite this slice deliberately dropped — `glossary.md` manifest row, `portable-routing.md` state-input line, `SKILL.md` prep-path sentences → configured `storage.prepRoot` (default `.mep/prep`). Still two files per concern in FOSS (`tools/mep/docs/` + `.cursor/skills/mise-en-place/`) until the canon cutover
 - [ ] I5 later, on host
 

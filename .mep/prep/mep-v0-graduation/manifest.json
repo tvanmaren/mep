@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 0,
+  "currentIteration": 1,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -39,19 +39,22 @@
       "number": 0,
       "title": "Repo extract & self-host bootstrap",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/00-repo-extract-self-host-bootstrap.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "MEP moves from embedded host concern to standalone self-hosting product",
       "maturityTarget": "embedded -> provisional",
-      "blocksAll": true
+      "blocksAll": true,
+      "briefRevision": "606ec4ef01e530e6ec88af931322baa5966b7378",
+      "implementationRevision": "8ae1f246b0bf509fd128445eeed01b9ff48f2995",
+      "checkpointRevision": "606ec4ef01e530e6ec88af931322baa5966b7378"
     },
     {
       "number": 1,
       "title": "Unix command contract",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/01-unix-command-contract.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -152,7 +155,7 @@
     },
     {
       "number": 10,
-      "title": "Runtime \u2260 policy hardening",
+      "title": "Runtime ≠ policy hardening",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
       "status": "pending",
       "sliceType": "architectural",
@@ -237,7 +240,7 @@
     {
       "at": "2026-06-30",
       "iteration": 13,
-      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1\u20134); ledger reconciled at checkpoint; iters 0\u201312 remain pending until evidenced",
+      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1–4); ledger reconciled at checkpoint; iters 0–12 remain pending until evidenced",
       "evidence": "954828bdd"
     },
     {
@@ -249,8 +252,8 @@
     {
       "at": "2026-09-07",
       "iteration": 0,
-      "summary": "after 14, next implement is extract (0) not v0.1.0 (15); 15 remains blocked on iter 4; 0\u201312 still pending",
-      "evidence": "C6"
+      "summary": "extract landed in founding commit 8ae1f24 with the brief; checkpoint --fix could not prove post-brief implementation; human-closed at checkpoint",
+      "evidence": "8ae1f246b0bf509fd128445eeed01b9ff48f2995"
     }
   ]
 }

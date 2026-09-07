@@ -24,19 +24,20 @@ Milestones:
 
 Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
-### Ledger after iteration 14 (this branch)
+### Ledger after iteration 0 (this remote)
 
-Git-proven `committed` on this initiative: **13, 14**. **0–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 13, 14**. **1–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
-| 0–12 | not satisfied — still host-embedded; no `executionRequest`; no slice-boundary litmus |
+| 0 | closed at checkpoint — extract lives on `tvanmaren/mep` (`8ae1f24`); stranger CI green; no post-brief implementation SHA (founding commit bundled brief + tree) |
+| 1–12 | not satisfied — no `executionRequest`; no slice-boundary litmus; unix contract unbuilt |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | forbidden until iter 4 litmus in the **standalone** repo |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **0** (extract). Not 15.
+**Next implement:** iteration **1** (unix command contract). Not 0, not 15.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -100,7 +101,7 @@ would keep lying about portability.
 
 **Checkpoint:** standalone repo exists; CI green on current test suite; `mep where` runs headlessly.
 
-**Status:** brief_ready — `iterations/00-repo-extract-self-host-bootstrap.md`
+**Status:** committed — `iterations/00-repo-extract-self-host-bootstrap.md` (`8ae1f24`; human-closed at checkpoint)
 
 ---
 
@@ -123,9 +124,9 @@ usage/diagnostics, **exit codes aligned with JSON status**, help/version, comman
 - Convert `check scaffolding` to `--json` or subcommand with same envelope.
 - Conformance tests: stderr empty on success; exit codes on fixture packets.
 
-**Checkpoint:** `tools/mep/test/run.sh` includes exit-code + stderr discipline suite.
+**Checkpoint:** `tools/mep/test/` includes an exit-code + stderr discipline suite (FOSS; not host `run.sh`).
 
-**Status:** pending
+**Status:** brief_ready — `iterations/01-unix-command-contract.md`
 
 ---
 

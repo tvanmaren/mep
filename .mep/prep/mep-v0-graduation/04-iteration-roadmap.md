@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 13, 14**. **6** is next. **7–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 13, 14**. **7** is next. **8–12, 15, 16** remain pending. **8** still parallel-eligible with 7.
 
 | iter | git vs promise |
 |------|----------------|
@@ -37,13 +37,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 4 | committed — `051df03`; `scripts/litmus/slice-boundary.sh --executor stub` on stranger CI |
 | 5 | committed — `8e4d880` named context + goldens; human-closed at checkpoint (`--fix` blocked by I11) |
 | 5b | committed — `f749db1` comment grammar; human-closed (`--fix` saw no post-brief impl after docs tick) |
-| 6–12 | not satisfied — workflow closure starts at 6 |
+| 6 | committed — `bb41b68` fail-closed manual `commit scope`; trap hygiene `2f937b7` (`--fix` SHA) |
+| 7–12 | not satisfied — autopilot packets next (7); `@mise` is 8 |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **6** (manual mode workflow closure). **Not** 15.
+**Next implement:** iteration **7** (autopilot ratification path). **Not** 15. **8** remains parallel-eligible.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -304,7 +305,7 @@ the slice is done while `@finish:open` remains.
 
 **Checkpoint:** manual fixture completes the fill loop; status blocks commit with open finishes.
 
-**Status:** brief_ready — `iterations/06-manual-mode-workflow-closure.md`
+**Status:** committed — `iterations/06-manual-mode-workflow-closure.md` (`bb41b68`; `--fix` implementationRevision `2f937b7`)
 
 ---
 
@@ -316,9 +317,20 @@ conversant (within configured policy).
 **Slice type:** behavioral  
 **Epistemic transition:** autopilot moves from prototype to alpha-capable for trusted slices.
 
-**Checkpoint:** autopilot fixture runs slice boundary without manual commit/review prompts where policy allows.
+**Delivery track:** mixed  
+**Fanout:** sequential  
+**Brief:** `iterations/07-autopilot-ratification-path.md`
 
-**Status:** pending
+**Irreversible decision:** autopilot reuses `finish_open` with `gate=proxy`; runtime does not call a model.  
+**Maturity target:** experimental → provisional
+
+**Approach:** fail-closed `commit scope` for `authorshipMode=autopilot` (6 only gated manual). prove `lifecycle status --mode autopilot` proxy gate + `asksUserMidSlice=false`. hermetic fixture. do not emit `@mise` (8); do not spawn a vendor/Task from `tools/mep/lib`.
+
+**Avoid:** `@mise` emitter; in-tree LLM dispatch; resolver; litmus product; changing 6's manual/default arms.
+
+**Checkpoint:** autopilot fixture: open finish ⇒ proxy-blocked packets, not a human bounce; commit scope `blocked`.
+
+**Status:** brief_ready — `iterations/07-autopilot-ratification-path.md`
 
 ---
 

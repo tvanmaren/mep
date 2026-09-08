@@ -49,3 +49,4 @@
 | 5 | `8e4d880` named context + golden matrix; glossary row 5 = implement interstitial | confirmed C8; I8 collapsed; live slug still row-8 until 5b; registered I11 |
 | 5b | `f749db1` `-- ` vs `--flag` in finish-scan | I11 closed; `--fix` could not mark committed (briefRevision landed after impl); human-closed |
 | oob | grok named as command preset (`command=grok`) | I9 hydration — TUI harness on the audit table; no live driver; iter 9 must not drop it |
+| 6 | `bb41b68` commit scope fail-closed in manual; `2f937b7` suite `$TMP` trap | confirmed C7 on the commit packet; default stays `ok`; `--fix` recorded HEAD (`2f937b7`) as implementationRevision |

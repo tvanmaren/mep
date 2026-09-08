@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/06-manual-mode-workflow-closure.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** behavioral  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -55,12 +55,12 @@ Milestone B start. autopilot (7) may reuse the same `finish_open` blocker with a
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] temp slug, `authorshipMode=manual`, owned `# @finish:open`: `mep lifecycle status --mode manual --json` has `status=blocked`, a `finish_open` gate, `asksUserMidSlice=true`, action `author_open_finish`; process exit 2
-- [ ] same tree: `mep commit scope <slug> --json` is `status=blocked` (not `ok`) with a named reason tied to open finishes; exit 2
-- [ ] same tree: `mep checkpoint --json` remains blocked on `finish_open` (already true — do not regress)
-- [ ] flipping the marker to `# @finish:done` clears `finish_open` on those packets (other findings may remain)
-- [ ] a **default**-mode fixture with an open finish: `commit scope` stays `ok` (manual is opt-in); do not silently change default commit-prep
-- [ ] unix-contract + golden matrix + stranger + slice-boundary litmus still green; no resolver row-table edits; no `@mise` emitter; no autopilot proxy
+- [x] temp slug, `authorshipMode=manual`, owned `# @finish:open`: `mep lifecycle status --mode manual --json` has `status=blocked`, a `finish_open` gate, `asksUserMidSlice=true`, action `author_open_finish`; process exit 2
+- [x] same tree: `mep commit scope <slug> --json` is `status=blocked` (not `ok`) with a named reason tied to open finishes; exit 2
+- [x] same tree: `mep checkpoint --json` remains blocked on `finish_open` (already true — do not regress)
+- [x] flipping the marker to `# @finish:done` clears `finish_open` on those packets (other findings may remain)
+- [x] a **default**-mode fixture with an open finish: `commit scope` stays `ok` (manual is opt-in); do not silently change default commit-prep
+- [x] unix-contract + golden matrix + stranger + slice-boundary litmus still green; no resolver row-table edits; no `@mise` emitter; no autopilot proxy
 
 ## Finish-map (fragment classification)
 
@@ -75,7 +75,7 @@ Milestone B start. autopilot (7) may reuse the same `finish_open` blocker with a
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| commit scope fail-closed | manual + `finish_open` ⇒ `blocked`/exit 2; default `commit scope` still `ok`; C7 | `checkpoint --json` blocker; `lifecycle status` `blocked` | recommend: `commit scope` reads the same `finish_open` writeback; do not parse `nextCommand`; do not change default | `open` |
+| commit scope fail-closed | manual + `finish_open` ⇒ `blocked`/exit 2; default `commit scope` still `ok`; C7 | `checkpoint --json` blocker; `lifecycle status` `blocked` | recommend: `commit scope` reads the same `finish_open` writeback; do not parse `nextCommand`; do not change default | `done` |
 
 ## File ownership
 
@@ -94,8 +94,8 @@ Milestone B start. autopilot (7) may reuse the same `finish_open` blocker with a
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `mep commit scope` on a manual fixture with `# @finish:open` still returns `status=ok`
-- [ ] no FOSS suite asserts the fill-loop (open → blocked → done → not finish_open)
+- [x] `mep commit scope` on a manual fixture with `# @finish:open` still returns `status=ok`
+- [x] no FOSS suite asserts the fill-loop (open → blocked → done → not finish_open)
 
 ## Approach
 
@@ -137,23 +137,23 @@ Milestone B start. autopilot (7) may reuse the same `finish_open` blocker with a
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: manual + `finish_open` ⇒ `commit scope` `blocked`/`finish_open`/exit 2; default stays `ok`; lifecycle already had `author_open_finish`.
+- Coupling increased: `mep_commit_scope_json` now scans finish writebacks (same helper as checkpoint).
+- Harder to change: treating default like manual would break commit-prep on open finishes.
+- Easier to change: autopilot can reuse the same writeback with a different mode arm (7).
+- **Promote to core:** none — this is C7 applied to `commit scope`, not a new C*.
+- **Newly interchangeable:** suite scratch under one `$TMP` trap (`2f937b7`, after the feat).
+- **Falsified:** none of C7–C10. grok oob `178d4fc` was not this slice (heuristic almost closed 6 empty).
 
 ## Checkpoint
 
-**Seam smell test:** category = fail-closed commit packet. fail if only docs say “don’t commit.”
+**Seam smell test:** category closed — fail-closed commit packet in `mep_commit_scope_json`, not docs saying “don’t commit.”
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 6`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 7 brief (7/8 still parallel-eligible)
+- [x] `/commit-prep mep-v0-graduation` — code scope (`bb41b68`)
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 6`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 7 brief (8 still parallel-eligible)
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

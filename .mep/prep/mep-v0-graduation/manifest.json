@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 6,
+  "currentIteration": 7,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -142,18 +142,21 @@
       "number": 6,
       "title": "Manual mode workflow closure",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/06-manual-mode-workflow-closure.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "manual execution becomes honest about incompleteness",
-      "maturityTarget": "experimental -> provisional"
+      "maturityTarget": "experimental -> provisional",
+      "briefRevision": "46895d9393659136a74d248a95a10f438ff0572c",
+      "implementationRevision": "2f937b719cd49c7399c246040fa3e2710fd3235c",
+      "checkpointRevision": "2f937b719cd49c7399c246040fa3e2710fd3235c"
     },
     {
       "number": 7,
       "title": "Autopilot ratification path",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/07-autopilot-ratification-path.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -184,7 +187,7 @@
     },
     {
       "number": 10,
-      "title": "Runtime ≠ policy hardening",
+      "title": "Runtime \u2260 policy hardening",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
       "status": "pending",
       "sliceType": "architectural",
@@ -269,7 +272,7 @@
     {
       "at": "2026-06-30",
       "iteration": 13,
-      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1–4); ledger reconciled at checkpoint; iters 0–12 remain pending until evidenced",
+      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1\u20134); ledger reconciled at checkpoint; iters 0\u201312 remain pending until evidenced",
       "evidence": "954828bdd"
     },
     {

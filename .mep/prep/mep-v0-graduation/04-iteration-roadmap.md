@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 13, 14**. **5b** is next. **6–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 13, 14**. **6** is next. **7–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -36,14 +36,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 3 | committed — `cafdc858`; `exec dispatch` + stub + workflow verbs; command presets fail closed |
 | 4 | committed — `051df03`; `scripts/litmus/slice-boundary.sh --executor stub` on stranger CI |
 | 5 | committed — `8e4d880` named context + goldens; human-closed at checkpoint (`--fix` blocked by I11) |
-| 5b | not satisfied — finish-scan `--*` comment heuristic false-positive |
-| 6–12 | not satisfied — workflow closure waits on 5b |
+| 5b | committed — `f749db1` comment grammar; human-closed (`--fix` saw no post-brief impl after docs tick) |
+| 6–12 | not satisfied — workflow closure starts at 6 |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **5b** (finish-scan marker heuristic). **Not** 6. Not 15.
+**Next implement:** iteration **6** (manual mode workflow closure). **Not** 15.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -59,7 +59,7 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | I5–I6 | 0 skeleton (finishes, not identity) |
 | I7 | 1 (seed paths / scaffolding flag tactic) |
 | I8 | 5 (resolver arity) — **done** in `8e4d880` |
-| I11 | 5b (finish-scan comment prefixes vs CLI flags) |
+| I11 | 5b — **done** in `f749db1` |
 | I9 | 3 (spellings / overlay labels) |
 | C10 | 4 (core lock) |
 | I10 | 4 (CI/fixture tactics) |
@@ -282,7 +282,7 @@ landed detection, golden coverage for every row + recovery path.
 
 **Checkpoint:** `mep finish scan mep-v0-graduation` has zero open markers; `mep where mep-v0-graduation` is not row 8 from this false positive.
 
-**Status:** brief_ready — `iterations/05b-finish-scan-marker-heuristic.md`
+**Status:** committed — `iterations/05b-finish-scan-marker-heuristic.md` (`f749db1`; human-closed at checkpoint)
 
 ---
 
@@ -291,13 +291,20 @@ landed detection, golden coverage for every row + recovery path.
 **Goal:** Manual mode stops at finishes, prompts the human to fill the remainder, and **never** claims
 the slice is done while `@finish:open` remains.
 
+**Delivery track:** mixed  
+**Fanout:** sequential  
+**Brief:** `iterations/06-manual-mode-workflow-closure.md`
+
 **Slice type:** behavioral  
 **Epistemic transition:** manual execution becomes honest about incompleteness.  
-**Irreversible decision:** incompleteness is gated by marker grep + status packet, not LLM self-report.
+**Irreversible decision:** incompleteness is gated by marker grep + status packet, not LLM self-report.  
+**Maturity target:** experimental → provisional
 
-**Checkpoint:** manual fixture initiative completes human-fill loop; status blocks commit with open finishes.
+**Approach:** reuse 5b's finish-scan + row 8. make `commit scope` (and keep `lifecycle status --mode manual`) fail closed on `finish_open`. hermetic fixture: plant `# @finish:open` → blocked packets; flip to `done` → unblock. do not emit `@mise` (8); do not ship autopilot proxy (7).
 
-**Status:** pending
+**Checkpoint:** manual fixture completes the fill loop; status blocks commit with open finishes.
+
+**Status:** brief_ready — `iterations/06-manual-mode-workflow-closure.md`
 
 ---
 

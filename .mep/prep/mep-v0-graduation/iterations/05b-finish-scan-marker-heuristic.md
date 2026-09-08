@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/05b-finish-scan-marker-heuristic.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** architectural  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -130,23 +130,23 @@ Iter 5 dogfood: `mep where mep-v0-graduation` can reach checkpoint instead of a 
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: finish markers are language comments (`#` `//` `-- ` `/*` `<!--`); `--reason` is a flag; one helper feeds scan, row 8, and checkpoint blockers.
+- Coupling increased: unix-contract now runs `run-finish-scan.sh`.
+- Harder to change: widening `"--"*` again re-breaks this slug and the hermetic flag fixture.
+- Easier to change: comment grammar is one function; resolver copy stays mention-safe.
+- **Promote to core:** none — grep honesty is still I11, not a new C*.
+- **Newly interchangeable:** whether stranger CI must invoke `run-finish-scan.sh` directly (unix-contract already does).
+- **Falsified:** none of C7–C10. the 5b dogfood bounce is gone (`finish scan` open 0).
 
 ## Checkpoint
 
-**Seam smell test:** category = comment grammar in one helper. fail if only `resolver.sh` copy changed.
+**Seam smell test:** category closed — comment grammar in `mep_finish_line_is_language_comment`. not a resolver string edit.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 5b`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 6 brief
+- [x] `/commit-prep mep-v0-graduation` — code scope (`f749db1`)
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 5b`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 6 brief
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

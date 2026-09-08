@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 5.1,
+  "currentIteration": 6,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -128,18 +128,21 @@
       "number": 5.1,
       "title": "Finish-scan marker heuristic",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/05b-finish-scan-marker-heuristic.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "finish-scan stops treating bash flags as comments",
-      "maturityTarget": "provisional -> stable"
+      "maturityTarget": "provisional -> stable",
+      "briefRevision": "ab9fc9b8f7504acf731f3c24cb61885ffbb0e89e",
+      "implementationRevision": "f749db12c8dd0333b074439c6a506101a2e72d6b",
+      "checkpointRevision": "ab9fc9b8f7504acf731f3c24cb61885ffbb0e89e"
     },
     {
       "number": 6,
       "title": "Manual mode workflow closure",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/06-manual-mode-workflow-closure.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -298,6 +301,12 @@
       "iteration": 5,
       "summary": "checkpoint --fix blocked by finish-scan false-positive on resolver --reason; 5 human-closed from git 8e4d880; 5b owns I11 comment-vs-flag heuristic",
       "evidence": "8e4d880"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 5.1,
+      "summary": "checkpoint --fix wrote briefRevision to post-implement docs tick ab9fc9b so post-brief impl was empty; 5b human-closed from f749db1",
+      "evidence": "f749db12c8dd0333b074439c6a506101a2e72d6b"
     }
   ]
 }

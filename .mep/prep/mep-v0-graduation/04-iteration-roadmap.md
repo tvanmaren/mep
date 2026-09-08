@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 13, 14**. **8** is next (last Milestone B identity). **9–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 13, 14**. **9** is next (Milestone C start). **10–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -39,13 +39,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 5b | committed — `f749db1` comment grammar; brief `a0cecb8`; close `46895d9` (manifest number 5.1) |
 | 6 | committed — `bb41b68` fail-closed manual `commit scope`; trap hygiene `2f937b7` (`--fix` SHA) |
 | 7 | committed — `092ade7` autopilot `commit scope` fail-closed (mode parity, not a proxy runtime) |
-| 8–12 | not satisfied — `@mise` writer next (8); install is 9 |
+| 8 | committed — `84aa6e8` deterministic `mep mark` writer (whole-file `@mise` + monotonic finish `--state`) |
+| 9–12 | not satisfied — install/stranger guide next (9) |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **8** (mechanical authorship markers — deterministic CLI writer). **Not** 15. **9** after 8.
+**Next implement:** iteration **9** (install path & stranger smoke). **Not** 15. **10** after 9.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -62,6 +63,7 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | I7 | 1 (seed paths / scaffolding flag tactic) |
 | I8 | 5 (resolver arity) — **done** in `8e4d880` |
 | I11 | 5b — **done** in `f749db1` |
+| I12 | 8 (`mep mark` comment-style map) |
 | I9 | 3 (spellings / overlay labels) |
 | C10 | 4 (core lock) |
 | I10 | 4 (CI/fixture tactics) |
@@ -353,23 +355,29 @@ the slice is done while `@finish:open` remains.
 
 **Checkpoint:** a temp `.sh` gains `@mise` wrappers via CLI; an existing `# @finish:open` can be set to `:done` without tests going green.
 
-**Status:** brief_ready
+**Status:** committed — `iterations/08-mechanical-authorship-markers.md` (`84aa6e8`)
 
 ---
 
 ## Iteration 9 — Install path & stranger smoke test
 
-**Goal:** A stranger clones, installs `mep`, picks **one executor preset**, and completes one small
-initiative — minimal config, no MEP-hosted keys.
+**Goal:** A stranger clones this repo, puts `mep` on PATH (or follows an equivalent ≤5-step recipe), picks **one** executor preset, and runs the stub loop — no MEP-hosted keys. `run-stranger.sh` already proves engine defaults; this slice is the **operator install contract**, not a second CI harness.
 
 **Slice type:** behavioral  
-**Epistemic transition:** getting started is preset + optional override, not dotfile archaeology.
+**Epistemic transition:** getting started is preset + optional override, not vision-doc archaeology.  
+**Irreversible decision:** root README is the stranger entry; command presets stay fail-closed (`grok` stays named; no live driver).  
+**Maturity target:** provisional → stable  
+**Delivery track:** mixed  
+**Fanout:** sequential  
+**Brief:** `iterations/09-install-stranger-smoke-test.md`
 
-**Checkpoint:** documented install; smoke script passes with `--executor stub` (CI) and documented path
-for at least one real preset (e.g. cursor **or grok TUI** — `grok` is already a named command contract,
-no in-tree driver); stranger guide ≤5 setup steps.
+**Approach:** rewrite Start here to ≤5 copy-pasteable steps (clone → invoke `tools/mep/bin/mep` or PATH → `where`/`exec dispatch --executor stub`). document one command preset (cursor **or** grok TUI) as “your binary, no in-tree driver.” kill the stale README claim that slice-boundary litmus is unshipped. keep `run-stranger.sh` green; do not grow litmus product.
 
-**Status:** pending
+**Avoid:** v0.1.0 tag/packaging (15); CONTRIBUTING taste dump (12); live vendor SDK; dropping `grok`; I5 host pointer; SKILL.md rewrite; watcher/`mark` expansion.
+
+**Checkpoint:** a stranger can follow README without opening the vision table; stub smoke still CI; grok still a named contract.
+
+**Status:** brief_ready
 
 ---
 

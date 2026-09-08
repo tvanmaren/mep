@@ -30,6 +30,7 @@
 | I7 | FOSS `default.json` review-input paths; `check scaffolding` implied `--json` | envelope is identity (C7); these are tactics |
 | I8 | `mep_where_resolver_json` / `mep_resolver_json` positional arity (incl. implement `execution_target`) | **collapsed** in `8e4d880` — named `mep_resolver_context_json`; keep as history, not a live fanout |
 | I11 | finish-scan comment prefixes (`-- ` SQL vs `--flag`) | **closed** in `f749db1` — `mep_finish_line_is_language_comment` |
+| I12 | `mep mark` comment-style map (extension / shebang → hash/slash/sql/html/block) | writer is C9-shaped CLI; grammar still I11 |
 | I9 | stub primitive template strings; `.mep/history/evidence.jsonl`; documented command-preset names | invoke seam is C9; spellings now include `grok` (TUI harness) alongside cursor / claude-code / codex; still no live driver |
 | I10 | unix-contract optionally invoking litmus; stranger job name; fixture-demo as the litmus seed | the gate is C10; these are CI/fixture tactics |
 
@@ -51,3 +52,4 @@
 | oob | grok named as command preset (`command=grok`) | I9 hydration — TUI harness on the audit table; no live driver; iter 9 must not drop it |
 | 6 | `bb41b68` commit scope fail-closed in manual; `2f937b7` suite `$TMP` trap | confirmed C7 on the commit packet; default stays `ok`; `--fix` recorded HEAD (`2f937b7`) as implementationRevision |
 | 7 | `092ade7` autopilot join on the same `finish_open` arm | confirmed C7; **did not** promote a ratification/proxy C*; title overclaimed — product is enum expansion + fixture; lifecycle proxy mapping pre-existed |
+| 8 | `84aa6e8` `mep mark mise` / `mark finish` | confirmed C9 (no in-tree model); registered I12; category = CLI writer, not watcher / SKILL.md |

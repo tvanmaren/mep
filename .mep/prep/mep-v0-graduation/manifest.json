@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 8,
+  "currentIteration": 9,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -170,18 +170,21 @@
       "number": 8,
       "title": "Mechanical authorship markers",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/08-mechanical-authorship-markers.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "authorship markers move from planned to mechanically enforced",
-      "maturityTarget": "absent -> provisional"
+      "maturityTarget": "absent -> provisional",
+      "briefRevision": "2e38627cd340d2c2f44726066d9e8a9dba845caf",
+      "implementationRevision": "84aa6e8597d3aa770c611da54b541ccfc718a5b0",
+      "checkpointRevision": "84aa6e8597d3aa770c611da54b541ccfc718a5b0"
     },
     {
       "number": 9,
       "title": "Install path & stranger smoke test",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/09-install-stranger-smoke-test.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",

@@ -136,7 +136,7 @@ Iter 5 dogfood: `mep where mep-v0-graduation` can reach checkpoint instead of a 
 - Easier to change: comment grammar is one function; resolver copy stays mention-safe.
 - **Promote to core:** none — grep honesty is still I11, not a new C*.
 - **Newly interchangeable:** whether stranger CI must invoke `run-finish-scan.sh` directly (unix-contract already does).
-- **Falsified:** none of C7–C10. the 5b dogfood bounce is gone (`finish scan` open 0).
+- **Falsified:** none of C7–C10. the 5b dogfood bounce is gone (`finish scan` open 0). `--fix` later wrote `briefRevision=ab9fc9b` (acceptance tick); corrected to brief birth `a0cecb8`, impl/checkpoint `f749db1`.
 
 ## Checkpoint
 
@@ -147,7 +147,7 @@ Iter 5 dogfood: `mep where mep-v0-graduation` can reach checkpoint instead of a 
 - [x] `/commit-prep mep-v0-graduation` — code scope (`f749db1`)
 - [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 5b`
 - [x] `/prep mep-v0-graduation checkpoint` → iter 6 brief
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation docs-delta` (`46895d9`)
 
 ## implement-plan instruction
 

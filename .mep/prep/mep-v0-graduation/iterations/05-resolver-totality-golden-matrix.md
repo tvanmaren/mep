@@ -152,7 +152,7 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 - Easier to change: adding a packet field is one named context helper, not 6–11 positional arities.
 - **Promote to core:** none new — C8 already says row→`executionRequest`; this slice locked the *table* and the *emit shape*.
 - **Newly interchangeable:** finish-scan comment prefixes (`--` matching bash flags) — **I11 / iter 5b**, not a resolver-row problem.
-- **Falsified:** none of C7–C10. **dogfood hole:** `8e4d880` still bounces *this* slug to row 8 because `--reason "owned paths contain @finish:open"` is grepped as a marker. goldens did not cover self-scan of `resolver.sh`. **5b owns the heuristic.** `--fix` on 5 was blocked; 5 is human-closed from git (`8e4d880`) like iter 0.
+- **Falsified:** none of C7–C10. **dogfood hole:** `8e4d880` still bounces *this* slug to row 8 because `--reason "owned paths contain @finish:open"` is grepped as a marker. goldens did not cover self-scan of `resolver.sh`. **5b owns the heuristic.** `--fix` on 5 was blocked; checkpoint session still landed as `a0cecb8`; triplet uses impl SHA `8e4d880`.
 
 ## Checkpoint
 
@@ -163,7 +163,7 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 - [x] `/commit-prep mep-v0-graduation` — code scope (`8e4d880`)
 - [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 5`
 - [x] `/prep mep-v0-graduation checkpoint` → **5b** (not 6)
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation docs-delta` (`a0cecb8`)
 
 ## implement-plan instruction
 

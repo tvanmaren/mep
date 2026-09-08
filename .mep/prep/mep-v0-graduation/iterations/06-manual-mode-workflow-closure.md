@@ -154,7 +154,7 @@ Milestone B start. autopilot (7) may reuse the same `finish_open` blocker with a
 - [x] `/commit-prep mep-v0-graduation` — code scope (`bb41b68`)
 - [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 6`
 - [x] `/prep mep-v0-graduation checkpoint` → iter 7 brief (8 still parallel-eligible)
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation docs-delta` (`2f37c64`)
 
 ## implement-plan instruction
 

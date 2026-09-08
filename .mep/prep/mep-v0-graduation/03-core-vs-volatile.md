@@ -46,7 +46,8 @@
 | 2 | `210c716` `executionRequest` on `where` + unix-contract/stranger locks | promoted C8; registered I8; category = row→packet on all emit sites, not fixture-demo-only |
 | 3 | `cafdc858` dispatch + stub + workflow verbs; command presets `blocked` | promoted C9; registered I9; stub is accept/block, not a canned classifier |
 | 4 | `051df03` slice-boundary litmus on stranger workflow | promoted C10; registered I10; category = composition gate, not canned LLM |
-| 5 | `8e4d880` named context + golden matrix; glossary row 5 = implement interstitial | confirmed C8; I8 collapsed; live slug still row-8 until 5b; registered I11 |
-| 5b | `f749db1` `-- ` vs `--flag` in finish-scan | I11 closed; `--fix` could not mark committed (briefRevision landed after impl); human-closed |
+| 5 | `8e4d880` named context + golden matrix; glossary row 5 = implement interstitial | confirmed C8; I8 collapsed; live slug still row-8 until 5b; registered I11; checkpoint session `a0cecb8` (`--fix` blocked) |
+| 5b | `f749db1` `-- ` vs `--flag` in finish-scan | I11 closed; brief birth `a0cecb8`; docs-delta `46895d9`; `--fix` had pointed briefRevision at `ab9fc9b` — corrected |
 | oob | grok named as command preset (`command=grok`) | I9 hydration — TUI harness on the audit table; no live driver; iter 9 must not drop it |
 | 6 | `bb41b68` commit scope fail-closed in manual; `2f937b7` suite `$TMP` trap | confirmed C7 on the commit packet; default stays `ok`; `--fix` recorded HEAD (`2f937b7`) as implementationRevision |
+| 7 | `092ade7` autopilot join on the same `finish_open` arm | confirmed C7; **did not** promote a ratification/proxy C*; title overclaimed — product is enum expansion + fixture; lifecycle proxy mapping pre-existed |

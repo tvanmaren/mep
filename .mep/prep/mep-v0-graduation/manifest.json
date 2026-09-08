@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 7,
+  "currentIteration": 8,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -134,9 +134,9 @@
       "fanout": "sequential",
       "epistemicTransition": "finish-scan stops treating bash flags as comments",
       "maturityTarget": "provisional -> stable",
-      "briefRevision": "ab9fc9b8f7504acf731f3c24cb61885ffbb0e89e",
+      "briefRevision": "a0cecb82c9a9dc1be7ad9b44960f61b68444d91d",
       "implementationRevision": "f749db12c8dd0333b074439c6a506101a2e72d6b",
-      "checkpointRevision": "ab9fc9b8f7504acf731f3c24cb61885ffbb0e89e"
+      "checkpointRevision": "f749db12c8dd0333b074439c6a506101a2e72d6b"
     },
     {
       "number": 6,
@@ -156,18 +156,21 @@
       "number": 7,
       "title": "Autopilot ratification path",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/07-autopilot-ratification-path.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "autopilot moves from prototype to alpha-capable",
-      "maturityTarget": "experimental -> provisional"
+      "maturityTarget": "experimental -> provisional",
+      "briefRevision": "2f37c64f9ab51638b293dc9fa514fa6cd2a8bee1",
+      "implementationRevision": "092ade73d91d5adadcd107c457cd97866edaaaa6",
+      "checkpointRevision": "092ade73d91d5adadcd107c457cd97866edaaaa6"
     },
     {
       "number": 8,
       "title": "Mechanical authorship markers",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/08-mechanical-authorship-markers.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -187,7 +190,7 @@
     },
     {
       "number": 10,
-      "title": "Runtime \u2260 policy hardening",
+      "title": "Runtime ≠ policy hardening",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
       "status": "pending",
       "sliceType": "architectural",
@@ -272,7 +275,7 @@
     {
       "at": "2026-06-30",
       "iteration": 13,
-      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1\u20134); ledger reconciled at checkpoint; iters 0\u201312 remain pending until evidenced",
+      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1–4); ledger reconciled at checkpoint; iters 0–12 remain pending until evidenced",
       "evidence": "954828bdd"
     },
     {
@@ -302,14 +305,26 @@
     {
       "at": "2026-09-08",
       "iteration": 5,
-      "summary": "checkpoint --fix blocked by finish-scan false-positive on resolver --reason; 5 human-closed from git 8e4d880; 5b owns I11 comment-vs-flag heuristic",
+      "summary": "checkpoint --fix blocked by finish-scan false-positive on resolver --reason; session still landed a0cecb8 (5b brief + 5 architectural diff); triplet kept impl SHA 8e4d880 per --fix convention",
       "evidence": "8e4d880"
     },
     {
       "at": "2026-09-08",
       "iteration": 5.1,
-      "summary": "checkpoint --fix wrote briefRevision to post-implement docs tick ab9fc9b so post-brief impl was empty; 5b human-closed from f749db1",
+      "summary": "checkpoint --fix wrote briefRevision to post-implement docs tick ab9fc9b so post-brief impl looked empty; 5b was closed from f749db1 anyway",
+      "evidence": "ab9fc9b8f7504acf731f3c24cb61885ffbb0e89e"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 5.1,
+      "summary": "corrected triplet: briefRevision=a0cecb8 (brief birth), implementationRevision=checkpointRevision=f749db1; docs-delta 46895d9",
       "evidence": "f749db12c8dd0333b074439c6a506101a2e72d6b"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 7,
+      "summary": "brief titled ratification/proxy path; landed 092ade7 is autopilot join on commit-scope finish_open only — lifecycle proxy mapping pre-existed; no Task/LLM dispatch",
+      "evidence": "092ade73d91d5adadcd107c457cd97866edaaaa6"
     }
   ]
 }

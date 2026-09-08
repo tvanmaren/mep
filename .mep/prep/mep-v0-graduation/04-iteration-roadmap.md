@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 13, 14**. **7** is next. **8–12, 15, 16** remain pending. **8** still parallel-eligible with 7.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 13, 14**. **8** is next (last Milestone B identity). **9–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -35,16 +35,17 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 2 | committed — `210c716`; row-derived `executionRequest` |
 | 3 | committed — `cafdc858`; `exec dispatch` + stub + workflow verbs; command presets fail closed |
 | 4 | committed — `051df03`; `scripts/litmus/slice-boundary.sh --executor stub` on stranger CI |
-| 5 | committed — `8e4d880` named context + goldens; human-closed at checkpoint (`--fix` blocked by I11) |
-| 5b | committed — `f749db1` comment grammar; human-closed (`--fix` saw no post-brief impl after docs tick) |
+| 5 | committed — `8e4d880` named context + goldens; checkpoint session `a0cecb8` (`--fix` blocked on I11; triplet uses impl SHA) |
+| 5b | committed — `f749db1` comment grammar; brief `a0cecb8`; close `46895d9` (manifest number 5.1) |
 | 6 | committed — `bb41b68` fail-closed manual `commit scope`; trap hygiene `2f937b7` (`--fix` SHA) |
-| 7–12 | not satisfied — autopilot packets next (7); `@mise` is 8 |
+| 7 | committed — `092ade7` autopilot `commit scope` fail-closed (mode parity, not a proxy runtime) |
+| 8–12 | not satisfied — `@mise` writer next (8); install is 9 |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **7** (autopilot ratification path). **Not** 15. **8** remains parallel-eligible.
+**Next implement:** iteration **8** (mechanical authorship markers — deterministic CLI writer). **Not** 15. **9** after 8.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -260,7 +261,7 @@ landed detection, golden coverage for every row + recovery path.
 
 **Checkpoint:** `mep where` on fixture slugs never disagrees with golden expectations; dogfood notes empty.
 
-**Status:** committed — `iterations/05-resolver-totality-golden-matrix.md` (`8e4d880`; human-closed at checkpoint — `--fix` blocked by I11)
+**Status:** committed — `iterations/05-resolver-totality-golden-matrix.md` (`8e4d880`; checkpoint session `a0cecb8`)
 
 ---
 
@@ -283,7 +284,7 @@ landed detection, golden coverage for every row + recovery path.
 
 **Checkpoint:** `mep finish scan mep-v0-graduation` has zero open markers; `mep where mep-v0-graduation` is not row 8 from this false positive.
 
-**Status:** committed — `iterations/05b-finish-scan-marker-heuristic.md` (`f749db1`; human-closed at checkpoint)
+**Status:** committed — `iterations/05b-finish-scan-marker-heuristic.md` (`f749db1`; brief `a0cecb8`; docs-delta `46895d9`)
 
 ---
 
@@ -311,39 +312,48 @@ the slice is done while `@finish:open` remains.
 
 ## Iteration 7 — Autopilot ratification path
 
-**Goal:** Autopilot proxy ratification + commit path runs without bouncing every gate to the human
-conversant (within configured policy).
+**Goal:** Autopilot uses the same fail-closed `commit scope` as manual when finishes stay open. lifecycle already mapped `finish_open` → proxy; this slice does **not** ship a running proxy.
 
 **Slice type:** behavioral  
-**Epistemic transition:** autopilot moves from prototype to alpha-capable for trusted slices.
+**Epistemic transition:** autopilot is not default on the commit packet.
 
 **Delivery track:** mixed  
 **Fanout:** sequential  
 **Brief:** `iterations/07-autopilot-ratification-path.md`
 
-**Irreversible decision:** autopilot reuses `finish_open` with `gate=proxy`; runtime does not call a model.  
+**Irreversible decision:** `authorshipMode=autopilot` joins the `finish_open` arm; runtime does not call a model.  
 **Maturity target:** experimental → provisional
 
-**Approach:** fail-closed `commit scope` for `authorshipMode=autopilot` (6 only gated manual). prove `lifecycle status --mode autopilot` proxy gate + `asksUserMidSlice=false`. hermetic fixture. do not emit `@mise` (8); do not spawn a vendor/Task from `tools/mep/lib`.
+**Approach:** one disjunct in `mep_commit_scope_json`; hermetic fill-loop; do not emit `@mise` (8); do not spawn Task from `tools/mep/lib`.
 
 **Avoid:** `@mise` emitter; in-tree LLM dispatch; resolver; litmus product; changing 6's manual/default arms.
 
-**Checkpoint:** autopilot fixture: open finish ⇒ proxy-blocked packets, not a human bounce; commit scope `blocked`.
+**Checkpoint:** autopilot + `# @finish:open` ⇒ `commit scope` `blocked`; default still `ok`.
 
-**Status:** brief_ready — `iterations/07-autopilot-ratification-path.md`
+**Status:** committed — `iterations/07-autopilot-ratification-path.md` (`092ade7`)
 
 ---
 
 ## Iteration 8 — Mechanical authorship markers
 
-**Goal:** `@mise` / `@finish:<state>` emitted by tooling or execution policy — not optional LLM discipline.
+**Goal:** `@mise` / `@finish:<state>` written by a deterministic `mep` verb — not prompt memory, not a file-watcher.
 
 **Slice type:** behavioral  
-**Epistemic transition:** authorship markers move from planned to mechanically enforced.
+**Epistemic transition:** authorship markers move from planned to mechanically emitted.
 
-**Checkpoint:** agent-generated diffs receive `@mise` wrappers; finish states advance on save or explicit ratification.
+**Delivery track:** mixed  
+**Fanout:** sequential  
+**Brief:** `iterations/08-mechanical-authorship-markers.md`
 
-**Status:** pending
+**Irreversible decision:** emission is a FOSS CLI using I11 comment grammar; never infers finish state from green tests; never calls a model (C9).
+
+**Approach:** `mep mark mise` / `mep mark finish --state …` (spellings may match house `finish <subcmd>`). whole-file wrap for v0.1; range and on-save deferred. hermetic write+scan round-trip.
+
+**Avoid:** file-watcher; in-tree LLM/Task; auto-infer `:done`; resolver rows; litmus growth; SKILL.md; retitling a packet tweak as the emitter.
+
+**Checkpoint:** a temp `.sh` gains `@mise` wrappers via CLI; an existing `# @finish:open` can be set to `:done` without tests going green.
+
+**Status:** brief_ready
 
 ---
 
@@ -492,7 +502,7 @@ brief documents + git. Same routing semantics as iteration 5 golden matrix.
   → 1 → 2 → 3 → 4   # unix foundation — v0.1 substrate; blocks all product work
   → 5                 # resolver totality (semantic; storage-agnostic tests)
   → 5b                # finish-scan comment heuristic (unblocks dogfood where)
-  → 6,7,8 (parallel)  # workflow closure
+  → 6,7,8             # workflow closure (identity work; 8 last of B)
   → 9 → 10,11 (parallel) → 12 → 13 → 14 → 15
   → 16 (post-v0.1)    # eliminate manifest; document-colocated state → v0.2.0 program (`.mep/plans/mep-v0.2-outline.md`)
 ```
@@ -503,7 +513,7 @@ Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v
 
 | Iterations | Parallel? | Reason |
 |------------|-----------|--------|
-| 5b then 6, 7, 8 | 6–8 parallel after 5b | 5b unblocks finish-scan; then disjoint policy surfaces |
+| 5b then 6, 7, 8 | sequential now | 6–7 landed as commit-scope mode arms; 8 is the writer — last B identity |
 | 10, 11 | yes after 9 | docs/tests vs events.sh |
 
 ## Re-plan triggers

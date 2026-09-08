@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/07-autopilot-ratification-path.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** behavioral  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -56,12 +56,12 @@ Milestone B continues. 8 may assume proxy vs human is a gate actor, not a second
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] temp slug, `authorshipMode=autopilot`, owned `# @finish:open`: `mep lifecycle status --mode autopilot --json` has `status=blocked`, a `finish_open` gate with `gate=proxy` and `action=dispatch_proxy_finish_author`; `asksUserMidSlice=false`; process exit 2
-- [ ] same tree: `mep commit scope <slug> --json` is `status=blocked` / `reason=finish_open`; exit 2
-- [ ] same tree: `mep checkpoint --json` still blocked on `finish_open` (do not regress)
-- [ ] flipping to `# @finish:done` clears `finish_open` on those packets (other findings may remain, including proxy-provenance on `:ratified` without `proxy`/`autopilot` in the line)
-- [ ] **manual** fixture from 6 still: open finish ⇒ commit scope blocked; **default** still: open finish ⇒ commit scope `ok`
-- [ ] unix-contract + golden matrix + stranger + slice-boundary litmus still green; no resolver row-table edits; no `@mise` emitter; no in-tree LLM/Task dispatch
+- [x] temp slug, `authorshipMode=autopilot`, owned `# @finish:open`: `mep lifecycle status --mode autopilot --json` has `status=blocked`, a `finish_open` gate with `gate=proxy` and `action=dispatch_proxy_finish_author`; `asksUserMidSlice=false`; process exit 2
+- [x] same tree: `mep commit scope <slug> --json` is `status=blocked` / `reason=finish_open`; exit 2
+- [x] same tree: `mep checkpoint --json` still blocked on `finish_open` (do not regress)
+- [x] flipping to `# @finish:done` clears `finish_open` on those packets (other findings may remain, including proxy-provenance on `:ratified` without `proxy`/`autopilot` in the line)
+- [x] **manual** fixture from 6 still: open finish ⇒ commit scope blocked; **default** still: open finish ⇒ commit scope `ok`
+- [x] unix-contract + golden matrix + stranger + slice-boundary litmus still green; no resolver row-table edits; no `@mise` emitter; no in-tree LLM/Task dispatch
 
 ## Finish-map (fragment classification)
 
@@ -77,7 +77,7 @@ Milestone B continues. 8 may assume proxy vs human is a gate actor, not a second
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| autopilot commit scope fail-closed | autopilot + `finish_open` ⇒ `blocked`/exit 2; 6's manual/default arms unchanged; C7; C9 | `commit scope` manual arm; lifecycle proxy `finish_open` | recommend: same writeback, treat `autopilot` like `manual` for the commit packet (not default); do not parse `nextCommand`; do not spawn a model from `tools/mep/lib` | `open` |
+| autopilot commit scope fail-closed | autopilot + `finish_open` ⇒ `blocked`/exit 2; 6's manual/default arms unchanged; C7; C9 | `commit scope` manual arm; lifecycle proxy `finish_open` | recommend: same writeback, treat `autopilot` like `manual` for the commit packet (not default); do not parse `nextCommand`; do not spawn a model from `tools/mep/lib` | `done` |
 
 ## File ownership
 
@@ -96,8 +96,8 @@ Milestone B continues. 8 may assume proxy vs human is a gate actor, not a second
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `mep commit scope` on an autopilot fixture with `# @finish:open` still returns `status=ok`
-- [ ] no FOSS suite asserts autopilot fill-loop (open → proxy-blocked → done → not finish_open)
+- [x] `mep commit scope` on an autopilot fixture with `# @finish:open` still returns `status=ok`
+- [x] no FOSS suite asserts autopilot fill-loop (open → proxy-blocked → done → not finish_open)
 
 ## Approach
 
@@ -140,23 +140,23 @@ Milestone B continues. 8 may assume proxy vs human is a gate actor, not a second
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: `authorshipMode=autopilot` + `finish_open` ⇒ `commit scope` `blocked`/`finish_open`/exit 2 (same writeback as manual). default still `ok`. lifecycle proxy `finish_open` was already true; this slice did not invent it.
+- Coupling increased: one more disjunct on `mep_commit_scope_json` (`manual || autopilot`).
+- Harder to change: calling autopilot “default-like” on the commit packet would let open finishes through.
+- Easier to change: `@mise` emission (8) stays a writer, not another packet arm.
+- **Promote to core:** none — C7 on the commit packet for a third mode; **not** a ratification engine.
+- **Newly interchangeable:** none.
+- **Falsified:** the brief title/category overclaimed a running proxy. landed product is mode parity on C7. `lifecycle.sh` / `autopilot.md` / Task dispatch were not this commit (`092ade7`).
 
 ## Checkpoint
 
-**Seam smell test:** category = proxy gate actor + fail-closed commit packet. fail if the slice only documents “dispatch a Task.”
+**Seam smell test:** category closed as **mode parity on C7**, not a proxy runtime. fail the story if someone reads “ratification path” as Task dispatch.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 7`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 8 brief (8 still parallel-eligible with leftover 7 work only if 7 slips)
+- [x] `/commit-prep mep-v0-graduation` — code scope (`092ade7`)
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 7`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 8 brief
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

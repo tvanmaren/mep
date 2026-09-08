@@ -148,6 +148,13 @@ rc=0
 [[ "$rc" == 0 ]] || fail "config dump exit 0 (got $rc)"
 [[ ! -s "$err" ]] || fail "config dump stderr empty"
 jq -e '.status == "ok"' "$tmp" >/dev/null || fail "config dump status ok"
+jq -e '
+  .executors.default == "stub"
+  and .executors.presets.stub == {kind:"stub",command:"internal:stub"}
+  and .executors.presets.cursor == {kind:"command",command:"cursor"}
+  and .executors.presets["claude-code"] == {kind:"command",command:"claude"}
+  and .executors.presets.codex == {kind:"command",command:"codex"}
+' "$tmp" >/dev/null || fail "config dump executor presets"
 pass "config dump envelope exit 0"
 
 rc=0
@@ -166,6 +173,68 @@ jq -e '
   and (.nextCommand | startswith("/implement-plan "))
 ' "$tmp" >/dev/null || fail "where fixture-demo execution request"
 pass "where fixture-demo durable execution request"
+
+request=$(jq -c '.executionRequest' "$tmp")
+rc=0
+printf '%s\n' "$request" | "$MEP" exec dispatch --json --executor stub >"$tmp" 2>"$err" || rc=$?
+[[ "$rc" == 0 ]] || fail "stub dispatch exit 0 (got $rc)"
+[[ ! -s "$err" ]] || fail "stub dispatch stderr empty"
+jq -e --argjson request "$request" '
+  .status == "ok"
+  and .executor == "stub"
+  and .dryRun == false
+  and .executionRequest == $request
+  and .result == {kind:"stub",accepted:true,primitive:"mep implement"}
+' "$tmp" >/dev/null || fail "stub dispatch preserves execution request"
+pass "stub dispatch from where request"
+
+while IFS=$'\t' read -r kind target primitive; do
+  if [[ "$kind" == none ]]; then
+    request=$(jq -cn --arg kind "$kind" '{kind:$kind,target:null,argv:[]}')
+  else
+    request=$(jq -cn --arg kind "$kind" --arg target "$target" '{kind:$kind,target:$target,argv:[]}')
+  fi
+  "$MEP" exec dispatch --json --executor stub --request-json "$request" >"$tmp" 2>"$err"
+  jq -e --arg kind "$kind" --arg primitive "$primitive" '
+    .status == "ok"
+    and .executionRequest.kind == $kind
+    and .result.primitive == $primitive
+  ' "$tmp" >/dev/null || fail "stub maps $kind primitive"
+done <<'CASES'
+implement	brief.md	mep implement
+checkpoint	demo	mep checkpoint
+commit_prep	demo	mep commit scope
+prep	demo	mep evidence write <slug> prep <state>
+cleanup	demo	mep evidence write <slug> cleanup <state>
+none	-	none
+CASES
+pass "stub maps every execution kind"
+
+rc=0
+"$MEP" exec dispatch --json --executor stub \
+  --request-json '{"kind":"bogus","target":"x","argv":[]}' >"$tmp" 2>"$err" || rc=$?
+[[ "$rc" == 2 ]] || fail "invalid dispatch request exit 2 (got $rc)"
+jq -e '.status == "blocked" and .reason == "invalid_execution_request"' "$tmp" >/dev/null || fail "invalid dispatch packet"
+pass "invalid dispatch request blocked"
+
+rc=0
+"$MEP" exec dispatch --json --executor cursor \
+  --request-json '{"kind":"none","target":null,"argv":[]}' >"$tmp" 2>"$err" || rc=$?
+[[ "$rc" == 2 ]] || fail "documented command preset exit 2 (got $rc)"
+jq -e '.status == "blocked" and .reason == "executor_driver_unavailable"' "$tmp" >/dev/null || fail "command preset unavailable packet"
+pass "documented command preset has no live driver"
+
+rc=0
+"$MEP" exec dispatch --json --executor cursor --dry-run \
+  --request-json '{"kind":"none","target":null,"argv":[]}' >"$tmp" 2>"$err" || rc=$?
+[[ "$rc" == 0 ]] || fail "command preset dry-run exit 0 (got $rc)"
+jq -e '
+  .status == "ok"
+  and .executor == "cursor"
+  and .dryRun == true
+  and .result == {kind:"dry_run",accepted:true,presetKind:"command",command:"cursor"}
+' "$tmp" >/dev/null || fail "command preset dry-run packet"
+pass "command preset dry-run suppresses driver"
 
 route_fx=$(mktemp -d)
 mkdir -p "$route_fx/.mep/prep/commit-prep-fx"
@@ -288,6 +357,109 @@ printf '%s\n' "$out" >"$tmp"
 [[ "$rc" == 1 ]] || fail "doctor desync fixture exit 1 (got $rc)"
 jq -e '.status == "desync"' "$tmp" >/dev/null || fail "doctor desync fixture packet"
 pass "doctor desync fixture exit 1"
+
+workflow_fx=$(mktemp -d)
+mkdir -p "$workflow_fx/.mep/prep/workflow-fx/iterations"
+cat >"$workflow_fx/.mep/prep/workflow-fx/manifest.json" <<'JSON'
+{
+  "slug": "workflow-fx",
+  "schemaVersion": 1,
+  "framework": "mise-en-place",
+  "authorshipMode": "default",
+  "phase": 5,
+  "prepDocsBootstrapped": true,
+  "initiativeStatus": "active",
+  "currentIteration": 1,
+  "ownedPaths": ["src/**", ".mep/prep/workflow-fx/**"],
+  "iterations": [{"number": 1, "title": "Workflow fixture", "briefPath": ".mep/prep/workflow-fx/iterations/01.md", "status": "brief_ready", "sliceType": "behavioral"}]
+}
+JSON
+cat >"$workflow_fx/.mep/prep/workflow-fx/iterations/01.md" <<'MD'
+# Iteration 1 — Workflow fixture
+
+**Status:** brief_ready
+
+## Constitution
+
+| | |
+|---|---|
+| **Owns** | `src/workflow.sh`; fixture tests |
+| **May know** | fixture inputs |
+| **Must not know** | network |
+| **Invariants** | read-only |
+| **Still provisional** | fixture adapter |
+
+## File ownership
+
+| file | slice op | zone | notes |
+|------|----------|------|-------|
+| `src/workflow.sh` | modify | domain | fixture |
+| `test/workflow.sh` | modify | integration | fixture |
+MD
+git -C "$workflow_fx" init -q -b main
+git -C "$workflow_fx" config user.email "mep@test"
+git -C "$workflow_fx" config user.name "mep"
+git -C "$workflow_fx" config commit.gpgsign false
+git -C "$workflow_fx" add -A
+git -C "$workflow_fx" commit -q -m "workflow fixture"
+
+brief_hash=$(git -C "$workflow_fx" hash-object .mep/prep/workflow-fx/iterations/01.md)
+MEP_REPO_ROOT_OVERRIDE="$workflow_fx" "$MEP" implement --json \
+  .mep/prep/workflow-fx/iterations/01.md >"$tmp" 2>"$err"
+[[ "$(git -C "$workflow_fx" hash-object .mep/prep/workflow-fx/iterations/01.md)" == "$brief_hash" ]] || fail "implement packet mutated brief"
+jq -e '
+  .status == "ok"
+  and .readOnly == true
+  and .executionRequest.kind == "implement"
+  and .brief.status == "brief_ready"
+  and .brief.constitution == {
+    owns:"`src/workflow.sh`; fixture tests",
+    mayKnow:"fixture inputs",
+    mustNotKnow:"network",
+    invariants:"read-only",
+    stillProvisional:"fixture adapter"
+  }
+  and .brief.ownedPaths == ["src/workflow.sh","test/workflow.sh"]
+' "$tmp" >/dev/null || fail "implement scope packet"
+pass "implement packet is read-only"
+
+rc=0
+MEP_REPO_ROOT_OVERRIDE="$workflow_fx" "$MEP" implement --json ../../etc/passwd >"$tmp" 2>"$err" || rc=$?
+[[ "$rc" == 2 ]] || fail "unsafe implement path exit 2 (got $rc)"
+jq -e '.status == "blocked" and .reason == "invalid_brief_path"' "$tmp" >/dev/null || fail "unsafe implement path packet"
+pass "implement rejects path traversal"
+
+MEP_REPO_ROOT_OVERRIDE="$workflow_fx" "$MEP" commit scope workflow-fx --json >"$tmp" 2>"$err"
+jq -e '
+  .status == "ok"
+  and .readOnly == true
+  and .iteration == 1
+  and .paths == ["src/workflow.sh","test/workflow.sh"]
+' "$tmp" >/dev/null || fail "commit scope packet"
+pass "commit scope follows brief ownership"
+
+MEP_REPO_ROOT_OVERRIDE="$workflow_fx" "$MEP" mode set workflow-fx manual --json --dry-run >"$tmp" 2>"$err"
+jq -e '.status == "ok" and .authorshipMode == "manual" and .dryRun == true and .written == false' "$tmp" >/dev/null || fail "mode dry-run packet"
+jq -e '.authorshipMode == "default"' "$workflow_fx/.mep/prep/workflow-fx/manifest.json" >/dev/null || fail "mode dry-run mutated manifest"
+MEP_REPO_ROOT_OVERRIDE="$workflow_fx" "$MEP" mode set workflow-fx manual --json >"$tmp" 2>"$err"
+jq -e '.status == "ok" and .dryRun == false and .written == true' "$tmp" >/dev/null || fail "mode write packet"
+jq -e '.authorshipMode == "manual"' "$workflow_fx/.mep/prep/workflow-fx/manifest.json" >/dev/null || fail "mode write missed manifest"
+if git -C "$workflow_fx" diff --summary | grep -q 'mode change'; then
+  fail "mode write changed manifest permissions"
+fi
+pass "mode set dry-run and write"
+
+evidence_root=$(mktemp -d)
+MEP_REPO_ROOT_OVERRIDE="$workflow_fx" MEP_HISTORY_ROOT_OVERRIDE="$evidence_root" \
+  "$MEP" evidence write workflow-fx implement "done" --json --detail "fixture" --dry-run >"$tmp" 2>"$err"
+jq -e '.status == "ok" and .dryRun == true and .written == false' "$tmp" >/dev/null || fail "evidence dry-run packet"
+[[ ! -e "$evidence_root/evidence.jsonl" ]] || fail "evidence dry-run wrote ledger"
+MEP_REPO_ROOT_OVERRIDE="$workflow_fx" MEP_HISTORY_ROOT_OVERRIDE="$evidence_root" \
+  "$MEP" evidence write workflow-fx implement "done" --json --detail "fixture" >"$tmp" 2>"$err"
+jq -e '.status == "ok" and .dryRun == false and .written == true' "$tmp" >/dev/null || fail "evidence write packet"
+jq -e '.slug == "workflow-fx" and .kind == "implement" and .state == "done" and .detail == "fixture"' "$evidence_root/evidence.jsonl" >/dev/null || fail "evidence ledger row"
+rm -rf "$evidence_root" "$workflow_fx"
+pass "evidence write dry-run and append"
 
 rc=0
 "$MEP" check scaffolding --json >"$tmp" 2>"$err" || rc=$?

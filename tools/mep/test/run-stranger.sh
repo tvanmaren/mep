@@ -39,7 +39,14 @@ assert_jq() {
 dump=$("$MEP" config dump --json)
 printf '%s' "$dump" | jq -e '.storage.prepRoot == "wiki/prep"' >/dev/null && fail "must not inherit wiki/prep overlay"
 printf '%s' "$dump" | jq -e '.profile.active != "default"' >/dev/null && fail "must not inherit a host profile overlay"
-assert_jq '.storage.prepRoot == ".mep/prep" and .runtime.adapter == "plain" and .profile.active == "default" and .vcs.defaultTrunk == "main"' "$dump" "engine defaults without overlay"
+assert_jq '
+  .storage.prepRoot == ".mep/prep"
+  and .runtime.adapter == "plain"
+  and .profile.active == "default"
+  and .vcs.defaultTrunk == "main"
+  and .executors.default == "stub"
+  and .executors.presets.stub == {kind:"stub",command:"internal:stub"}
+' "$dump" "engine defaults without overlay"
 
 where=$("$MEP" where fixture-demo --json)
 assert_jq '
@@ -51,5 +58,18 @@ assert_jq '
     argv: [".mep/prep/fixture-demo/iterations/01-ready.md"]
   }
 ' "$where" "where fixture-demo durable execution request"
+
+request=$(printf '%s' "$where" | jq -c '.executionRequest')
+dispatch=$(printf '%s\n' "$request" | "$MEP" exec dispatch --json)
+assert_jq '
+  .status == "ok"
+  and .executor == "stub"
+  and .executionRequest == {
+    kind: "implement",
+    target: ".mep/prep/fixture-demo/iterations/01-ready.md",
+    argv: [".mep/prep/fixture-demo/iterations/01-ready.md"]
+  }
+  and .result.kind == "stub"
+' "$dispatch" "default stub dispatch"
 
 pass "run-stranger"

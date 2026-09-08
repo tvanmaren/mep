@@ -16,6 +16,11 @@ check scaffolding	mep check scaffolding [--json] [--broad|--product-code] [paths
 check prep-active	mep check prep-active --json	print prep-active session file state
 doctor	mep doctor <slug> --json [--fix] [--trunk <ref>]	report or apply committed/merged desync
 where	mep where <slug> --json	print next-command resolver packet
+exec dispatch	mep exec dispatch --json [--executor <preset>] [--request-json <json>] [--dry-run]	dispatch an executionRequest
+implement	mep implement --json <briefPath>	print read-only brief scope packet
+mode set	mep mode set <slug> <manual|default|autopilot> --json [--dry-run]	set initiative authorship mode
+commit scope	mep commit scope <slug> --json	print current slice commit paths
+evidence write	mep evidence write <slug> <kind> <state> --json [--detail <text>] [--dry-run]	append workflow evidence
 events tail	mep events tail --json [--slug <slug>] [--event <name>] [--version <n>] [--limit <n>]	read local event ledger
 pr scaffold	mep pr scaffold <slug> <n> --json	write deterministic PR scaffold
 finish scan	mep finish scan <slug> --json	scan finish-map markers

@@ -29,14 +29,26 @@ mep_config_defaults() {
   MEP_VCS_DEFAULT_TRUNK=main
   MEP_PROFILE_ACTIVE=default
   MEP_PROFILE_DIR=.mep/profiles
+  MEP_EXECUTORS_DEFAULT=stub
+  MEP_EXECUTOR_CONFIG_KEYS=(
+    "executors.presets.stub.kind"
+    "executors.presets.stub.command"
+  )
+  MEP_EXECUTOR_CONFIG_VALUES=(
+    "stub"
+    "internal:stub"
+  )
   MEP_CONFIG_FILE=
   MEP_CONFIG_ERRORS=()
 }
 
 mep_config_known_key() {
   case "$1" in
-    version|storage.prepRoot|storage.plansRoot|storage.prDescriptionsRoot|storage.architectureRoot|storage.historyRoot|runtime.adapter|runtime.sessionActiveFile|runtime.spine|vcs.kind|vcs.defaultTrunk|profile.active|profile.dir)
+    version|storage.prepRoot|storage.plansRoot|storage.prDescriptionsRoot|storage.architectureRoot|storage.historyRoot|runtime.adapter|runtime.sessionActiveFile|runtime.spine|vcs.kind|vcs.defaultTrunk|profile.active|profile.dir|executors.default)
       return 0 ;;
+    executors.presets.*.kind|executors.presets.*.command|executors.presets.*.env.*)
+      [[ "$1" =~ ^executors\.presets\.[A-Za-z0-9_-]+\.(kind|command|env\.[A-Za-z_][A-Za-z0-9_]*)$ ]]
+      ;;
     *)
       return 1 ;;
   esac
@@ -58,6 +70,11 @@ mep_config_set() {
     vcs.defaultTrunk) MEP_VCS_DEFAULT_TRUNK=$value ;;
     profile.active) MEP_PROFILE_ACTIVE=$value ;;
     profile.dir) MEP_PROFILE_DIR=$value ;;
+    executors.default) MEP_EXECUTORS_DEFAULT=$value ;;
+    executors.presets.*)
+      MEP_EXECUTOR_CONFIG_KEYS+=("$key")
+      MEP_EXECUTOR_CONFIG_VALUES+=("$value")
+      ;;
   esac
 }
 
@@ -117,6 +134,42 @@ mep_spines_json() {
   printf '%s\n' "${MEP_RUNTIME_SPINES[@]}" | mep_json_string_array_from_lines
 }
 
+mep_executors_json() {
+  local result key value remainder preset field env_name i
+  result=$(jq -cn --arg defaultExecutor "$MEP_EXECUTORS_DEFAULT" '{default:$defaultExecutor,presets:{}}')
+
+  for (( i=0; i<${#MEP_EXECUTOR_CONFIG_KEYS[@]}; i++ )); do
+    key=${MEP_EXECUTOR_CONFIG_KEYS[$i]}
+    value=${MEP_EXECUTOR_CONFIG_VALUES[$i]}
+    remainder=${key#executors.presets.}
+    preset=${remainder%%.*}
+    field=${remainder#*.}
+    if [[ "$field" == env.* ]]; then
+      env_name=${field#env.}
+      result=$(jq -cn \
+        --argjson current "$result" \
+        --arg preset "$preset" \
+        --arg envName "$env_name" \
+        --arg value "$value" \
+        '$current | setpath(["presets",$preset,"env",$envName];$value)')
+    else
+      result=$(jq -cn \
+        --argjson current "$result" \
+        --arg preset "$preset" \
+        --arg field "$field" \
+        --arg value "$value" \
+        '$current | setpath(["presets",$preset,$field];$value)')
+    fi
+  done
+
+  printf '%s\n' "$result"
+}
+
+mep_executor_preset_json() {
+  local preset=$1
+  mep_executors_json | jq -c --arg preset "$preset" '.presets[$preset] // null'
+}
+
 mep_config_dump_json() {
   printf '{'
   printf '"version":%s,' "$(mep_json_string "$MEP_CONFIG_VERSION")"
@@ -141,6 +194,8 @@ mep_config_dump_json() {
   printf '},"profile":{'
   printf '"active":%s,' "$(mep_json_string "$MEP_PROFILE_ACTIVE")"
   printf '"dir":%s' "$(mep_json_string "$MEP_PROFILE_DIR")"
-  printf '}}'
+  printf '},"executors":'
+  mep_executors_json
+  printf '}'
   printf '\n'
 }

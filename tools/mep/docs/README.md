@@ -13,9 +13,11 @@ Current status:
 - Routing contract: successful `mep where <slug> --json` packets expose the row-derived
   `executionRequest` (`kind`, `target`, `argv`) as the durable action; `nextCommand` is Cursor adapter
   presentation.
+- Executor contract: pick a preset in `.mep/config`, then pipe `.executionRequest` to
+  `mep exec dispatch --json`; only the deterministic `stub` driver ships in-tree.
 - These docs are copied from `.cursor/skills/mise-en-place/**` so non-Cursor users can inspect the
   framework without relying on Cursor skill discovery.
-- The old `.cursor` files remain live for Cursor until later adapter/mirror cutover slices.
+- The old `.cursor` files remain live for Cursor until adapter/mirror cutover.
 
 Do not edit both copies independently long-term. A migrated concern should end with exactly one
 canonical source and the other location acting as an adapter, generated mirror, or reference export.

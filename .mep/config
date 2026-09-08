@@ -3,3 +3,15 @@ runtime.sessionActiveFile=.cursor/prep-active
 runtime.spine=.cursor/skills
 runtime.spine=.cursor/commands
 vcs.defaultTrunk=master
+
+# @provisional — stub is the only in-tree driver; named command presets are adapter contracts.
+executors.default=stub
+executors.presets.stub.kind=stub
+executors.presets.stub.command=internal:stub
+executors.presets.cursor.kind=command
+executors.presets.cursor.command=cursor
+executors.presets.claude-code.kind=command
+executors.presets.claude-code.command=claude
+executors.presets.codex.kind=command
+executors.presets.codex.command=codex
+# Optional non-secret hints use executors.presets.<name>.env.<NAME>=value.

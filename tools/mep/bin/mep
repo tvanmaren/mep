@@ -38,6 +38,10 @@ MEP_HOME=$(cd "$MEP_BIN_DIR/.." && pwd)
 . "$MEP_HOME/lib/lifecycle.sh"
 # shellcheck source=../lib/curate.sh
 . "$MEP_HOME/lib/curate.sh"
+# shellcheck source=../lib/exec.sh
+. "$MEP_HOME/lib/exec.sh"
+# shellcheck source=../lib/workflow.sh
+. "$MEP_HOME/lib/workflow.sh"
 
 mep_usage() {
   mep_usage_from_registry
@@ -150,6 +154,98 @@ case "${1:-}" in
     [[ -n "$slug" ]] || mep_usage
     mep_expect_json_flag "${3:-}"
     mep_dispatch_json mep_where_json "$slug"
+    ;;
+  exec)
+    [[ "${2:-}" == "dispatch" ]] || mep_usage
+    shift 2
+    json=0
+    dry_run=0
+    executor=$MEP_EXECUTORS_DEFAULT
+    request_json=
+    while (( $# )); do
+      case "$1" in
+        --json) json=1 ;;
+        --dry-run) dry_run=1 ;;
+        --executor)
+          shift
+          executor=${1:-}
+          [[ -n "$executor" ]] || mep_usage
+          ;;
+        --request-json)
+          shift
+          request_json=${1:-}
+          [[ -n "$request_json" ]] || mep_usage
+          ;;
+        *) mep_usage ;;
+      esac
+      shift
+    done
+    (( json )) || mep_usage
+    if [[ -z "$request_json" && ! -t 0 ]]; then
+      request_json=$(cat)
+    fi
+    [[ -n "$request_json" ]] || mep_usage
+    mep_dispatch_json mep_exec_dispatch_json "$request_json" "$executor" "$dry_run"
+    ;;
+  implement)
+    [[ "${2:-}" == "--json" ]] || mep_usage
+    brief_path=${3:-}
+    [[ -n "$brief_path" && $# == 3 ]] || mep_usage
+    mep_dispatch_json mep_implement_scope_json "$brief_path"
+    ;;
+  mode)
+    [[ "${2:-}" == "set" ]] || mep_usage
+    slug=${3:-}
+    mode=${4:-}
+    [[ -n "$slug" && -n "$mode" ]] || mep_usage
+    mep_lifecycle_validate_mode "$mode" || mep_usage
+    shift 4
+    json=0
+    dry_run=0
+    while (( $# )); do
+      case "$1" in
+        --json) json=1 ;;
+        --dry-run) dry_run=1 ;;
+        *) mep_usage ;;
+      esac
+      shift
+    done
+    (( json )) || mep_usage
+    mep_dispatch_json mep_mode_set_json "$slug" "$mode" "$dry_run"
+    ;;
+  commit)
+    [[ "${2:-}" == "scope" ]] || mep_usage
+    slug=${3:-}
+    [[ -n "$slug" ]] || mep_usage
+    mep_expect_json_flag "${4:-}"
+    [[ $# == 4 ]] || mep_usage
+    mep_dispatch_json mep_commit_scope_json "$slug"
+    ;;
+  evidence)
+    [[ "${2:-}" == "write" ]] || mep_usage
+    slug=${3:-}
+    evidence_kind=${4:-}
+    evidence_state=${5:-}
+    [[ -n "$slug" && -n "$evidence_kind" && -n "$evidence_state" ]] || mep_usage
+    shift 5
+    json=0
+    dry_run=0
+    detail=
+    while (( $# )); do
+      case "$1" in
+        --json) json=1 ;;
+        --dry-run) dry_run=1 ;;
+        --detail)
+          shift
+          detail=${1:-}
+          [[ -n "$detail" ]] || mep_usage
+          ;;
+        *) mep_usage ;;
+      esac
+      shift
+    done
+    (( json )) || mep_usage
+    mep_dispatch_json mep_evidence_write_json "$slug" "$evidence_kind" "$evidence_state" "$detail" "$dry_run"
     ;;
   events)
     [[ "${2:-}" == "tail" ]] || mep_usage

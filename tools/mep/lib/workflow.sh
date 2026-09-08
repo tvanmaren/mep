@@ -116,8 +116,9 @@ mep_commit_scope_json() {
   writebacks_json=$(mep_finish_required_writebacks_json "$manifest_json" "$markers_json" "$dirty_implementation_json")
   finish_open_json=$(printf '%s' "$writebacks_json" | jq -c '[.[] | select(.kind == "finish_open")]')
 
-  # @provisional — first honest manual stop: open finishes cannot look committable.
-  if [[ "$authorship_mode" == "manual" ]] && [[ "$(printf '%s' "$finish_open_json" | jq 'length')" -gt 0 ]]; then
+  # @provisional — first honest stop: open finishes cannot look committable in manual or autopilot.
+  if [[ "$authorship_mode" == "manual" || "$authorship_mode" == "autopilot" ]] \
+    && [[ "$(printf '%s' "$finish_open_json" | jq 'length')" -gt 0 ]]; then
     jq -cn \
       --arg slug "$slug" \
       --arg briefPath "$brief_rel" \

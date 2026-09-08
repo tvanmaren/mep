@@ -473,4 +473,7 @@ rc=0
 jq -e '.status == "ok" and (.hits | length) == 0' "$tmp" >/dev/null || fail "check scaffolding implied json envelope"
 pass "check scaffolding implied json envelope"
 
+bash "$SRC/scripts/litmus/slice-boundary.sh" --executor stub
+pass "slice-boundary litmus"
+
 pass "run-unix-contract"

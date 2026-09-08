@@ -15,6 +15,9 @@ Current status:
   presentation.
 - Executor contract: pick a preset in `.mep/config`, then pipe `.executionRequest` to
   `mep exec dispatch --json`; only the deterministic `stub` driver ships in-tree.
+- Runtime loop: `mep where <slug> --json | jq -c .executionRequest | mep exec dispatch --json`
+  (optional `--executor <preset>`; in-tree driver is stub). Proof:
+  `bash scripts/litmus/slice-boundary.sh --executor stub`.
 - These docs are copied from `.cursor/skills/mise-en-place/**` so non-Cursor users can inspect the
   framework without relying on Cursor skill discovery.
 - The old `.cursor` files remain live for Cursor until adapter/mirror cutover.

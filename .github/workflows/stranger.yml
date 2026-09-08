@@ -1,4 +1,4 @@
-# @provisional — stranger gate still proving extract
+# @provisional — stranger extract + slice-boundary litmus
 name: stranger
 on:
   push:
@@ -8,8 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: stranger suite
+      - name: install foss test deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y ripgrep
-          bash tools/mep/test/run-stranger.sh
+          sudo apt-get install -y ripgrep jq
+      - name: stranger suite
+        run: bash tools/mep/test/run-stranger.sh
+      - name: slice-boundary litmus
+        run: bash scripts/litmus/slice-boundary.sh --executor stub

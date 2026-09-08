@@ -23,6 +23,15 @@ mep_finish_owned_pathspecs() {
   done < <(printf '%s' "$manifest_json" | jq -r '.ownedPaths[]?')
 }
 
+# @stable — finish markers live on language-comment lines, not bash --flags.
+mep_finish_line_is_language_comment() {
+  local marker_text=$1
+  case "$marker_text" in
+    "//"*|"#"*|"-- "*|"--"|"/*"*|"<!--"*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 mep_finish_marker_lines_json() {
   local manifest_json=$1
   local paths=() path line text marker_text state first=1
@@ -39,10 +48,7 @@ mep_finish_marker_lines_json() {
       *.md|*.json|*.txt|*/test/*|*".test."*|*".spec."*) continue ;;
     esac
     marker_text=$(mep_trim "$text")
-    case "$marker_text" in
-      "//"*|"#"*|"--"*|"/*"*|"<!--"*) ;;
-      *) continue ;;
-    esac
+    mep_finish_line_is_language_comment "$marker_text" || continue
     [[ "$marker_text" =~ @finish:(open|done|ratified) ]] || continue
     state=${BASH_REMATCH[1]}
     if (( first )); then first=0; else printf ','; fi

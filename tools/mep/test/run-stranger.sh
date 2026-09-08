@@ -30,6 +30,16 @@ unset MEP_HISTORY_ROOT_OVERRIDE || true
 pass() { printf 'ok - %s\n' "$1"; }
 fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 
+# verify the root README documents the stranger install contract.
+readme="$SRC/README.md"
+rg -q 'tools/mep/bin/mep' "$readme" || fail "README must invoke tools/mep/bin/mep"
+rg -q -- '--executor stub' "$readme" || fail "README must document --executor stub"
+rg -q 'grok' "$readme" || fail "README must name grok command preset"
+if rg -q 'not shipped yet' "$readme"; then
+  fail "README must not claim unix/litmus unshipped"
+fi
+pass "README stranger install contract"
+
 assert_jq() {
   local expr=$1 input=$2 label=$3
   printf '%s' "$input" | jq -e "$expr" >/dev/null || fail "$label"

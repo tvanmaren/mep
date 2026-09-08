@@ -23,7 +23,13 @@ needs an architecture doc.
 
 ## Getting started
 
-Pick a short slug for the effort (e.g. `sample-payable-precision`).
+New to `mep`? Start with the root [README](../../../README.md) — it explains the vocabulary and
+walks the CLI (`tools/mep/bin/mep`, `--executor stub`) in a couple of minutes. This page assumes
+you've read it and covers the Cursor workflow.
+
+Pick a short slug for the effort (e.g. `sample-payable-precision`) and use it in every command
+below. Your planning notes land under `storage.prepRoot` — **`.mep/prep`** unless the project
+points it somewhere else, like `wiki/prep`.
 
 ```text
 /mep start <slug>    # kick off — greenfield or recover a messy branch
@@ -33,8 +39,9 @@ Pick a short slug for the effort (e.g. `sample-payable-precision`).
 /mep stage <slug>    # verify work and preview the review stack
 ```
 
-That's the main operator surface (`mode` below). `/mep` reads `wiki/prep/<slug>/manifest.json`
-and git, figures out where you are, and routes to the right slash command. You don't memorize
+That's the main operator surface (`mode` below). `/mep` reads the configured prep root
+(default `.mep/prep/<slug>/manifest.json`) and git, figures out where you are, and routes to
+the right slash command. You don't memorize
 phases, slice statuses, or the pipeline.
 
 Typical rhythm (happy path):
@@ -61,7 +68,8 @@ no autonomous commits. After that, you rejoin the forward loop at checkpoint.
 - **Human gates** — the agent stages and audits; you commit and graduate. In default (and
   manual), you also approve each slice before moving on; autopilot defers that to graduation.
 
-Planning artifacts live under `wiki/prep/<slug>/`. The skill itself is docs and gates only;
+Planning artifacts live under `storage.prepRoot` (engine default `.mep/prep/<slug>/`; a host
+may overlay `wiki/prep`). The skill itself is docs and gates only;
 product code goes through `/implement-plan`, scoped to one slice brief at a time.
 
 ## How hands-on do you want to be?

@@ -106,9 +106,9 @@ against git history.
 |---|------------------------|----------------------|----------------------|
 | 1 | `initiativeStatus == graduated` | — (nothing; the effort is done) | finished |
 | 2 | current iteration `sliceType == cleanup`, **or** every iteration `status` ∈ {`committed`, `merged`, `skipped`} | `/prep-cleanup <slug>` | all slices done → final cleanup |
-| 3 | `phase < 5` | `/prep <slug>` | still planning the effort up front |
+| 3 | `phase < 5`, prep is not bootstrapped/handed off, and no current iteration record exists | `/prep <slug>` | still planning the effort up front |
 | 4 | `phase == 5` and `prepDocsBootstrapped == false` | `/commit-prep <slug> docs-bootstrap` | planning done → first save the notes |
-| 5 | `prepDocsBootstrapped == true` **and** `wiki/prep/<slug>/**` (or `masterPlanPath`) has **uncommitted** changes | `/commit-prep <slug> docs-delta` | planning notes changed (a checkpoint hasn't been saved) → save them before moving on |
+| 5 | implement would be next (unbuilt `brief_ready` or open finish) **and** `wiki/prep/<slug>/**` (or `masterPlanPath`) has **uncommitted** changes **and** owned implementation is clean **and** the slice is not yet built | `/commit-prep <slug> docs-delta` | planning notes changed on an implement route → save them before building |
 | 6 | current iteration `status == pending` | `/prep <slug> checkpoint` | the next slice has no plan yet → draft it |
 | 7 | current iteration `status == brief_ready` **and the slice isn't built yet** (no implementation change after the recorded or derivable brief revision; owned files clean) | `/implement-plan <briefPath>` | plan is ready → build the slice |
 | 8 | current iteration's **`status`** isn't `committed`/`merged` yet **and** owned paths contain an **open finish** (`@finish:open` present) | `/implement-plan <briefPath>` | the slice has an unmade decision → author the open finish(es) before it can be committed |
@@ -120,11 +120,11 @@ against git history.
 key on **git, not on a self-attested in-progress status** — the manifest has no `implementing` rung,
 so a slice sits at `brief_ready` straight through its code commit until the checkpoint marks it
 `committed`. Four git-sensitive points, all because the manifest alone is blind to the working tree
-and the commit log: **row 5** catches an uncommitted checkpoint of the **prep-tree docs** (the
-planning analog of a dirty code tree), placed **ahead of most iteration-status rows** so a
-drafted-but-unsaved checkpoint can't be skipped straight into implement — **except** when row 10
-precedence applies (implementation landed on a `brief_ready` slice: `/prep checkpoint` wins over
-docs-delta even if prep docs are dirty mid-session); **row 7's build-guard**
+and the commit log: **row 5** is an **implement interstitial**, not a first-match dirty-prep row —
+unsaved prep-tree docs divert rows 7–8 to docs-delta so a drafted checkpoint cannot skip straight
+into implement. pending, cleanup, and other non-implement routes keep their own rows even when prep
+docs are dirty. **row 10 precedence** still wins when implementation already landed on a
+`brief_ready` slice (`/prep checkpoint` over docs-delta); **row 7's build-guard**
 tells a brief that hasn't been built (no implementation change after the persisted `briefRevision`,
 or after the latest committed change to the brief file when that field is missing → implement) from
 one already built (→ fall through to the commit/checkpoint rows), so a committed-but-not-yet-
@@ -157,13 +157,12 @@ this order (not numeric row order):
 2. row 3 — `phase < 5` when no current iteration record yet
 3. row 4 — docs-bootstrap needed
 4. row 10 precedence — `brief_ready`, post-brief implementation landed, owned code clean → `/prep checkpoint`
-5. row 5 — dirty prep docs, owned implementation clean → docs-delta
-6. row 9 — dirty owned implementation → commit-prep
-7. row 2 — cleanup / all terminal
-8. row 6 — pending → `/prep checkpoint` (plan-only)
-9. rows 7–8 — brief_ready not built / open finish → implement-plan
-10. row 10 — landed fallback → `/prep checkpoint`
-11. row 11 — committed current, recovery plan-only → `/prep checkpoint`
+5. row 9 — dirty owned implementation → commit-prep
+6. row 2 — cleanup / all terminal
+7. row 6 — pending → `/prep checkpoint` (plan-only), even if prep docs are dirty
+8. rows 7–8 — brief_ready not built / open finish → implement-plan, **or** row 5 docs-delta when those routes would fire and only prep docs are dirty
+9. row 10 — landed fallback → `/prep checkpoint`
+10. row 11 — committed current, recovery plan-only → `/prep checkpoint`
 
 **Optional presentation interstitial (non-blocking):** when row 10 fires and no PR description
 file exists for the current iteration under configured `storage.prDescriptionsRoot`, `where --json`

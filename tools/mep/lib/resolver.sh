@@ -36,11 +36,64 @@ mep_execution_request_json() {
   esac
 }
 
+mep_resolver_context_json() {
+  local row='' state='' next='' description='' reason='' warnings_json='[]'
+  local proof_facts_json='{}' optional_steps_json='[]' slug='' execution_target=''
+  while (( $# )); do
+    case "$1" in
+      --row) row=$2 ;;
+      --state) state=$2 ;;
+      --next) next=$2 ;;
+      --description) description=$2 ;;
+      --reason) reason=$2 ;;
+      --warnings-json) warnings_json=$2 ;;
+      --proof-facts-json) proof_facts_json=$2 ;;
+      --optional-steps-json) optional_steps_json=$2 ;;
+      --slug) slug=$2 ;;
+      --execution-target) execution_target=$2 ;;
+      *) return 2 ;;
+    esac
+    shift 2
+  done
+  [[ -n "$row" && -n "$state" && -n "$description" && -n "$reason" ]] || return 2
+  jq -cn \
+    --argjson row "$row" \
+    --arg state "$state" \
+    --arg next "$next" \
+    --arg description "$description" \
+    --arg reason "$reason" \
+    --argjson warnings "$warnings_json" \
+    --argjson proofFacts "$proof_facts_json" \
+    --argjson optionalSteps "$optional_steps_json" \
+    --arg slug "$slug" \
+    --arg executionTarget "$execution_target" \
+    '{
+      row: $row,
+      state: $state,
+      next: $next,
+      description: $description,
+      reason: $reason,
+      warnings: $warnings,
+      proofFacts: $proofFacts,
+      optionalSteps: $optionalSteps,
+      slug: $slug,
+      executionTarget: $executionTarget
+    }'
+}
+
 mep_resolver_json() {
-  local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=${6:-[]} proof_facts_json=${7:-} optional_steps_json=${8:-[]} event_slug=${9:-} event_source=${10:-}
-  local execution_target=${11:-}
-  [[ -n "$proof_facts_json" ]] || proof_facts_json='{}'
-  [[ -n "$optional_steps_json" ]] || optional_steps_json='[]'
+  local context_json=$1
+  local row state next description reason warnings_json proof_facts_json optional_steps_json event_slug execution_target
+  row=$(printf '%s' "$context_json" | jq -c '.row')
+  state=$(printf '%s' "$context_json" | jq -r '.state')
+  next=$(printf '%s' "$context_json" | jq -r '.next')
+  description=$(printf '%s' "$context_json" | jq -r '.description')
+  reason=$(printf '%s' "$context_json" | jq -r '.reason')
+  warnings_json=$(printf '%s' "$context_json" | jq -c '.warnings')
+  proof_facts_json=$(printf '%s' "$context_json" | jq -c '.proofFacts')
+  optional_steps_json=$(printf '%s' "$context_json" | jq -c '.optionalSteps')
+  event_slug=$(printf '%s' "$context_json" | jq -r '.slug')
+  execution_target=$(printf '%s' "$context_json" | jq -r '.executionTarget')
   local execution_request packet
   execution_request=$(mep_execution_request_json "$row" "$event_slug" "$execution_target") || return $?
   # The resolver emits history after deriving the packet; event writes are best-effort and do not feed routing.
@@ -77,27 +130,12 @@ mep_resolver_json() {
       }
     ')
   printf '%s\n' "$packet"
-  mep_event_emit_resolver_routed "$packet" "$event_slug" "$event_source"
+  mep_event_emit_resolver_routed "$packet" "$event_slug" where
 }
 
 mep_where_resolver_json() {
-  local slug=$1
-  shift
-  if (( $# == 6 )); then
-    local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=$6
-    mep_resolver_json "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "" "[]" "$slug" "where"
-  elif (( $# == 7 )); then
-    local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=$6 proof_facts_json=$7
-    mep_resolver_json "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts_json" "[]" "$slug" "where"
-  elif (( $# == 8 )); then
-    local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=$6 proof_facts_json=$7 optional_steps_json=$8
-    mep_resolver_json "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts_json" "$optional_steps_json" "$slug" "where"
-  elif (( $# == 9 )); then
-    local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=$6 proof_facts_json=$7 optional_steps_json=$8 execution_target=$9
-    mep_resolver_json "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts_json" "$optional_steps_json" "$slug" "where" "$execution_target"
-  else
-    return 2
-  fi
+  (( $# == 1 )) || return 2
+  mep_resolver_json "$1"
 }
 
 mep_where_proof_facts_with_presentation_json() {
@@ -122,14 +160,16 @@ mep_where_row10_json() {
     "$predicates_json")
   proof_facts=$(mep_where_proof_facts_with_presentation_json "$slug" "$current_json" "$proof_facts")
   optional_steps=$(mep_pr_optional_steps_json "$slug" "$current_json")
-  mep_where_resolver_json "$slug" 10 \
-    "slice on the branch -> review and plan next" \
-    "/prep $slug checkpoint" \
-    "checkpoint this slice" \
-    "$reason" \
-    "$warnings_json" \
-    "$proof_facts" \
-    "$optional_steps"
+  mep_where_resolver_json "$(mep_resolver_context_json \
+    --row 10 \
+    --state "slice on the branch -> review and plan next" \
+    --next "/prep $slug checkpoint" \
+    --description "checkpoint this slice" \
+    --reason "$reason" \
+    --warnings-json "$warnings_json" \
+    --proof-facts-json "$proof_facts" \
+    --optional-steps-json "$optional_steps" \
+    --slug "$slug")"
 }
 
 mep_where_proof_facts_json() {
@@ -309,17 +349,28 @@ mep_where_emit_or_docs_delta() {
       "$dirty_implementation_json" \
       '{"dirtyScope":"planning","docsDeltaGate":"implement"}' \
       '["dirty_planning_paths","owned_implementation_paths_clean","docs_delta_gates_implement"]')
-    mep_where_resolver_json "$slug" 5 \
-      "planning notes changed -> save them before moving on" \
-      "/commit-prep $slug docs-delta" \
-      "save checkpoint docs" \
-      "resolved implement route blocked by uncommitted planning docs for a slice that is not yet built" \
-      "$warnings_json" \
-      "$proof_facts"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 5 \
+      --state "planning notes changed -> save them before moving on" \
+      --next "/commit-prep $slug docs-delta" \
+      --description "save checkpoint docs" \
+      --reason "resolved implement route blocked by uncommitted planning docs for a slice that is not yet built" \
+      --warnings-json "$warnings_json" \
+      --proof-facts-json "$proof_facts" \
+      --slug "$slug")"
     return 0
   fi
 
-  mep_where_resolver_json "$slug" "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts" "[]" "$brief_path"
+  mep_where_resolver_json "$(mep_resolver_context_json \
+    --row "$row" \
+    --state "$state" \
+    --next "$next" \
+    --description "$description" \
+    --reason "$reason" \
+    --warnings-json "$warnings_json" \
+    --proof-facts-json "$proof_facts" \
+    --slug "$slug" \
+    --execution-target "$brief_path")"
 }
 
 mep_where_json() {
@@ -334,12 +385,14 @@ mep_where_json() {
   warnings_json='[]'
 
   if [[ "$(printf '%s' "$manifest_json" | jq -r '.exists')" != true ]]; then
-    mep_where_resolver_json "$slug" '"precondition"' \
-      "no prep docs yet" \
-      "/prep $slug" \
-      "start planning this effort" \
-      "manifest is absent; treating branch relevance as clean for script parity. human classification is still required when tracked work is relevant." \
-      "$warnings_json"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row '"precondition"' \
+      --state "no prep docs yet" \
+      --next "/prep $slug" \
+      --description "start planning this effort" \
+      --reason "manifest is absent; treating branch relevance as clean for script parity. human classification is still required when tracked work is relevant." \
+      --warnings-json "$warnings_json" \
+      --slug "$slug")"
     return 0
   fi
 
@@ -362,32 +415,38 @@ mep_where_json() {
   all_terminal=$(printf '%s' "$manifest_json" | jq -r '(.iterations | length > 0) and all(.iterations[]; (.status == "committed" or .status == "merged" or .status == "skipped"))')
 
   if [[ "$initiative_status" == graduated ]]; then
-    mep_where_resolver_json "$slug" 1 \
-      "finished" \
-      "" \
-      "nothing to do; the effort is done" \
-      "initiativeStatus is graduated" \
-      "$warnings_json"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 1 \
+      --state "finished" \
+      --next "" \
+      --description "nothing to do; the effort is done" \
+      --reason "initiativeStatus is graduated" \
+      --warnings-json "$warnings_json" \
+      --slug "$slug")"
     return 0
   fi
 
   if (( phase < 5 )) && [[ "$prep_bootstrapped" != true && "$handoff_approved" != true && "$current_json" == "null" ]]; then
-    mep_where_resolver_json "$slug" 3 \
-      "still planning the effort up front" \
-      "/prep $slug" \
-      "continue planning" \
-      "manifest phase is less than 5" \
-      "$warnings_json"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 3 \
+      --state "still planning the effort up front" \
+      --next "/prep $slug" \
+      --description "continue planning" \
+      --reason "manifest phase is less than 5" \
+      --warnings-json "$warnings_json" \
+      --slug "$slug")"
     return 0
   fi
 
   if [[ "$prep_bootstrapped" != true ]]; then
-    mep_where_resolver_json "$slug" 4 \
-      "planning done -> first save the notes" \
-      "/commit-prep $slug docs-bootstrap" \
-      "save the prep docs before implementation" \
-      "phase is 5 and prepDocsBootstrapped is false" \
-      '["deferred by local no-commit-until-graduation policy when manifest deviations say so"]'
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 4 \
+      --state "planning done -> first save the notes" \
+      --next "/commit-prep $slug docs-bootstrap" \
+      --description "save the prep docs before implementation" \
+      --reason "phase is 5 and prepDocsBootstrapped is false" \
+      --warnings-json '["deferred by local no-commit-until-graduation policy when manifest deviations say so"]' \
+      --slug "$slug")"
     return 0
   fi
 
@@ -425,33 +484,39 @@ mep_where_json() {
       "$dirty_implementation_json" \
       '{"dirtyScope":"implementation"}' \
       '["dirty_implementation_paths"]')
-    mep_where_resolver_json "$slug" 9 \
-      "slice built -> stage and commit it" \
-      "/commit-prep $slug" \
-      "prepare the slice for commit" \
-      "owned implementation paths have uncommitted changes" \
-      "$warnings_json" \
-      "$proof_facts"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 9 \
+      --state "slice built -> stage and commit it" \
+      --next "/commit-prep $slug" \
+      --description "prepare the slice for commit" \
+      --reason "owned implementation paths have uncommitted changes" \
+      --warnings-json "$warnings_json" \
+      --proof-facts-json "$proof_facts" \
+      --slug "$slug")"
     return 0
   fi
 
   if [[ "$current_slice_type" == cleanup || "$all_terminal" == true ]]; then
-    mep_where_resolver_json "$slug" 2 \
-      "all slices done -> final cleanup" \
-      "/prep-cleanup $slug" \
-      "finish the effort" \
-      "current iteration is cleanup or every iteration is committed/merged and no scoped dirty state remains" \
-      "$warnings_json"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 2 \
+      --state "all slices done -> final cleanup" \
+      --next "/prep-cleanup $slug" \
+      --description "finish the effort" \
+      --reason "current iteration is cleanup or every iteration is committed/merged and no scoped dirty state remains" \
+      --warnings-json "$warnings_json" \
+      --slug "$slug")"
     return 0
   fi
 
   if [[ "$current_status" == pending || "$current_status" == "" ]]; then
-    mep_where_resolver_json "$slug" 6 \
-      "the next slice has no plan yet -> draft it" \
-      "/prep $slug checkpoint" \
-      "draft the next slice plan" \
-      "current iteration status is pending or missing" \
-      "$warnings_json"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 6 \
+      --state "the next slice has no plan yet -> draft it" \
+      --next "/prep $slug checkpoint" \
+      --description "draft the next slice plan" \
+      --reason "current iteration status is pending or missing" \
+      --warnings-json "$warnings_json" \
+      --slug "$slug")"
     return 0
   fi
 
@@ -525,30 +590,34 @@ mep_where_json() {
 
   if [[ "$current_status" != committed && "$current_status" != merged ]]; then
     if mep_has_open_finish "$manifest_json"; then
-      mep_where_resolver_json "$slug" 8 \
-        "the slice has an unmade decision -> author the open finish(es) before it can be committed" \
-        "/implement-plan $brief_path" \
-        "finish the open decision work" \
-        "owned paths contain @finish:open" \
-        "$warnings_json" \
-        '{}' \
-        '[]' \
-        "$brief_path"
+      mep_where_resolver_json "$(mep_resolver_context_json \
+        --row 8 \
+        --state "the slice has an unmade decision -> author the open finish(es) before it can be committed" \
+        --next "/implement-plan $brief_path" \
+        --description "finish the open decision work" \
+        --reason "owned paths contain @finish:open" \
+        --warnings-json "$warnings_json" \
+        --slug "$slug" \
+        --execution-target "$brief_path")"
       return 0
     fi
-    mep_where_resolver_json "$slug" 10 \
-      "slice on the branch -> review and plan next" \
-      "/prep $slug checkpoint" \
-      "checkpoint this slice" \
-      "owned paths are clean after implementation-status rows" \
-      "$warnings_json"
+    mep_where_resolver_json "$(mep_resolver_context_json \
+      --row 10 \
+      --state "slice on the branch -> review and plan next" \
+      --next "/prep $slug checkpoint" \
+      --description "checkpoint this slice" \
+      --reason "owned paths are clean after implementation-status rows" \
+      --warnings-json "$warnings_json" \
+      --slug "$slug")"
     return 0
   fi
 
-  mep_where_resolver_json "$slug" 11 \
-    "this slice is done -> review and plan the next" \
-    "/prep $slug checkpoint" \
-    "checkpoint and plan the next slice" \
-    "current iteration status is committed or merged while later work remains" \
-    "$warnings_json"
+  mep_where_resolver_json "$(mep_resolver_context_json \
+    --row 11 \
+    --state "this slice is done -> review and plan the next" \
+    --next "/prep $slug checkpoint" \
+    --description "checkpoint and plan the next slice" \
+    --reason "current iteration status is committed or merged while later work remains" \
+    --warnings-json "$warnings_json" \
+    --slug "$slug")"
 }

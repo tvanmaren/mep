@@ -14,4 +14,7 @@ executors.presets.claude-code.kind=command
 executors.presets.claude-code.command=claude
 executors.presets.codex.kind=command
 executors.presets.codex.command=codex
+# grok TUI is a standalone harness (not the Cursor Grok model).
+executors.presets.grok.kind=command
+executors.presets.grok.command=grok
 # Optional non-secret hints use executors.presets.<name>.env.<NAME>=value.

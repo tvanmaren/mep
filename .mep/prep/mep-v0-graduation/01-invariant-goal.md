@@ -41,7 +41,7 @@ executor is pointless — there is no "solo" product mode.
 policy        → authority + evidence rules (manual | default | autopilot)
 runtime       → mep CLI: state, routing, requests, validation (keyless)
 executionRequest → neutral packet: kind, target, argv, authority, evidence
-executor      → user-configured adapter (cursor, claude-code, codex, stub, …)
+executor      → user-configured adapter (cursor, claude-code, codex, grok, stub, …)
 evidence      → diff, tests, markers, review body, checkpoint result
 history       → event ledger
 ```
@@ -88,6 +88,6 @@ read/write document-colocated state; eliminate `manifest.json`.
 ## Open questions (defer to briefs)
 
 - **Executor adapter audit (iteration 3):** which presets to ship v0.1 (`cursor`, `claude-code`,
-  `codex`, `stub`, …) and what minimal override surface each exposes — audit in brief, not here.
+  `codex`, `grok`, `stub`, …) and what minimal override surface each exposes — audit in brief, not here.
 - File-watcher runtime for manual finishes — post-v0.1.0 unless it falls out of marker work.
 - AUR/packaging — explicitly out of v0.1.0 scope.

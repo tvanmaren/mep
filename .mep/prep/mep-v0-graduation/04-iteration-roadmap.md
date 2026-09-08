@@ -344,7 +344,8 @@ initiative — minimal config, no MEP-hosted keys.
 **Epistemic transition:** getting started is preset + optional override, not dotfile archaeology.
 
 **Checkpoint:** documented install; smoke script passes with `--executor stub` (CI) and documented path
-for at least one real preset (e.g. cursor); stranger guide ≤5 setup steps.
+for at least one real preset (e.g. cursor **or grok TUI** — `grok` is already a named command contract,
+no in-tree driver); stranger guide ≤5 setup steps.
 
 **Status:** pending
 

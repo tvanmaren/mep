@@ -154,6 +154,7 @@ jq -e '
   and .executors.presets.cursor == {kind:"command",command:"cursor"}
   and .executors.presets["claude-code"] == {kind:"command",command:"claude"}
   and .executors.presets.codex == {kind:"command",command:"codex"}
+  and .executors.presets.grok == {kind:"command",command:"grok"}
 ' "$tmp" >/dev/null || fail "config dump executor presets"
 pass "config dump envelope exit 0"
 

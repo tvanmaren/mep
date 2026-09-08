@@ -30,7 +30,7 @@
 | I7 | FOSS `default.json` review-input paths; `check scaffolding` implied `--json` | envelope is identity (C7); these are tactics |
 | I8 | `mep_where_resolver_json` / `mep_resolver_json` positional arity (incl. implement `execution_target`) | **collapsed** in `8e4d880` — named `mep_resolver_context_json`; keep as history, not a live fanout |
 | I11 | finish-scan comment prefixes (`-- ` SQL vs `--flag`) | **closed** in `f749db1` — `mep_finish_line_is_language_comment` |
-| I9 | stub primitive template strings; `.mep/history/evidence.jsonl`; documented command-preset names | invoke seam is C9; these are spellings and overlay labels |
+| I9 | stub primitive template strings; `.mep/history/evidence.jsonl`; documented command-preset names | invoke seam is C9; spellings now include `grok` (TUI harness) alongside cursor / claude-code / codex; still no live driver |
 | I10 | unix-contract optionally invoking litmus; stranger job name; fixture-demo as the litmus seed | the gate is C10; these are CI/fixture tactics |
 
 ## Amendments
@@ -48,3 +48,4 @@
 | 4 | `051df03` slice-boundary litmus on stranger workflow | promoted C10; registered I10; category = composition gate, not canned LLM |
 | 5 | `8e4d880` named context + golden matrix; glossary row 5 = implement interstitial | confirmed C8; I8 collapsed; live slug still row-8 until 5b; registered I11 |
 | 5b | `f749db1` `-- ` vs `--flag` in finish-scan | I11 closed; `--fix` could not mark committed (briefRevision landed after impl); human-closed |
+| oob | grok named as command preset (`command=grok`) | I9 hydration — TUI harness on the audit table; no live driver; iter 9 must not drop it |

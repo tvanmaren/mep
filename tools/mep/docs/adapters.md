@@ -24,6 +24,8 @@ executors.presets.stub.command=internal:stub
 executors.presets.cursor.kind=command
 executors.presets.cursor.command=cursor
 executors.presets.cursor.env.EXAMPLE_HINT=value
+executors.presets.grok.kind=command
+executors.presets.grok.command=grok
 ```
 
 Preset names are extensible. Each preset has `kind` and `command`; optional
@@ -42,6 +44,7 @@ requires a working live driver. Prompt bodies and API keys are never adapter ove
 | `cursor` | command contract for a Cursor host adapter | no |
 | `claude-code` | command contract for a Claude Code host adapter | no |
 | `codex` | command contract for a Codex host adapter | no |
+| `grok` | command contract for the Grok TUI / standalone harness (not Cursor-hosted Grok) | no |
 
 Only `stub` executes in-tree. Selecting a documented command preset returns
 `blocked` / `executor_driver_unavailable` until an external host adapter is supplied.

@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 3,
+  "currentIteration": 4,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -84,19 +84,22 @@
       "number": 3,
       "title": "Workflow CLI primitives & executor adapters",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/03-workflow-cli-primitives.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "lifecycle representable in shell; LLM via configured executors only",
       "maturityTarget": "provisional -> stable",
-      "blocksProductWork": true
+      "blocksProductWork": true,
+      "briefRevision": "41f92a9177ad512064a62305fa94a48d4cf1d05c",
+      "implementationRevision": "cafdc85825d1e124939127d747796d02b6042d7d",
+      "checkpointRevision": "cafdc85825d1e124939127d747796d02b6042d7d"
     },
     {
       "number": 4,
       "title": "Shell litmus & pipe harness",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/04-shell-litmus-pipe-harness.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -260,6 +263,12 @@
       "iteration": 0,
       "summary": "extract landed in founding commit 8ae1f24 with the brief; checkpoint --fix could not prove post-brief implementation; human-closed at checkpoint",
       "evidence": "8ae1f246b0bf509fd128445eeed01b9ff48f2995"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 3,
+      "summary": "stub is deterministic accept/block, not canned classifier/diff replay; iter 4 litmus may only compose public mep verbs",
+      "evidence": "cafdc858"
     }
   ]
 }

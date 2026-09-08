@@ -26,19 +26,21 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 13, 14**. **2–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 13, 14**. **4–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
 | 0 | closed at checkpoint — extract lives on `tvanmaren/mep` (`8ae1f24`); stranger CI green; no post-brief implementation SHA (founding commit bundled brief + tree) |
 | 1 | committed — `b0886e5`; envelope + exit map; `run-unix-contract.sh` |
-| 2–12 | not satisfied — no `executionRequest`; no slice-boundary litmus |
+| 2 | committed — `210c716`; row-derived `executionRequest` |
+| 3 | committed — `cafdc858`; `exec dispatch` + stub + workflow verbs; command presets fail closed |
+| 4–12 | not satisfied — no slice-boundary litmus CI |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | forbidden until iter 4 litmus in the **standalone** repo |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **2** (executor-neutral routing). Not 15.
+**Next implement:** iteration **4** (shell litmus). Not 15.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -47,10 +49,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 13, 14**
 | C1–C5 | 13 (locked); 15 must not regress |
 | C6 | 0 (core lock) |
 | C7 | 1 (core lock) |
+| C8 | 2 (core lock) |
+| C9 | 3 (core lock) |
 | I1–I3 | 13 skeleton; hydration skip-unless-gated |
 | I4 | 5 (golden matrix) — do not treat as slice-14 proof |
 | I5–I6 | 0 skeleton (finishes, not identity) |
 | I7 | 1 (seed paths / scaffolding flag tactic) |
+| I8 | 5 (resolver arity) — wait; do not fold into 4 |
+| I9 | 3 (spellings / overlay labels) |
 
 ---
 
@@ -63,11 +69,11 @@ executor layer:
 |-------|------|--------------|
 | **runtime** | `executionRequest`, evidence validation, routing | API keys, prompts, vendor SDKs |
 | **executor adapter** | dispatch to cursor / claude / codex / … | manifest semantics, resolver rows |
-| **stub executor** | CI litmus — replays canned classification + diff | product operator path |
+| **stub executor** | CI / FOSS test double — accept/block on a valid `executionRequest` | product operator path; canned LLM replay |
 
 **User setup (v0.1 target):** pick a preset in `.mep/config`, optional bare-minimum overrides (binary
-path, env profile name) — not a framework config dump. Iteration 3 includes an **adapter audit**
-(canonical presets, override schema, getting-started doc).
+path, env profile name) — not a framework config dump. Iteration 3 shipped the **adapter audit**
+(canonical presets, override schema, getting-started sentence).
 
 **Authorship modes (unchanged):** `manual` | `default` | `autopilot` — all assume an LLM-capable
 executor for classification, `@mise` boilerplate, audit, and (in autopilot) sub-agents. **Manual is
@@ -185,14 +191,14 @@ usage/diagnostics, **exit codes aligned with JSON status**, help/version, comman
 
 **Checkpoint:** each resolver row maps to ≥1 CLI primitive or evidence write; `mep exec dispatch --executor stub` works; adapter audit doc lands.
 
-**Status:** brief_ready — `iterations/03-workflow-cli-primitives.md`
+**Status:** committed — `cafdc858`
 
 ---
 
 ## Iteration 4 — Shell litmus & pipe harness
 
-**Goal:** Prove Unix compliance in CI using **`--executor stub`** — a test double that replays canned
-classification, diffs, and markers. **Not** a claim that humans replace LLM work.
+**Goal:** Prove Unix compliance in CI by **composing public `mep` verbs** against `--executor stub`.
+Not a claim that humans replace LLM work; not a canned classifier inside the harness.
 
 **Brief:** `iterations/04-shell-litmus-pipe-harness.md`
 
@@ -201,24 +207,24 @@ classification, diffs, and markers. **Not** a claim that humans replace LLM work
 **Irreversible decision:** `scripts/litmus/slice-boundary.sh --executor stub` is required CI for v0.1.0.
 
 **Approach:**
-- Pipe recipes in test suite: `mep where … | jq … | xargs mep exec dispatch …`.
-- Litmus: where → executionRequest → **stub executor** → evidence → commit scope → checkpoint → where.
+- Pipe recipes: `mep where … | jq -c .executionRequest | mep exec dispatch --json --executor stub`.
+- Litmus walk (temp workspace, not the committed fixture tree): where → dispatch stub → evidence write → commit scope → checkpoint → where.
 - Litmus **only composes** `mep` verbs shipped in iter 3. if a packet is still missing, this slice extracts it as CLI — it must not hide product functions in `scripts/litmus/`.
-- Optional local smoke (non-CI): `--executor cursor` or other preset when user has credentials.
-- README: runtime-first loop; executor preset as step 2 of getting started.
+- Optional local smoke (non-CI): `--executor cursor` or other preset when the operator has credentials.
+- Docs: one getting-started sentence that the runtime loop is `where` → `exec dispatch`.
 
 **Litmus test (v0.1 CI gate):**
 
 ```bash
-# proves plumbing — stub replays LLM outcomes; NOT a no-LLM product path
-scripts/litmus/slice-boundary.sh --executor stub prep/fixture-demo
+# proves plumbing — stub accept/block; NOT a no-LLM product path
+scripts/litmus/slice-boundary.sh --executor stub
 ```
 
-**Avoid:** inventing commit-scope / evidence-write as harness internals; live-vendor CI.
+**Avoid:** inventing commit-scope / evidence-write as harness internals; live-vendor CI; I8 arity collapse.
 
 **Checkpoint:** litmus passes in standalone repo CI; epic unix DoD satisfied.
 
-**Status:** pending
+**Status:** brief_ready — `iterations/04-shell-litmus-pipe-harness.md`
 
 ---
 

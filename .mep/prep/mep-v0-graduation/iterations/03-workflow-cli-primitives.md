@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/03-workflow-cli-primitives.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** behavioral  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -55,17 +55,17 @@ Milestone U late. Iter 4 may pipe `where` → `exec dispatch --executor stub`. i
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `mep exec dispatch --json` accepts an `executionRequest` object (stdin or flag); does not parse `nextCommand`
-- [ ] `--executor stub` returns a deterministic json packet (`ok` / documented stub result) without network or model calls
-- [ ] `.mep/config` documents `executors.default` and `executors.presets.<name>` (`kind`, `command`, env hints — no secrets)
-- [ ] adapter audit doc lands: cursor, claude-code, codex, stub as preset rows; extensible registry; overrides = binary path / profile / timeout only
-- [ ] `mep mode set <slug> <manual|default|autopilot> --json` writes authorship mode (initiative default)
-- [ ] `mep implement --json <briefPath>` is **read-only** constitution/scope packet — does not fulfill the brief
-- [ ] each current `executionRequest.kind` maps to ≥1 CLI primitive or evidence write (`prep` / `implement` / `commit_prep` / `checkpoint` / `cleanup` / `none`)
-- [ ] `mep commit scope <slug> --json` and `mep evidence write --json` exist as packets (even if thin)
-- [ ] `--dry-run` on effectful new verbs
-- [ ] unix-contract + stranger still `status=ok`; no keys in config; no vendor code in `resolver.sh`
-- [ ] no `scripts/litmus/`; no golden-matrix rewrite
+- [x] `mep exec dispatch --json` accepts an `executionRequest` object (stdin or flag); does not parse `nextCommand`
+- [x] `--executor stub` returns a deterministic json packet (`ok` / documented stub result) without network or model calls
+- [x] `.mep/config` documents `executors.default` and `executors.presets.<name>` (`kind`, `command`, env hints — no secrets)
+- [x] adapter audit doc lands: cursor, claude-code, codex, stub as preset rows; extensible registry; overrides = binary path / profile / timeout only
+- [x] `mep mode set <slug> <manual|default|autopilot> --json` writes authorship mode (initiative default)
+- [x] `mep implement --json <briefPath>` is **read-only** constitution/scope packet — does not fulfill the brief
+- [x] each current `executionRequest.kind` maps to ≥1 CLI primitive or evidence write (`prep` / `implement` / `commit_prep` / `checkpoint` / `cleanup` / `none`)
+- [x] `mep commit scope <slug> --json` and `mep evidence write --json` exist as packets (even if thin)
+- [x] `--dry-run` on effectful new verbs
+- [x] unix-contract + stranger still `status=ok`; no API keys in config; no vendor code in `resolver.sh`
+- [x] no `scripts/litmus/`; no golden-matrix rewrite
 
 ## Finish-map (fragment classification)
 
@@ -103,9 +103,9 @@ Milestone U late. Iter 4 may pipe `where` → `exec dispatch --executor stub`. i
 
 ## RED-phase gates (before GREEN)
 
-- [ ] no `mep exec` in the registry yet
-- [ ] `where --json` already has `executionRequest` (C8) — consume it, do not re-derive from slash
-- [ ] no executor keys in `.mep/config` yet (or only if engine defaults are absent — prove before adding)
+- [x] no `mep exec` was in the registry before GREEN
+- [x] `where --json` already had `executionRequest` (C8) — consumed directly; not re-derived from slash
+- [x] no executor keys existed in `.mep/config` before GREEN
 
 ## Approach
 
@@ -149,23 +149,23 @@ Milestone U late. Iter 4 may pipe `where` → `exec dispatch --executor stub`. i
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: `exec dispatch` consumes the C8 object as-is; in-tree live driver is stub accept/block; command presets fail closed (`executor_driver_unavailable`) and are never `eval`'d.
+- Coupling increased: every execution kind must have a stub primitive spelling that matches a registry verb (prep/cleanup = positional `evidence write`, not `--kind`).
+- Harder to change: adding a resolver kind without a dispatch primitive + registry row fails the unix-contract map.
+- Easier to change: iter 4 can pipe `where` → `jq .executionRequest` → `exec dispatch --executor stub` without inventing product in a harness.
+- **Promote to core:** runtime invoke is `mep exec dispatch` + preset; stub is the only in-tree driver (C9).
+- **Newly interchangeable:** stub primitive *template* strings; evidence.jsonl path; documented command-preset names (cursor / claude-code / codex).
+- **Falsified:** none of C1–C8. “stub replays canned classification” did not land — stub is deterministic acceptance.
 
 ## Checkpoint
 
-**Seam smell test:** category = dispatch from `executionRequest`. fail if only a new slash alias lands.
+**Seam smell test:** category closed — dispatch from `executionRequest`, all six kinds map, command presets blocked. not a slash alias.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 3`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 4 brief
+- [x] `/commit-prep mep-v0-graduation` — code scope
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 3`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 4 brief
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

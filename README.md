@@ -32,11 +32,11 @@ A host may overlay those paths (for example `wiki/prep`) in `.mep/config`. That 
 ## Workflow
 
 ```text
-mep where <slug>
-mep next <slug>
+mep where <slug> --json
+mep exec dispatch --json --executor stub
 ```
 
-Unix foundation, executor presets, and v0.1.0 packaging are **not shipped yet**. See `.mep/prep/mep-v0-graduation/04-iteration-roadmap.md`.
+`where` emits `executionRequest`. `exec dispatch` is the invoke seam; only the stub driver ships in-tree. Slice-boundary litmus and v0.1.0 packaging are **not** shipped yet. See `.mep/prep/mep-v0-graduation/04-iteration-roadmap.md`.
 
 ## License
 

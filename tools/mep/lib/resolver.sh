@@ -1,10 +1,48 @@
 #!/usr/bin/env bash
 
+mep_execution_request_json() {
+  local row=$1 slug=$2 brief_path=${3:-}
+
+  # @stable — resolver rows, not adapter command strings, define the public execution request.
+  case "$row" in
+    '"precondition"'|3)
+      jq -cn --arg target "$slug" '{kind:"prep",target:$target,argv:[]}'
+      ;;
+    1)
+      jq -cn '{kind:"none",target:null,argv:[]}'
+      ;;
+    2)
+      jq -cn --arg target "$slug" '{kind:"cleanup",target:$target,argv:[]}'
+      ;;
+    4)
+      jq -cn --arg target "$slug" '{kind:"commit_prep",target:$target,argv:["docs-bootstrap"]}'
+      ;;
+    5)
+      jq -cn --arg target "$slug" '{kind:"commit_prep",target:$target,argv:["docs-delta"]}'
+      ;;
+    6|10|11)
+      jq -cn --arg target "$slug" '{kind:"checkpoint",target:$target,argv:[]}'
+      ;;
+    7|8)
+      [[ -n "$brief_path" ]] || return 70
+      jq -cn --arg target "$brief_path" '{kind:"implement",target:$target,argv:[$target]}'
+      ;;
+    9)
+      jq -cn --arg target "$slug" '{kind:"commit_prep",target:$target,argv:[]}'
+      ;;
+    *)
+      return 70
+      ;;
+  esac
+}
+
 mep_resolver_json() {
   local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=${6:-[]} proof_facts_json=${7:-} optional_steps_json=${8:-[]} event_slug=${9:-} event_source=${10:-}
+  local execution_target=${11:-}
   [[ -n "$proof_facts_json" ]] || proof_facts_json='{}'
   [[ -n "$optional_steps_json" ]] || optional_steps_json='[]'
-  local packet
+  local execution_request packet
+  execution_request=$(mep_execution_request_json "$row" "$event_slug" "$execution_target") || return $?
   # The resolver emits history after deriving the packet; event writes are best-effort and do not feed routing.
   packet=$(jq -cn \
     --argjson row "$row" \
@@ -15,12 +53,14 @@ mep_resolver_json() {
     --argjson warnings "$warnings_json" \
     --argjson facts "$proof_facts_json" \
     --argjson optionalSteps "$optional_steps_json" \
+    --argjson executionRequest "$execution_request" \
     '
       {
         status: "ok",
         row: $row,
         state: $state,
         nextCommand: (if $next == "" then null else $next end),
+        executionRequest: $executionRequest,
         description: $description,
         reason: $reason,
         warnings: $warnings,
@@ -31,6 +71,7 @@ mep_resolver_json() {
           source: "resolver",
           row: $row,
           nextCommand: (if $next == "" then null else $next end),
+          executionRequest: $executionRequest,
           facts: $facts
         }
       }
@@ -51,6 +92,9 @@ mep_where_resolver_json() {
   elif (( $# == 8 )); then
     local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=$6 proof_facts_json=$7 optional_steps_json=$8
     mep_resolver_json "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts_json" "$optional_steps_json" "$slug" "where"
+  elif (( $# == 9 )); then
+    local row=$1 state=$2 next=$3 description=$4 reason=$5 warnings_json=$6 proof_facts_json=$7 optional_steps_json=$8 execution_target=$9
+    mep_resolver_json "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts_json" "$optional_steps_json" "$slug" "where" "$execution_target"
   else
     return 2
   fi
@@ -252,6 +296,7 @@ mep_where_emit_or_docs_delta() {
   local manifest_json=$9 current_status=${10} effective_brief_revision=${11}
   local dirty_planning_json=${12} dirty_implementation_json=${13}
   local current_json=${14} dirty_owned_json=${15}
+  local brief_path=${16}
 
   if [[ "$row" == 7 || "$row" == 8 ]] \
     && [[ "$(printf '%s' "$dirty_planning_json" | jq 'length')" != 0 ]] \
@@ -274,7 +319,7 @@ mep_where_emit_or_docs_delta() {
     return 0
   fi
 
-  mep_where_resolver_json "$slug" "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts"
+  mep_where_resolver_json "$slug" "$row" "$state" "$next" "$description" "$reason" "$warnings_json" "$proof_facts" "[]" "$brief_path"
 }
 
 mep_where_json() {
@@ -432,7 +477,8 @@ mep_where_json() {
         "$dirty_planning_json" \
         "$dirty_implementation_json" \
         "$current_json" \
-        "$dirty_owned_json"
+        "$dirty_owned_json" \
+        "$brief_path"
       return 0
     fi
     landed_evidence=$(mep_where_slice_implementation_landed_evidence_json \
@@ -472,7 +518,8 @@ mep_where_json() {
       "$dirty_planning_json" \
       "$dirty_implementation_json" \
       "$current_json" \
-      "$dirty_owned_json"
+      "$dirty_owned_json" \
+      "$brief_path"
     return 0
   fi
 
@@ -483,7 +530,10 @@ mep_where_json() {
         "/implement-plan $brief_path" \
         "finish the open decision work" \
         "owned paths contain @finish:open" \
-        "$warnings_json"
+        "$warnings_json" \
+        '{}' \
+        '[]' \
+        "$brief_path"
       return 0
     fi
     mep_where_resolver_json "$slug" 10 \

@@ -15,8 +15,7 @@ same inputs, resolves the same row, and performs the described procedure directl
 ## Resolver API
 
 `tools/mep/bin/mep where <slug> --json` is the public resolver API for now. Do not add a separate
-`resolve` command until an adapter needs a distinct verb; `where --json` already returns the concrete
-next command and the machine-facing proof needed by non-Cursor runtimes.
+`resolve` command until an adapter needs a distinct verb.
 
 Every successful `where --json` packet includes:
 
@@ -24,6 +23,11 @@ Every successful `where --json` packet includes:
 {
   "status": "ok",
   "row": 7,
+  "executionRequest": {
+    "kind": "implement",
+    "target": "wiki/prep/demo/iterations/01-ready.md",
+    "argv": ["wiki/prep/demo/iterations/01-ready.md"]
+  },
   "nextCommand": "/implement-plan wiki/prep/demo/iterations/01-ready.md",
   "reason": "human-facing prose",
   "proof": {
@@ -31,6 +35,11 @@ Every successful `where --json` packet includes:
     "api": "where",
     "source": "resolver",
     "row": 7,
+    "executionRequest": {
+      "kind": "implement",
+      "target": "wiki/prep/demo/iterations/01-ready.md",
+      "argv": ["wiki/prep/demo/iterations/01-ready.md"]
+    },
     "nextCommand": "/implement-plan wiki/prep/demo/iterations/01-ready.md",
     "facts": {
       "manifest": {
@@ -62,8 +71,15 @@ Every successful `where --json` packet includes:
 }
 ```
 
-`reason` is for operators. `proof` is for adapters, events, tests, and future replay. Consumers should
-key on `proof.version`, `proof.api`, `proof.row`, and named `facts` fields, not parse `reason`.
+`executionRequest` is the durable routing field. It has exactly `kind`, `target`, and `argv`;
+`proof.executionRequest` is identical to the envelope field. The resolver derives it from the selected
+row, never by parsing `nextCommand`. Kinds are `implement`, `checkpoint`, `commit_prep`, `prep`,
+`cleanup`, and `none`; `target` is the brief path or slug, and is null only for `none`.
+
+`nextCommand` remains optional adapter presentation for Cursor and may be null. Non-Cursor consumers
+must dispatch from `executionRequest`, not parse the slash string. `reason` is for operators. `proof`
+is for adapters, events, tests, and future replay; consumers should key on `proof.version`,
+`proof.api`, `proof.row`, `proof.executionRequest`, and named `facts` fields.
 Proof field names stay revision-neutral (`briefRevision`, `implementationRevision`, `change`) rather
 than git-shaped (`commit`).
 

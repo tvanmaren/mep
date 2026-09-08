@@ -19,6 +19,36 @@ fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 . "$REG"
 # shellcheck source=/dev/null
 . "$SRC/tools/mep/lib/deps.sh"
+# shellcheck source=/dev/null
+. "$SRC/tools/mep/lib/resolver.sh"
+
+# @provisional — lock the row-derived request while routing adapters are still being built.
+assert_execution_request() {
+  local row=$1 slug=$2 brief_path=$3 expected=$4 actual
+  actual=$(mep_execution_request_json "$row" "$slug" "$brief_path") || fail "request row $row emitted"
+  jq -en \
+    --argjson actual "$actual" \
+    --argjson expected "$expected" \
+    '$actual == $expected and ($actual | keys | sort) == ["argv", "kind", "target"]' \
+    >/dev/null || fail "request row $row shape"
+}
+
+assert_execution_request '"precondition"' demo "" '{"kind":"prep","target":"demo","argv":[]}'
+assert_execution_request 1 demo "" '{"kind":"none","target":null,"argv":[]}'
+assert_execution_request 2 demo "" '{"kind":"cleanup","target":"demo","argv":[]}'
+assert_execution_request 3 demo "" '{"kind":"prep","target":"demo","argv":[]}'
+assert_execution_request 4 demo "" '{"kind":"commit_prep","target":"demo","argv":["docs-bootstrap"]}'
+assert_execution_request 5 demo "" '{"kind":"commit_prep","target":"demo","argv":["docs-delta"]}'
+assert_execution_request 6 demo "" '{"kind":"checkpoint","target":"demo","argv":[]}'
+assert_execution_request 7 demo brief.md '{"kind":"implement","target":"brief.md","argv":["brief.md"]}'
+assert_execution_request 8 demo brief.md '{"kind":"implement","target":"brief.md","argv":["brief.md"]}'
+assert_execution_request 9 demo "" '{"kind":"commit_prep","target":"demo","argv":[]}'
+assert_execution_request 10 demo "" '{"kind":"checkpoint","target":"demo","argv":[]}'
+assert_execution_request 11 demo "" '{"kind":"checkpoint","target":"demo","argv":[]}'
+rc=0
+mep_execution_request_json 12 demo "" >/dev/null || rc=$?
+[[ "$rc" == 70 ]] || fail "unknown request row fails internal (got $rc)"
+pass "execution request row map"
 
 # subshell: mep_exit_for_status always exits
 assert_map() {
@@ -125,8 +155,55 @@ rc=0
 [[ "$rc" == 0 ]] || fail "where fixture-demo exit 0 (got $rc)"
 [[ ! -s "$err" ]] || fail "where success stderr empty"
 jq -e '.status == "ok"' "$tmp" >/dev/null || fail "where status ok"
-jq -e 'has("executionRequest") | not' "$tmp" >/dev/null || fail "no executionRequest"
-pass "where fixture-demo envelope exit 0"
+jq -e '
+  .executionRequest == .proof.executionRequest
+  and (.executionRequest | keys | sort) == ["argv", "kind", "target"]
+  and .executionRequest == {
+    kind: "implement",
+    target: ".mep/prep/fixture-demo/iterations/01-ready.md",
+    argv: [".mep/prep/fixture-demo/iterations/01-ready.md"]
+  }
+  and (.nextCommand | startswith("/implement-plan "))
+' "$tmp" >/dev/null || fail "where fixture-demo execution request"
+pass "where fixture-demo durable execution request"
+
+route_fx=$(mktemp -d)
+mkdir -p "$route_fx/.mep/prep/commit-prep-fx"
+cat >"$route_fx/.mep/prep/commit-prep-fx/manifest.json" <<'JSON'
+{
+  "slug": "commit-prep-fx",
+  "schemaVersion": 1,
+  "framework": "mise-en-place",
+  "phase": 5,
+  "phaseApproved": {"1": true, "2": true, "3": true, "4": true, "5": true},
+  "initiativeStatus": "active",
+  "prepDocsBootstrapped": false,
+  "currentIteration": 1,
+  "ownedPaths": [".mep/prep/commit-prep-fx/**"],
+  "iterations": [{"number": 1, "title": "Bootstrap fixture", "briefPath": ".mep/prep/commit-prep-fx/iterations/01.md", "status": "pending", "sliceType": "behavioral"}]
+}
+JSON
+git -C "$route_fx" init -q -b main
+git -C "$route_fx" config user.email "mep@test"
+git -C "$route_fx" config user.name "mep"
+git -C "$route_fx" config commit.gpgsign false
+git -C "$route_fx" add -A
+git -C "$route_fx" commit -q -m "commit-prep routing fixture"
+rc=0
+MEP_REPO_ROOT_OVERRIDE="$route_fx" "$MEP" where commit-prep-fx --json >"$tmp" 2>"$err" || rc=$?
+rm -rf "$route_fx"
+[[ "$rc" == 0 ]] || fail "where commit-prep fixture exit 0 (got $rc)"
+[[ ! -s "$err" ]] || fail "where commit-prep fixture stderr empty"
+jq -e '
+  .status == "ok"
+  and .row == 4
+  and .executionRequest == .proof.executionRequest
+  and .executionRequest == {kind: "commit_prep", target: "commit-prep-fx", argv: ["docs-bootstrap"]}
+  and (.executionRequest | keys | sort) == ["argv", "kind", "target"]
+  and ([.executionRequest.kind] - ["implement", "checkpoint", "commit_prep", "prep", "cleanup", "none"] | length) == 0
+  and (.nextCommand | startswith("/commit-prep "))
+' "$tmp" >/dev/null || fail "where commit-prep execution request"
+pass "where commit-prep row-derived execution request"
 
 rc=0
 "$MEP" checkpoint __no-such-slug__ --json >"$tmp" 2>"$err" || rc=$?

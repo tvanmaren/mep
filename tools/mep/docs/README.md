@@ -10,6 +10,9 @@ Current status:
   JSON `status` — `ok`/`clean` 0; `desync`/`gated`/`warning` 1; `blocked`/`missing_dependency` 2;
   `not_found` 3; usage 64; internal 70. Registry: `tools/mep/lib/registry.sh`. Proof:
   `bash tools/mep/test/run-unix-contract.sh`.
+- Routing contract: successful `mep where <slug> --json` packets expose the row-derived
+  `executionRequest` (`kind`, `target`, `argv`) as the durable action; `nextCommand` is Cursor adapter
+  presentation.
 - These docs are copied from `.cursor/skills/mise-en-place/**` so non-Cursor users can inspect the
   framework without relying on Cursor skill discovery.
 - The old `.cursor` files remain live for Cursor until later adapter/mirror cutover slices.

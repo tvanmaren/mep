@@ -12,6 +12,52 @@ Cursor slash commands are adapters. The durable behavior is the state contract b
 Use the resolver table in `glossary.md` as the single source of truth. A non-Cursor harness reads the
 same inputs, resolves the same row, and performs the described procedure directly.
 
+## Resolver API
+
+`tools/mep/bin/mep where <slug> --json` is the public resolver API for now. Do not add a separate
+`resolve` command until an adapter needs a distinct verb.
+
+Every successful `where --json` packet includes:
+
+```json
+{
+  "status": "ok",
+  "row": 7,
+  "executionRequest": {
+    "kind": "implement",
+    "target": "wiki/prep/demo/iterations/01-ready.md",
+    "argv": ["wiki/prep/demo/iterations/01-ready.md"]
+  },
+  "nextCommand": "/implement-plan wiki/prep/demo/iterations/01-ready.md",
+  "reason": "human-facing prose",
+  "proof": {
+    "version": 1,
+    "api": "where",
+    "source": "resolver",
+    "row": 7,
+    "executionRequest": {
+      "kind": "implement",
+      "target": "wiki/prep/demo/iterations/01-ready.md",
+      "argv": ["wiki/prep/demo/iterations/01-ready.md"]
+    },
+    "nextCommand": "/implement-plan wiki/prep/demo/iterations/01-ready.md",
+    "facts": {
+      "...": "resolver facts"
+    }
+  }
+}
+```
+
+`executionRequest` is the durable routing field. It has exactly `kind`, `target`, and `argv`;
+`proof.executionRequest` is identical to the envelope field. The resolver derives it from the selected
+row, never by parsing `nextCommand`. Kinds are `implement`, `checkpoint`, `commit_prep`, `prep`,
+`cleanup`, and `none`; `target` is the brief path or slug, and is null only for `none`.
+
+`nextCommand` remains optional adapter presentation for Cursor and may be null. Non-Cursor consumers
+must dispatch from `executionRequest`, not parse the slash string. `reason` is for operators. `proof`
+is for adapters, events, tests, and future replay; consumers should key on `proof.version`,
+`proof.api`, `proof.row`, `proof.executionRequest`, and named `facts` fields.
+
 ## Continuation Contract
 
 When a handoff needs "what next?", the agent resolves it in-turn:

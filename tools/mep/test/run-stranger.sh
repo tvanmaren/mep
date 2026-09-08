@@ -42,6 +42,14 @@ printf '%s' "$dump" | jq -e '.profile.active != "default"' >/dev/null && fail "m
 assert_jq '.storage.prepRoot == ".mep/prep" and .runtime.adapter == "plain" and .profile.active == "default" and .vcs.defaultTrunk == "main"' "$dump" "engine defaults without overlay"
 
 where=$("$MEP" where fixture-demo --json)
-assert_jq '.status == "ok"' "$where" "where fixture-demo status ok"
+assert_jq '
+  .status == "ok"
+  and .executionRequest == .proof.executionRequest
+  and .executionRequest == {
+    kind: "implement",
+    target: ".mep/prep/fixture-demo/iterations/01-ready.md",
+    argv: [".mep/prep/fixture-demo/iterations/01-ready.md"]
+  }
+' "$where" "where fixture-demo durable execution request"
 
 pass "run-stranger"

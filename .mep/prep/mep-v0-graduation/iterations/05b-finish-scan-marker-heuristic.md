@@ -54,11 +54,11 @@ Iter 5 dogfood: `mep where mep-v0-graduation` can reach checkpoint instead of a 
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `mep finish scan mep-v0-graduation --json` reports `counts.open == 0` on a clean tree after this slice (today: 1 hit at `resolver.sh` `--reason`)
-- [ ] a fixture file whose trimmed line is `--reason "…@finish:open"` is **not** a marker; `# @finish:open` **is**
-- [ ] `mep_has_open_finish` / row 8 use the same helper — no second grep
-- [ ] `tools/mep/test/run-golden-matrix.sh` still exits 0 (row 8 fixture is a `#` comment in the *temp* repo, not this heuristic)
-- [ ] unix-contract + stranger + slice-boundary litmus still green; no resolver row-table edits; no string-only workaround as the shipped category
+- [x] `mep finish scan mep-v0-graduation --json` reports `counts.open == 0` on a clean tree after this slice (today: 1 hit at `resolver.sh` `--reason`)
+- [x] a fixture file whose trimmed line is `--reason "…@finish:open"` is **not** a marker; `# @finish:open` **is**
+- [x] `mep_has_open_finish` / row 8 use the same helper — no second grep
+- [x] `tools/mep/test/run-golden-matrix.sh` still exits 0 (row 8 fixture is a `#` comment in the *temp* repo, not this heuristic)
+- [x] unix-contract + stranger + slice-boundary litmus still green; no resolver row-table edits; no string-only workaround as the shipped category
 
 ## Finish-map (fragment classification)
 
@@ -72,7 +72,7 @@ Iter 5 dogfood: `mep where mep-v0-graduation` can reach checkpoint instead of a 
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| `--` comment vs flag | SQL line comments still match; `--reason` / `--foo` never match | `finish.sh` existing `"--"*` arm; `resolver.sh` named `--reason` flags | recommend: require `--` + space (or end) for the SQL arm, not `--` + identifier | `open` |
+| `--` comment vs flag | SQL line comments still match; `--reason` / `--foo` never match | `finish.sh` existing `"--"*` arm; `resolver.sh` named `--reason` flags | recommend: require `--` + space (or end) for the SQL arm, not `--` + identifier | `done` |
 
 ## File ownership
 
@@ -89,8 +89,8 @@ Iter 5 dogfood: `mep where mep-v0-graduation` can reach checkpoint instead of a 
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `mep finish scan mep-v0-graduation --json` still has `open >= 1` on `resolver.sh` `--reason`
-- [ ] `mep_finish_marker_lines_json` still matches `"--"*` (any `--` prefix)
+- [x] `mep finish scan mep-v0-graduation --json` still has `open >= 1` on `resolver.sh` `--reason`
+- [x] `mep_finish_marker_lines_json` still matches `"--"*` (any `--` prefix)
 
 ## Approach
 

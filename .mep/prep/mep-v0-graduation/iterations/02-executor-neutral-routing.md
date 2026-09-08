@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/02-executor-neutral-routing.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** architectural  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -53,11 +53,11 @@ Milestone U middle. Iter 3 may assume `jq .executionRequest` yields `kind` / `ta
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `mep where <slug> --json` includes `executionRequest` with **exactly** `{ kind, target, argv }` (no `requiredAuthority`, `requiredEvidence`, `allowedExecutorClasses`; do not emit those keys)
-- [ ] `proof.executionRequest` equals the envelope field (one object, two pointers — or identical copies; do not let them drift)
-- [ ] `nextCommand` remains a Cursor-shaped string (or null); tests treat `executionRequest` as the durable field
-- [ ] `kind` is one of: `implement` | `checkpoint` | `commit_prep` | `prep` | `cleanup` | `none`
-- [ ] row → kind (exhaustive for today's emit sites):
+- [x] `mep where <slug> --json` includes `executionRequest` with **exactly** `{ kind, target, argv }` (no `requiredAuthority`, `requiredEvidence`, `allowedExecutorClasses`; do not emit those keys)
+- [x] `proof.executionRequest` equals the envelope field (one object, two pointers — or identical copies; do not let them drift)
+- [x] `nextCommand` remains a Cursor-shaped string (or null); tests treat `executionRequest` as the durable field
+- [x] `kind` is one of: `implement` | `checkpoint` | `commit_prep` | `prep` | `cleanup` | `none`
+- [x] row → kind (exhaustive for today's emit sites):
 
 | row | kind | target | argv |
 |-----|------|--------|------|
@@ -70,9 +70,9 @@ Milestone U middle. Iter 3 may assume `jq .executionRequest` yields `kind` / `ta
 | 7, 8 | `implement` | brief path | `[briefPath]` |
 | 9 | `commit_prep` | slug | `[]` |
 
-- [ ] FOSS tests: `fixture-demo` → `kind=implement`, `target` = that brief path, argv one-element; **one** synthetic (or in-repo) non-implement row (`checkpoint` or `commit_prep`); `run-stranger.sh` still `status=ok`; no executor-preset keys on the packet
-- [ ] both portable-routing copies say `executionRequest` is durable; `nextCommand` is adapter presentation
-- [ ] no `mep exec dispatch`; no executor config schema; no litmus script; no `kind: evidence`
+- [x] FOSS tests: `fixture-demo` → `kind=implement`, `target` = that brief path, argv one-element; **one** synthetic (or in-repo) non-implement row (`checkpoint` or `commit_prep`); `run-stranger.sh` still `status=ok`; no executor-preset keys on the packet
+- [x] both portable-routing copies say `executionRequest` is durable; `nextCommand` is adapter presentation
+- [x] no `mep exec dispatch`; no executor config schema; no litmus script; no `kind: evidence`
 
 ### Packet (public API)
 
@@ -120,9 +120,9 @@ Milestone U middle. Iter 3 may assume `jq .executionRequest` yields `kind` / `ta
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `mep where fixture-demo --json` currently has **no** `executionRequest` — prove before GREEN
-- [ ] unix-contract still asserts `has("executionRequest") \| not` — that assertion is the tripwire
-- [ ] no `mep exec` / executor preset verbs yet
+- [x] `mep where fixture-demo --json` currently has **no** `executionRequest` — proved before GREEN
+- [x] unix-contract still asserted `has("executionRequest") \| not` — that assertion was the tripwire
+- [x] no `mep exec` / executor preset verbs existed before GREEN
 
 ## Approach
 
@@ -168,23 +168,23 @@ Milestone U middle. Iter 3 may assume `jq .executionRequest` yields `kind` / `ta
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: durable next action is a row-derived `{kind,target,argv}` object; slash strings are presentation.
+- Coupling increased: every `where` success path goes through `mep_execution_request_json`; portable-routing pair must stay twins on this field.
+- Harder to change: adding a resolver row without a kind mapping fails closed (`internal`).
+- Easier to change: iter 3 can `jq .executionRequest` without parsing `nextCommand`.
+- **Promote to core:** `executionRequest` is the public routing contract (C8).
+- **Newly interchangeable:** `nextCommand` string shape; implement-row `execution_target` as an extra positional on `mep_resolver_json` (pay down in iter 5).
+- **Falsified:** none of C1–C7. six-field packets / `kind: evidence` stayed out.
 
 ## Checkpoint
 
-**Seam smell test:** category = one durable request object on **all** current emit sites. fail if only `fixture-demo` grows the field.
+**Seam smell test:** category closed — helper covers rows `"precondition"`–11; CLI locks implement (`fixture-demo`) and commit_prep (temp row 4). not fixture-demo-only.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 2`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 3 brief
+- [x] `/commit-prep mep-v0-graduation` — code scope
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 2`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 3 brief
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

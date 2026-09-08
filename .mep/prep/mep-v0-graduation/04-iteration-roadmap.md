@@ -154,7 +154,7 @@ usage/diagnostics, **exit codes aligned with JSON status**, help/version, comman
 
 **Checkpoint:** `mep where <slug> --json | jq .executionRequest` is sufficient for a shell driver.
 
-**Status:** brief_ready — `iterations/02-executor-neutral-routing.md`
+**Status:** committed — `210c716`
 
 ---
 
@@ -185,7 +185,7 @@ usage/diagnostics, **exit codes aligned with JSON status**, help/version, comman
 
 **Checkpoint:** each resolver row maps to ≥1 CLI primitive or evidence write; `mep exec dispatch --executor stub` works; adapter audit doc lands.
 
-**Status:** pending
+**Status:** draft — `iterations/03-workflow-cli-primitives.md` (awaiting brief_ready)
 
 ---
 
@@ -237,6 +237,7 @@ landed detection, golden coverage for every row + recovery path.
 - Extend `tools/mep/test/run.sh` to cover rows 1–11 + row-10 precedence + row-11 recovery + row-5 docs-delta interstitial.
 - Eliminate fragile heuristics that send landed slices back to `/implement-plan`.
 - Align `glossary.md` evaluation order with `resolver.sh` or fix the code.
+- Collapse `mep_where_resolver_json` / `mep_resolver_json` positional fanout (incl. implement `execution_target`) behind a named context; golden matrix is the safety net. not a new slice.
 
 **Avoid:** new lifecycle features; adapter rewrites; net-new inline git fallbacks beyond fixing proven misroutes (golden matrix locks **v0.1 transitional** routing — v0.2 demotes git from the default path; see `.mep/plans/mep-v0.2-outline.md`).
 

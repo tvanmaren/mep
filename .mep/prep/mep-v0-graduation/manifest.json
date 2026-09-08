@@ -69,13 +69,16 @@
       "number": 2,
       "title": "Executor-neutral routing",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/02-executor-neutral-routing.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "runtime stops leaking adapter vocabulary into public API",
       "maturityTarget": "provisional -> stable",
-      "blocksProductWork": true
+      "blocksProductWork": true,
+      "briefRevision": "a65e02bb97e8352cd8c2a701f96b38bf83d5934a",
+      "implementationRevision": "210c7167e1dd696eb2b4509d559c700aa00da4bd",
+      "checkpointRevision": "210c7167e1dd696eb2b4509d559c700aa00da4bd"
     },
     {
       "number": 3,

@@ -63,8 +63,8 @@ run_mep() {
   MEP_REPO_ROOT_OVERRIDE="$root" MEP_HISTORY_ROOT_OVERRIDE="$history" "$MEP" "$@"
 }
 
-tmp=$(mktemp)
-err=$(mktemp)
+tmp="$TMP/out"
+err="$TMP/err"
 
 rc=0
 run_mep commit scope manual-fx --json >"$tmp" 2>"$err" || rc=$?
@@ -134,5 +134,4 @@ jq -e '[.findings[]? | .blockers[]? | select(.kind == "finish_open")] | length =
 }
 pass "checkpoint drops finish_open after done"
 
-rm -f "$tmp" "$err"
 pass "run-manual-workflow"

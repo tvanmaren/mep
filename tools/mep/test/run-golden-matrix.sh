@@ -56,11 +56,10 @@ new_case() {
 assert_where() {
   local label=$1 root=$2 slug=$3 expected_row=$4 expected_next=$5 expected_request=$6
   local out err rc=0
-  err=$(mktemp)
+  err=$(mktemp "$TMP/err.XXXXXX")
   out=$(cd "$root" && MEP_REPO_ROOT_OVERRIDE="$root" "$MEP" where "$slug" --json 2>"$err") || rc=$?
   [[ "$rc" == 0 ]] || fail "$label exit 0 (got $rc)"
   [[ ! -s "$err" ]] || fail "$label stderr empty"
-  rm -f "$err"
   jq -en \
     --argjson packet "$out" \
     --argjson row "$expected_row" \

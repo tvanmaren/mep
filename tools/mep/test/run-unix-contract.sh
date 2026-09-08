@@ -88,9 +88,12 @@ assert_print '{"status":"not_found"}' not_found 3
 assert_print '{"status":"error"}' internal 70
 assert_print '{"status":"ready"}' internal 70
 
-tmp=$(mktemp)
-err=$(mktemp)
-trap 'rm -f "$tmp" "$err"' EXIT
+TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
+tmp="$TMP/out"
+err="$TMP/err"
+: >"$tmp"
+: >"$err"
 
 rc=0
 mep_require __mep_no_such_dep__ >"$tmp" 2>"$err" || rc=$?
@@ -237,7 +240,7 @@ jq -e '
 ' "$tmp" >/dev/null || fail "command preset dry-run packet"
 pass "command preset dry-run suppresses driver"
 
-route_fx=$(mktemp -d)
+route_fx="$TMP/route_fx"
 mkdir -p "$route_fx/.mep/prep/commit-prep-fx"
 cat >"$route_fx/.mep/prep/commit-prep-fx/manifest.json" <<'JSON'
 {
@@ -261,7 +264,6 @@ git -C "$route_fx" add -A
 git -C "$route_fx" commit -q -m "commit-prep routing fixture"
 rc=0
 MEP_REPO_ROOT_OVERRIDE="$route_fx" "$MEP" where commit-prep-fx --json >"$tmp" 2>"$err" || rc=$?
-rm -rf "$route_fx"
 [[ "$rc" == 0 ]] || fail "where commit-prep fixture exit 0 (got $rc)"
 [[ ! -s "$err" ]] || fail "where commit-prep fixture stderr empty"
 jq -e '
@@ -287,25 +289,24 @@ rc=0
 jq -e '.status == "not_found" and .reason == "trunk_not_found"' "$tmp" >/dev/null || fail "doctor trunk not_found packet"
 pass "doctor trunk not_found exit 3"
 
-hist=$(mktemp -d)
+hist="$TMP/hist-not-file"
 mkdir -p "$hist/events.jsonl"
 rc=0
 MEP_HISTORY_ROOT_OVERRIDE=$hist "$MEP" events tail --json >"$tmp" 2>"$err" || rc=$?
-rm -rf "$hist"
 [[ "$rc" == 3 ]] || fail "events ledger not a file exit 3 (got $rc)"
 jq -e '.status == "not_found" and .reason == "invalid_ledger"' "$tmp" >/dev/null || fail "events ledger-not-file packet"
 pass "events ledger not a file not_found exit 3"
 
-hist=$(mktemp -d)
+hist="$TMP/hist-malformed"
+mkdir -p "$hist"
 printf 'not-json\n' >"$hist/events.jsonl"
 rc=0
 MEP_HISTORY_ROOT_OVERRIDE=$hist "$MEP" events tail --json >"$tmp" 2>"$err" || rc=$?
-rm -rf "$hist"
 [[ "$rc" == 2 ]] || fail "events malformed ledger exit 2 (got $rc)"
 jq -e '.status == "blocked" and .reason == "invalid_ledger"' "$tmp" >/dev/null || fail "events invalid_ledger blocked packet"
 pass "events malformed ledger blocked exit 2"
 
-prof=$(mktemp -d)
+prof="$TMP/prof"
 mkdir -p "$prof/.mep"
 printf 'profile.active=default\nprofile.dir=.mep/profiles\n' >"$prof/.mep/config"
 rc=0
@@ -316,7 +317,6 @@ mkdir -p "$prof/.mep/profiles"
 printf '{not json' >"$prof/.mep/profiles/default.json"
 rc=0
 MEP_REPO_ROOT_OVERRIDE=$prof "$MEP" profile dump --json >"$tmp" 2>"$err" || rc=$?
-rm -rf "$prof"
 [[ "$rc" == 2 ]] || fail "profile invalid seed exit 2 (got $rc)"
 jq -e '.status == "blocked" and .reason == "invalid_profile_seed"' "$tmp" >/dev/null || fail "profile invalid seed packet"
 pass "profile seed not_found / blocked"
@@ -327,7 +327,7 @@ rc=0
 jq -e '.status == "ok" and .profile.active == "default"' "$tmp" >/dev/null || fail "repo profile seed ok"
 pass "repo profile dump ok"
 
-fx=$(mktemp -d)
+fx="$TMP/desync-fx"
 mkdir -p "$fx/.mep/prep/desync-fx"
 cat >"$fx/.mep/prep/desync-fx/manifest.json" <<'JSON'
 {
@@ -353,13 +353,12 @@ rc=0
 out=$(
   cd "$fx" && MEP_REPO_ROOT_OVERRIDE="$fx" "$MEP" doctor desync-fx --json
 ) || rc=$?
-rm -rf "$fx"
 printf '%s\n' "$out" >"$tmp"
 [[ "$rc" == 1 ]] || fail "doctor desync fixture exit 1 (got $rc)"
 jq -e '.status == "desync"' "$tmp" >/dev/null || fail "doctor desync fixture packet"
 pass "doctor desync fixture exit 1"
 
-workflow_fx=$(mktemp -d)
+workflow_fx="$TMP/workflow_fx"
 mkdir -p "$workflow_fx/.mep/prep/workflow-fx/iterations"
 cat >"$workflow_fx/.mep/prep/workflow-fx/manifest.json" <<'JSON'
 {
@@ -450,7 +449,7 @@ if git -C "$workflow_fx" diff --summary | grep -q 'mode change'; then
 fi
 pass "mode set dry-run and write"
 
-evidence_root=$(mktemp -d)
+evidence_root="$TMP/evidence"
 MEP_REPO_ROOT_OVERRIDE="$workflow_fx" MEP_HISTORY_ROOT_OVERRIDE="$evidence_root" \
   "$MEP" evidence write workflow-fx implement "done" --json --detail "fixture" --dry-run >"$tmp" 2>"$err"
 jq -e '.status == "ok" and .dryRun == true and .written == false' "$tmp" >/dev/null || fail "evidence dry-run packet"
@@ -459,7 +458,6 @@ MEP_REPO_ROOT_OVERRIDE="$workflow_fx" MEP_HISTORY_ROOT_OVERRIDE="$evidence_root"
   "$MEP" evidence write workflow-fx implement "done" --json --detail "fixture" >"$tmp" 2>"$err"
 jq -e '.status == "ok" and .dryRun == false and .written == true' "$tmp" >/dev/null || fail "evidence write packet"
 jq -e '.slug == "workflow-fx" and .kind == "implement" and .state == "done" and .detail == "fixture"' "$evidence_root/evidence.jsonl" >/dev/null || fail "evidence ledger row"
-rm -rf "$evidence_root" "$workflow_fx"
 pass "evidence write dry-run and append"
 
 rc=0

@@ -47,12 +47,11 @@ git -C "$root" config commit.gpgsign false
 git -C "$root" add -A
 git -C "$root" commit -q -m "finish-scan fixture"
 
-err=$(mktemp)
+err="$TMP/err"
 rc=0
 out=$(cd "$root" && MEP_REPO_ROOT_OVERRIDE="$root" "$MEP" finish scan finish-scan-fixture --json 2>"$err") || rc=$?
 [[ "$rc" == 0 ]] || fail "finish scan exit 0 (got $rc)"
 [[ ! -s "$err" ]] || fail "finish scan stderr empty"
-rm -f "$err"
 jq -en --argjson packet "$out" '
   $packet.status == "ok"
   and $packet.counts.open == 1

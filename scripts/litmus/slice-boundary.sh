@@ -66,7 +66,7 @@ run_mep() {
   local label=$1 expected_status=$2 expected_rc=$3
   shift 3
   local out err rc=0 st
-  err=$(mktemp)
+  err=$(mktemp "$TMP/err.XXXXXX")
   out=$("$MEP" "$@" 2>"$err") || rc=$?
   printf '%s' "$out" | jq -e 'type == "object" and (.status | type == "string")' >/dev/null \
     || fail "$label stdout json"
@@ -74,7 +74,6 @@ run_mep() {
   [[ "$st" == "$expected_status" ]] || fail "$label status=$st expected=$expected_status"
   [[ "$rc" == "$expected_rc" ]] || fail "$label C7 status=$st exit=$rc expected=$expected_rc"
   [[ ! -s "$err" ]] || fail "$label stderr empty on envelope"
-  rm -f "$err"
   printf '%s' "$out"
 }
 

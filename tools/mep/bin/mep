@@ -22,6 +22,8 @@ MEP_HOME=$(cd "$MEP_BIN_DIR/.." && pwd)
 . "$MEP_HOME/lib/manifest.sh"
 # shellcheck source=../lib/finish.sh
 . "$MEP_HOME/lib/finish.sh"
+# shellcheck source=../lib/mark.sh
+. "$MEP_HOME/lib/mark.sh"
 # shellcheck source=../lib/status.sh
 . "$MEP_HOME/lib/status.sh"
 # shellcheck source=../lib/checks.sh
@@ -299,6 +301,42 @@ case "${1:-}" in
     [[ -n "$slug" ]] || mep_usage
     mep_expect_json_flag "${4:-}"
     mep_dispatch_json mep_finish_scan_json "$slug"
+    ;;
+  mark)
+    mark_kind=${2:-}
+    mark_path=${3:-}
+    [[ -n "$mark_kind" && -n "$mark_path" ]] || mep_usage
+    shift 3
+    json=0
+    dry_run=0
+    finish_state=
+    while (( $# )); do
+      case "$1" in
+        --json) json=1 ;;
+        --dry-run) dry_run=1 ;;
+        --state)
+          shift
+          finish_state=${1:-}
+          [[ -n "$finish_state" ]] || mep_usage
+          ;;
+        *) mep_usage ;;
+      esac
+      shift
+    done
+    (( json )) || mep_usage
+    case "$mark_kind" in
+      mise)
+        [[ -z "$finish_state" ]] || mep_usage
+        mep_dispatch_json mep_mark_mise_json "$mark_path" "$dry_run"
+        ;;
+      finish)
+        [[ -n "$finish_state" ]] || mep_usage
+        mep_dispatch_json mep_mark_finish_json "$mark_path" "$finish_state" "$dry_run"
+        ;;
+      *)
+        mep_usage
+        ;;
+    esac
     ;;
   checkpoint)
     slug=${2:-}

@@ -104,6 +104,9 @@ pass "missing_dependency packet exit 2"
 # registry feeds help
 mep_registry_print | grep -q $'^where\t' || fail "registry has where"
 pass "registry lists where"
+mep_registry_print | grep -q $'^mark mise\t' || fail "registry has mark mise"
+mep_registry_print | grep -q $'^mark finish\t' || fail "registry has mark finish"
+pass "registry lists marker writers"
 
 # --- CLI packets ---
 
@@ -474,6 +477,9 @@ pass "check scaffolding implied json envelope"
 
 bash "$SRC/tools/mep/test/run-finish-scan.sh"
 pass "finish-scan suite"
+
+bash "$SRC/tools/mep/test/run-mark.sh"
+pass "mark suite"
 
 bash "$SRC/tools/mep/test/run-manual-workflow.sh"
 pass "manual-workflow suite"

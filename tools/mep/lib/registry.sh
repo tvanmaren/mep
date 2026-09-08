@@ -24,6 +24,8 @@ evidence write	mep evidence write <slug> <kind> <state> --json [--detail <text>]
 events tail	mep events tail --json [--slug <slug>] [--event <name>] [--version <n>] [--limit <n>]	read local event ledger
 pr scaffold	mep pr scaffold <slug> <n> --json	write deterministic PR scaffold
 finish scan	mep finish scan <slug> --json	scan finish-map markers
+mark mise	mep mark mise <path> --json [--dry-run]	wrap a source file in authorship markers
+mark finish	mep mark finish <path> --state <open|done|ratified> --json [--dry-run]	set one existing finish marker state
 checkpoint	mep checkpoint <slug> --json [--fix]	report or apply checkpoint writebacks
 lifecycle status	mep lifecycle status <slug> --mode <manual|default|autopilot> --json	print authorship-mode lifecycle
 curate	mep curate <slug> --json [--preview|--measure|--validate|--execute] [--confirm] [--dry-run]	curate preview/execute

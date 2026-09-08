@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/04-shell-litmus-pipe-harness.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** architectural  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -56,12 +56,12 @@ Milestone U complete (unix foundation). v0.1.0 (15) stays forbidden until this g
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `scripts/litmus/slice-boundary.sh --executor stub` exits 0 in a **temp** workspace (does not mutate committed `.mep/prep/fixture-demo` or this initiative’s manifest)
-- [ ] walk is only public verbs: `where` → `jq -c .executionRequest` → `exec dispatch --json --executor stub` → `evidence write` → `commit scope` → `checkpoint` → `where` (exact order may skip a no-op kind; must not call private `lib/*.sh` functions)
-- [ ] if a step cannot be expressed as a registry usage line, extract that verb into `tools/mep` **this slice** — do not hide it under `scripts/litmus/`
-- [ ] FOSS CI runs the litmus (stranger workflow job/step, not a live-vendor job)
-- [ ] unix-contract + stranger still `status=ok`; no API keys; no I8 arity refactor
-- [ ] docs: one sentence that the runtime loop is `where` → `exec dispatch` (preset optional)
+- [x] `scripts/litmus/slice-boundary.sh --executor stub` exits 0 in a **temp** workspace (does not mutate committed `.mep/prep/fixture-demo` or this initiative’s manifest)
+- [x] walk is only public verbs: `where` → `jq -c .executionRequest` → `exec dispatch --json --executor stub` → `evidence write` → `commit scope` → `checkpoint` → `where` (exact order may skip a no-op kind; must not call private `lib/*.sh` functions)
+- [x] if a step cannot be expressed as a registry usage line, extract that verb into `tools/mep` **this slice** — do not hide it under `scripts/litmus/`
+- [x] FOSS CI runs the litmus (stranger workflow job/step, not a live-vendor job)
+- [x] unix-contract + stranger still `status=ok`; no API keys; no I8 arity refactor
+- [x] docs: one sentence that the runtime loop is `where` → `exec dispatch` (preset optional)
 
 ## Finish-map (fragment classification)
 
@@ -96,9 +96,9 @@ Milestone U complete (unix foundation). v0.1.0 (15) stays forbidden until this g
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `scripts/litmus/` does not exist (or is empty of a passing slice-boundary)
-- [ ] `.github/workflows/stranger.yml` does not invoke slice-boundary
-- [ ] unix-contract does not claim a litmus gate
+- [x] `scripts/litmus/` does not exist (or is empty of a passing slice-boundary)
+- [x] `.github/workflows/stranger.yml` does not invoke slice-boundary
+- [x] unix-contract does not claim a litmus gate
 
 ## Approach
 
@@ -143,23 +143,23 @@ Milestone U complete (unix foundation). v0.1.0 (15) stays forbidden until this g
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: unix compliance is a composition CI gate (`slice-boundary.sh --executor stub`); the harness does not reimplement dispatch/evidence/commit-scope; fixture-demo checkpoint in that temp tree is `desync`/1 (brief_ready, not landed).
+- Coupling increased: stranger workflow now installs `jq` and fails if the pipe walk breaks; docs name the same script as proof.
+- Harder to change: removing the CI step or teaching the harness to `eval` preset `command` falsifies C9/C10.
+- Easier to change: iter 5 can freeze resolver totality without hiding plumbing in tests — the walk is already public verbs.
+- **Promote to core:** FOSS CI must run `scripts/litmus/slice-boundary.sh --executor stub` (C10).
+- **Newly interchangeable:** unix-contract optionally invoking the script; stranger job still named `run-stranger`; fixture-demo as the litmus seed slug.
+- **Falsified:** none of C1–C9. canned-classifier stub stayed out.
 
 ## Checkpoint
 
-**Seam smell test:** category = composition gate. fail if the script reimplements dispatch, evidence, or commit-scope.
+**Seam smell test:** category closed — composition of registry verbs in a temp workspace. not a parallel product.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 4`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 5 brief
+- [x] `/commit-prep mep-v0-graduation` — code scope
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 4`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 5 brief
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

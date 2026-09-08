@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 13, 14**. **4–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 13, 14**. **5–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -34,13 +34,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 13
 | 1 | committed — `b0886e5`; envelope + exit map; `run-unix-contract.sh` |
 | 2 | committed — `210c716`; row-derived `executionRequest` |
 | 3 | committed — `cafdc858`; `exec dispatch` + stub + workflow verbs; command presets fail closed |
-| 4–12 | not satisfied — no slice-boundary litmus CI |
+| 4 | committed — `051df03`; `scripts/litmus/slice-boundary.sh --executor stub` on stranger CI |
+| 5–12 | not satisfied — no golden matrix / resolver totality |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
-| 15 | forbidden until iter 4 litmus in the **standalone** repo |
+| 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **4** (shell litmus). Not 15.
+**Next implement:** iteration **5** (resolver totality). Not 15.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -55,8 +56,10 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 13
 | I4 | 5 (golden matrix) — do not treat as slice-14 proof |
 | I5–I6 | 0 skeleton (finishes, not identity) |
 | I7 | 1 (seed paths / scaffolding flag tactic) |
-| I8 | 5 (resolver arity) — wait; do not fold into 4 |
+| I8 | 5 (resolver arity) |
 | I9 | 3 (spellings / overlay labels) |
+| C10 | 4 (core lock) |
+| I10 | 4 (CI/fixture tactics) |
 
 ---
 
@@ -224,7 +227,7 @@ scripts/litmus/slice-boundary.sh --executor stub
 
 **Checkpoint:** litmus passes in standalone repo CI; epic unix DoD satisfied.
 
-**Status:** brief_ready — `iterations/04-shell-litmus-pipe-harness.md`
+**Status:** committed — `051df03`
 
 ---
 
@@ -235,7 +238,7 @@ landed detection, golden coverage for every row + recovery path.
 
 **Delivery track:** mixed  
 **Fanout:** sequential  
-**Brief:** `iterations/05-resolver-totality-golden-matrix.md` (draft at slice start)
+**Brief:** `iterations/05-resolver-totality-golden-matrix.md`
 
 **Slice type:** architectural  
 **Epistemic transition:** resolver moves from dogfooding-discovered misroutes to contract-tested totality.  
@@ -243,16 +246,17 @@ landed detection, golden coverage for every row + recovery path.
 **Maturity target:** provisional → stable
 
 **Approach:**
-- Extend `tools/mep/test/run.sh` to cover rows 1–11 + row-10 precedence + row-11 recovery + row-5 docs-delta interstitial.
+- Golden suite in FOSS: `tools/mep/test/run-golden-matrix.sh` (this remote has no `tools/mep/test/run.sh`).
+- Cover rows 1–11 + row-10 precedence + row-11 recovery + row-5 docs-delta interstitial.
 - Eliminate fragile heuristics that send landed slices back to `/implement-plan`.
-- Align `glossary.md` evaluation order with `resolver.sh` or fix the code.
-- Collapse `mep_where_resolver_json` / `mep_resolver_json` positional fanout (incl. implement `execution_target`) behind a named context; golden matrix is the safety net. not a new slice.
+- Keep `glossary.md` evaluation order and `resolver.sh` twins; glossary is the spec.
+- Collapse `mep_where_resolver_json` / `mep_resolver_json` positional fanout (incl. implement `execution_target`) behind a named context; golden matrix is the safety net.
 
-**Avoid:** new lifecycle features; adapter rewrites; net-new inline git fallbacks beyond fixing proven misroutes (golden matrix locks **v0.1 transitional** routing — v0.2 demotes git from the default path; see `.mep/plans/mep-v0.2-outline.md`).
+**Avoid:** new lifecycle features; adapter rewrites; expanding litmus into a second resolver; net-new inline git fallbacks beyond fixing proven misroutes (golden matrix locks **v0.1 transitional** routing — v0.2 demotes git from the default path; see `.mep/plans/mep-v0.2-outline.md`).
 
-**Checkpoint:** `/mep where` on fixture slugs never disagrees with golden expectations; dogfood notes empty.
+**Checkpoint:** `mep where` on fixture slugs never disagrees with golden expectations; dogfood notes empty.
 
-**Status:** pending
+**Status:** brief_ready — `iterations/05-resolver-totality-golden-matrix.md`
 
 ---
 
@@ -446,7 +450,7 @@ brief documents + git. Same routing semantics as iteration 5 golden matrix.
   → 16 (post-v0.1)    # eliminate manifest; document-colocated state → v0.2.0 program (`.mep/plans/mep-v0.2-outline.md`)
 ```
 
-Iterations 1–15 execute in the **standalone repo**. **v0.1.0 (15) is forbidden until litmus (4) passes.**
+Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 (15) still needs its remaining packaging DoD.**
 
 ## Fanout eligibility
 

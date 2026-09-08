@@ -15,6 +15,7 @@
 | C7 | Machine-facing `mep` JSON `status` and process exit **never disagree**; the iter-1 table is public API | a command exits 0 for `blocked` / `desync` / `gated`, or stdout `status` lies about `$?` |
 | C8 | Durable next action from `where --json` is **`executionRequest` `{kind,target,argv}`**, derived from resolver **row**; `nextCommand` is adapter presentation | consumers must parse slash strings to know what to run; envelope and `proof` packets disagree |
 | C9 | Runtime invoke of executors is **`mep exec dispatch`**; in-tree live driver is **stub** (accept/block); command presets are contracts and must not be shell-evaluated | dispatch parses `nextCommand`; runtime `eval`s `presets.*.command`; a vendor SDK ships as the FOSS driver |
+| C10 | Unix-compliance proof is **`scripts/litmus/slice-boundary.sh --executor stub`** required in FOSS CI; the script only composes public `mep` verbs | v0.1.0 tagged without that CI step; the harness reimplements dispatch / evidence / commit-scope |
 
 ## Interchangeable (realizations)
 
@@ -29,6 +30,7 @@
 | I7 | FOSS `default.json` review-input paths; `check scaffolding` implied `--json` | envelope is identity (C7); these are tactics |
 | I8 | `mep_where_resolver_json` / `mep_resolver_json` positional arity (incl. implement `execution_target`) | calling convention, not the packet; collapse in iter 5 behind golden matrix |
 | I9 | stub primitive template strings; `.mep/history/evidence.jsonl`; documented command-preset names | invoke seam is C9; these are spellings and overlay labels |
+| I10 | unix-contract optionally invoking litmus; stranger job name; fixture-demo as the litmus seed | the gate is C10; these are CI/fixture tactics |
 
 ## Amendments
 
@@ -42,3 +44,4 @@
 | 1 | `b0886e5` unix-contract + `run-unix-contract.sh` | promoted C7; registered I7; category = envelope+exit map, not `where`-only |
 | 2 | `210c716` `executionRequest` on `where` + unix-contract/stranger locks | promoted C8; registered I8; category = row→packet on all emit sites, not fixture-demo-only |
 | 3 | `cafdc858` dispatch + stub + workflow verbs; command presets `blocked` | promoted C9; registered I9; stub is accept/block, not a canned classifier |
+| 4 | `051df03` slice-boundary litmus on stranger workflow | promoted C10; registered I10; category = composition gate, not canned LLM |

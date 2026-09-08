@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 4,
+  "currentIteration": 5,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -99,19 +99,22 @@
       "number": 4,
       "title": "Shell litmus & pipe harness",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/04-shell-litmus-pipe-harness.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "unix compliance via stub executor CI gate not no-LLM product",
       "maturityTarget": "provisional -> stable",
-      "blocksV010": true
+      "blocksV010": true,
+      "briefRevision": "89cb849e1102e28569ea2fcc606457ae06dccf7c",
+      "implementationRevision": "051df031ceae15071f64be9bc92888f6e72d685d",
+      "checkpointRevision": "051df031ceae15071f64be9bc92888f6e72d685d"
     },
     {
       "number": 5,
       "title": "Resolver totality & golden matrix",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/05-resolver-totality-golden-matrix.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -269,6 +272,12 @@
       "iteration": 3,
       "summary": "stub is deterministic accept/block, not canned classifier/diff replay; iter 4 litmus may only compose public mep verbs",
       "evidence": "cafdc858"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 5,
+      "summary": "golden matrix lives in FOSS tools/mep/test/run-golden-matrix.sh; host tools/mep/test/run.sh is not on this remote",
+      "evidence": "051df03"
     }
   ]
 }

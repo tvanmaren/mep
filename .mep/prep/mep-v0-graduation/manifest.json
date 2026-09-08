@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 9,
+  "currentIteration": 10,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -184,18 +184,21 @@
       "number": 9,
       "title": "Install path & stranger smoke test",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/09-install-stranger-smoke-test.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "getting started is executor preset plus minimal override",
-      "maturityTarget": "provisional -> stable"
+      "maturityTarget": "provisional -> stable",
+      "briefRevision": "6cc901b1d4366e99658ede2efa410e87b4b274b2",
+      "implementationRevision": "2f6a514e89330c115a3c3c467a8dd6f17b8fb627",
+      "checkpointRevision": "2f6a514e89330c115a3c3c467a8dd6f17b8fb627"
     },
     {
       "number": 10,
       "title": "Runtime ≠ policy hardening",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",

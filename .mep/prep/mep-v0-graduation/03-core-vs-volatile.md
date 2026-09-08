@@ -33,6 +33,7 @@
 | I12 | `mep mark` comment-style map (extension / shebang → hash/slash/sql/html/block) | writer is C9-shaped CLI; grammar still I11 |
 | I9 | stub primitive template strings; `.mep/history/evidence.jsonl`; documented command-preset names | invoke seam is C9; spellings now include `grok` (TUI harness) alongside cursor / claude-code / codex; still no live driver |
 | I10 | unix-contract optionally invoking litmus; stranger job name; fixture-demo as the litmus seed | the gate is C10; these are CI/fixture tactics |
+| I13 | stranger start surface (README Start here; repo-bin vs later PATH; `run-stranger.sh` token lock) | invoke is C6; stub/fail-closed presets are C9; CI composition is C10 |
 
 ## Amendments
 
@@ -53,3 +54,4 @@
 | 6 | `bb41b68` commit scope fail-closed in manual; `2f937b7` suite `$TMP` trap | confirmed C7 on the commit packet; default stays `ok`; `--fix` recorded HEAD (`2f937b7`) as implementationRevision |
 | 7 | `092ade7` autopilot join on the same `finish_open` arm | confirmed C7; **did not** promote a ratification/proxy C*; title overclaimed — product is enum expansion + fixture; lifecycle proxy mapping pre-existed |
 | 8 | `84aa6e8` `mep mark mise` / `mark finish` | confirmed C9 (no in-tree model); registered I12; category = CLI writer, not watcher / SKILL.md |
+| 9 | `2f6a514` README Start here + twins + stranger README lock | confirmed C6/C9/C10; registered I13; category = operator install contract, not a live driver / PATH package |

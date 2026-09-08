@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 13, 14**. **9** is next (Milestone C start). **10–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 9, 13, 14**. **10** is next. **11–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -40,13 +40,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 6 | committed — `bb41b68` fail-closed manual `commit scope`; trap hygiene `2f937b7` (`--fix` SHA) |
 | 7 | committed — `092ade7` autopilot `commit scope` fail-closed (mode parity, not a proxy runtime) |
 | 8 | committed — `84aa6e8` deterministic `mep mark` writer (whole-file `@mise` + monotonic finish `--state`) |
-| 9–12 | not satisfied — install/stranger guide next (9) |
+| 9 | committed — `2f6a514` README Start here (repo-bin + stub loop); brief `6cc901b` |
+| 10–12 | not satisfied — policy/runtime guard next (10) |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **9** (install path & stranger smoke). **Not** 15. **10** after 9.
+**Next implement:** iteration **10** (runtime ≠ policy hardening). **Not** 15. **11** may run parallel after 10’s brief if ownership stays disjoint.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -64,6 +65,7 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | I8 | 5 (resolver arity) — **done** in `8e4d880` |
 | I11 | 5b — **done** in `f749db1` |
 | I12 | 8 (`mep mark` comment-style map) |
+| I13 | 9 (README stranger start) |
 | I9 | 3 (spellings / overlay labels) |
 | C10 | 4 (core lock) |
 | I10 | 4 (CI/fixture tactics) |
@@ -377,20 +379,29 @@ the slice is done while `@finish:open` remains.
 
 **Checkpoint:** a stranger can follow README without opening the vision table; stub smoke still CI; grok still a named contract.
 
-**Status:** brief_ready
+**Status:** committed — `iterations/09-install-stranger-smoke-test.md` (`2f6a514`; brief `6cc901b`)
 
 ---
 
 ## Iteration 10 — Runtime ≠ policy hardening
 
-**Goal:** One lifecycle in code and docs; manual/default/autopilot differ only in who acts and who ratifies.
+**Goal:** Lock the invariant 6/7 already implied: `authorshipMode` changes **who acts / who ratifies** (lifecycle + commit-scope), never **what `where` routes**. resolver stays a pure function of persisted workflow state.
 
 **Slice type:** architectural  
-**Epistemic transition:** policy/runtime boundary becomes test-guarded, not prose-only.
+**Epistemic transition:** policy/runtime boundary becomes test-guarded, not prose-only.  
+**Irreversible decision:** `mep where` `executionRequest` (kind/target/argv + proof.row) is invariant across `manual` / `default` / `autopilot` for the same git+manifest workflow facts.  
+**Maturity target:** provisional → stable  
+**Delivery track:** mixed  
+**Fanout:** sequential (11 may parallel after this brief if files stay disjoint)  
+**Brief:** `iterations/10-runtime-policy-hardening.md`
 
-**Checkpoint:** regression tests prove mode changes do not alter resolver rows; docs state the three-layer model.
+**Approach:** hermetic proof that the same slug/state yields the same `where` packet under all three modes; document the three layers (runtime C7/C8/C10, executor C9, authorship policy). do not add another `commit scope` mode arm (6/7). do not retune resolver evaluation order unless a test finds a leak.
 
-**Status:** pending
+**Avoid:** live proxy dispatch; `mep mark` expansion; CONTRIBUTING (12); packaging (15); event ledger (11).
+
+**Checkpoint:** a fixture’s `where` row+packet is identical at `manual`/`default`/`autopilot`; docs name the three layers.
+
+**Status:** brief_ready — implement after docs-delta
 
 ---
 

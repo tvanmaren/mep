@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/09-install-stranger-smoke-test.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** behavioral  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -54,12 +54,12 @@ Milestone C start. 10+ may assume a stranger can find stub dispatch without read
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] root README **Start here** is ≤5 numbered/copy-pasteable steps a stranger can run without opening `.mep/plans/*`; includes invoke of `tools/mep/bin/mep` (or an equivalent PATH recipe this slice documents)
-- [ ] README no longer claims slice-boundary litmus / unix foundation is unshipped
-- [ ] README (or the owned getting-started twin) documents: default/CI path `--executor stub`; one command preset (`cursor` **or** `grok`) as fail-closed / no in-tree driver; no API keys in MEP config
-- [ ] `bash tools/mep/test/run-stranger.sh` still green; stranger.yml still runs it + golden + litmus; **no** litmus product growth
-- [ ] `mep config dump --json` still lists `grok` as `{kind:command,command:grok}`; unix-contract preset assertions still green
-- [ ] no vendor SDK under `tools/mep/lib`; no I5 host submodule; no v0.1.0 tag
+- [x] root README **Start here** is ≤5 numbered/copy-pasteable steps a stranger can run without opening `.mep/plans/*`; includes invoke of `tools/mep/bin/mep` (or an equivalent PATH recipe this slice documents)
+- [x] README no longer claims slice-boundary litmus / unix foundation is unshipped
+- [x] README (or the owned getting-started twin) documents: default/CI path `--executor stub`; one command preset (`cursor` **or** `grok`) as fail-closed / no in-tree driver; no API keys in MEP config
+- [x] `bash tools/mep/test/run-stranger.sh` still green; stranger.yml still runs it + golden + litmus; **no** litmus product growth
+- [x] `mep config dump --json` still lists `grok` as `{kind:command,command:grok}`; unix-contract preset assertions still green
+- [x] no vendor SDK under `tools/mep/lib`; no I5 host submodule; no v0.1.0 tag
 
 ## Finish-map (fragment classification)
 
@@ -74,7 +74,7 @@ Milestone C start. 10+ may assume a stranger can find stub dispatch without read
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| stranger start | ≤5 steps from README; stub smoke remains CI; grok named fail-closed | root README “Two ways in”; `run-stranger.sh` | recommend: document repo-bin invoke (no package) + stub loop; vision docs demoted below Start here | `open` |
+| stranger start | ≤5 steps from README; stub smoke remains CI; grok named fail-closed | root README “Two ways in”; `run-stranger.sh` | repo-bin invoke (no package) + stub loop; vision docs demoted below Start here | `done` |
 
 ## File ownership
 
@@ -93,8 +93,8 @@ Milestone C start. 10+ may assume a stranger can find stub dispatch without read
 
 ## RED-phase gates (before GREEN)
 
-- [ ] root README Start here is a vision-doc table, not ≤5 runnable steps
-- [ ] README still says slice-boundary litmus is not shipped
+- [x] root README Start here is a vision-doc table, not ≤5 runnable steps
+- [x] README still says slice-boundary litmus is not shipped
 
 ## Approach
 
@@ -139,23 +139,23 @@ Milestone C start. 10+ may assume a stranger can find stub dispatch without read
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: stranger entry is **root README** (≤5 copy-paste steps, repo-bin `tools/mep/bin/mep`); runnable executor is **stub**; named presets (`grok` TUI, cursor, claude-code, codex) stay fail-closed (C9); this checkout’s `.mep/config` is a Cursor overlay, not the stranger default. packaging/PATH is still 15.
+- Coupling increased: `run-stranger.sh` greps README for repo-bin, `--executor stub`, `grok`, and forbids `not shipped yet`. skill/docs getting-started twins must not contradict the foss recipe or claim `wiki/prep` as the universal path.
+- Harder to change: restating litmus as unshipped; dropping `grok`; documenting this checkout as the no-config path.
+- Easier to change: 15 can add a PATH/package recipe without rewriting the `where` → `dispatch` loop; a live driver can occupy a named contract later without changing Start here steps 1–4.
+- **Promote to core:** none — install copy is a realization of C6/C9/C10, not a new identity row.
+- **Newly interchangeable:** **I13** — stranger start surface (README Start here + token lock in `run-stranger.sh`; repo-bin vs later PATH).
+- **Falsified:** none of C6–C10. the old README sentence that slice-boundary litmus was unshipped was never core.
 
 ## Checkpoint
 
-**Seam smell test:** category = operator install contract. fail if the slice only restyles vision links or claims a live grok driver.
+**Seam smell test:** category closed — operator install contract (repo-bin + stub loop + named fail-closed `grok`). not a vision-link restyle; no live driver.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 9`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 10 brief
+- [x] `/commit-prep mep-v0-graduation` — code scope (`2f6a514`)
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 9`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 10 brief
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

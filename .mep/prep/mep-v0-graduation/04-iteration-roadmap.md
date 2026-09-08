@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 13, 14**. **5–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 13, 14**. **5b** is next. **6–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -35,13 +35,15 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 2 | committed — `210c716`; row-derived `executionRequest` |
 | 3 | committed — `cafdc858`; `exec dispatch` + stub + workflow verbs; command presets fail closed |
 | 4 | committed — `051df03`; `scripts/litmus/slice-boundary.sh --executor stub` on stranger CI |
-| 5–12 | not satisfied — no golden matrix / resolver totality |
+| 5 | committed — `8e4d880` named context + goldens; human-closed at checkpoint (`--fix` blocked by I11) |
+| 5b | not satisfied — finish-scan `--*` comment heuristic false-positive |
+| 6–12 | not satisfied — workflow closure waits on 5b |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **5** (resolver totality). Not 15.
+**Next implement:** iteration **5b** (finish-scan marker heuristic). **Not** 6. Not 15.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -56,7 +58,8 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | I4 | 5 (golden matrix) — do not treat as slice-14 proof |
 | I5–I6 | 0 skeleton (finishes, not identity) |
 | I7 | 1 (seed paths / scaffolding flag tactic) |
-| I8 | 5 (resolver arity) |
+| I8 | 5 (resolver arity) — **done** in `8e4d880` |
+| I11 | 5b (finish-scan comment prefixes vs CLI flags) |
 | I9 | 3 (spellings / overlay labels) |
 | C10 | 4 (core lock) |
 | I10 | 4 (CI/fixture tactics) |
@@ -256,7 +259,30 @@ landed detection, golden coverage for every row + recovery path.
 
 **Checkpoint:** `mep where` on fixture slugs never disagrees with golden expectations; dogfood notes empty.
 
-**Status:** brief_ready — `iterations/05-resolver-totality-golden-matrix.md`
+**Status:** committed — `iterations/05-resolver-totality-golden-matrix.md` (`8e4d880`; human-closed at checkpoint — `--fix` blocked by I11)
+
+---
+
+## Iteration 5b — Finish-scan marker heuristic
+
+**Goal:** `@finish` grep counts language comments, not bash `--flag` lines. a landed slice whose resolver *mentions* the token must not look unfinished.
+
+**Delivery track:** mixed  
+**Fanout:** sequential  
+**Brief:** `iterations/05b-finish-scan-marker-heuristic.md`
+
+**Slice type:** architectural  
+**Epistemic transition:** finish-scan stops impersonating an open decision on CLI-flag lines.  
+**Irreversible decision:** comment prefixes are `-- ` (SQL), `#`, `//`, `/*`, `<!--` — not `--identifier`.  
+**Maturity target:** provisional → stable
+
+**Approach:** tighten `mep_finish_marker_lines_json` in `finish.sh`; prove with a fixture that `--reason "...@finish:open"` is not open, while `# @finish:open` still is. do not rewrite resolver row meaning or hide the token by copy-edit as the category.
+
+**Avoid:** authorship-mode policy (6–8); string-only workaround in `resolver.sh` as the fix; expanding litmus.
+
+**Checkpoint:** `mep finish scan mep-v0-graduation` has zero open markers; `mep where mep-v0-graduation` is not row 8 from this false positive.
+
+**Status:** brief_ready — `iterations/05b-finish-scan-marker-heuristic.md`
 
 ---
 
@@ -445,6 +471,7 @@ brief documents + git. Same routing semantics as iteration 5 golden matrix.
 0 (extract + document authoring contract)
   → 1 → 2 → 3 → 4   # unix foundation — v0.1 substrate; blocks all product work
   → 5                 # resolver totality (semantic; storage-agnostic tests)
+  → 5b                # finish-scan comment heuristic (unblocks dogfood where)
   → 6,7,8 (parallel)  # workflow closure
   → 9 → 10,11 (parallel) → 12 → 13 → 14 → 15
   → 16 (post-v0.1)    # eliminate manifest; document-colocated state → v0.2.0 program (`.mep/plans/mep-v0.2-outline.md`)
@@ -456,7 +483,7 @@ Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v
 
 | Iterations | Parallel? | Reason |
 |------------|-----------|--------|
-| 6, 7, 8 | yes after 5 | disjoint policy surfaces; unix+routing frozen |
+| 5b then 6, 7, 8 | 6–8 parallel after 5b | 5b unblocks finish-scan; then disjoint policy surfaces |
 | 10, 11 | yes after 9 | docs/tests vs events.sh |
 
 ## Re-plan triggers
@@ -464,3 +491,4 @@ Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v
 - Litmus reveals missing primitive → return to iteration 3 before resolver/workflow work.
 - Exit-code contract churn → freeze iteration 1 before iteration 2+.
 - Resolver golden matrix reveals table redesign → iteration 5 only; do not patch adapter-shaped routes.
+- Finish-scan false-positive on CLI flags → iteration 5b; do not copy-edit resolver strings as the category.

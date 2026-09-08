@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/05-resolver-totality-golden-matrix.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** architectural  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -57,13 +57,13 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `tools/mep/test/run-golden-matrix.sh` exits 0 and covers glossary rows **1–11** plus **row-10 precedence**, **row-11 recovery**, and **row-5 docs-delta interstitial**
-- [ ] each case asserts `executionRequest` (and `proof.executionRequest`) plus `row`; `nextCommand` is presentation only
-- [ ] a landed `brief_ready` slice with clean owned implementation routes to checkpoint (row 10), **never** back to implement
-- [ ] `mep_where_resolver_json` / `mep_resolver_json` call sites pass a **named context** (no 6–11 positional arities, including implement `execution_target`)
-- [ ] `.cursor/skills/mise-en-place/glossary.md` and `tools/mep/docs/glossary.md` stay twins on evaluation order
-- [ ] unix-contract + stranger + slice-boundary litmus still green; no I8 leftover fanout; no vendor drivers; no litmus product logic
-- [ ] fixtures are temp / dedicated slugs — do not mutate committed `mep-v0-graduation` or `fixture-demo` as the golden workspace
+- [x] `tools/mep/test/run-golden-matrix.sh` exits 0 and covers glossary rows **1–11** plus **row-10 precedence**, **row-11 recovery**, and **row-5 docs-delta interstitial**
+- [x] each case asserts `executionRequest` (and `proof.executionRequest`) plus `row`; `nextCommand` is presentation only
+- [x] a landed `brief_ready` slice with clean owned implementation routes to checkpoint (row 10), **never** back to implement
+- [x] `mep_where_resolver_json` / `mep_resolver_json` call sites pass a **named context** (no 6–11 positional arities, including implement `execution_target`)
+- [x] `.cursor/skills/mise-en-place/glossary.md` and `tools/mep/docs/glossary.md` stay twins on evaluation order
+- [x] unix-contract + stranger + slice-boundary litmus still green; no I8 leftover fanout; no vendor drivers; no litmus product logic
+- [x] fixtures are temp / dedicated slugs — do not mutate committed `mep-v0-graduation` or `fixture-demo` as the golden workspace
 
 ## Finish-map (fragment classification)
 
@@ -100,9 +100,9 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 
 ## RED-phase gates (before GREEN)
 
-- [ ] no `run-golden-matrix.sh` (or it does not cover rows 1–11)
-- [ ] `mep_where_resolver_json` still has 6/7/8/9-arg overloads
-- [ ] a fixture that is `brief_ready` + landed + clean can still be shown routing to implement without a golden failure
+- [x] no `run-golden-matrix.sh` (or it does not cover rows 1–11)
+- [x] `mep_where_resolver_json` still has 6/7/8/9-arg overloads
+- [x] a fixture that is `brief_ready` + landed + clean can still be shown routing to implement without a golden failure
 
 ## Approach
 
@@ -146,23 +146,23 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: evaluation order is glossary + resolver twins; row 5 is an implement interstitial on 7/8, not first-match dirty-prep; I8 named context is one jq object; goldens prove rows 1–11 + precedence + recovery + interstitial + pending+dirty stays 6.
+- Coupling increased: stranger CI runs `run-golden-matrix.sh`; glossary table is the spec the matrix asserts.
+- Harder to change: changing a row without a golden (or without both glossary twins) is now a red suite.
+- Easier to change: adding a packet field is one named context helper, not 6–11 positional arities.
+- **Promote to core:** none new — C8 already says row→`executionRequest`; this slice locked the *table* and the *emit shape*.
+- **Newly interchangeable:** finish-scan comment prefixes (`--` matching bash flags) — **I11 / iter 5b**, not a resolver-row problem.
+- **Falsified:** none of C7–C10. **dogfood hole:** `8e4d880` still bounces *this* slug to row 8 because `--reason "owned paths contain @finish:open"` is grepped as a marker. goldens did not cover self-scan of `resolver.sh`. **5b owns the heuristic.** `--fix` on 5 was blocked; 5 is human-closed from git (`8e4d880`) like iter 0.
 
 ## Checkpoint
 
-**Seam smell test:** category = total evaluation + named emit. fail if goldens only cover fixture-demo implement.
+**Seam smell test:** category closed in goldens (total eval + named emit). live dogfood bounce is **5b**, not a 6+ start.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 5`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 6 brief
+- [x] `/commit-prep mep-v0-graduation` — code scope (`8e4d880`)
+- [x] `git commit` → optional `/prep-pr-description mep-v0-graduation 5`
+- [x] `/prep mep-v0-graduation checkpoint` → **5b** (not 6)
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

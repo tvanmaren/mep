@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 5,
+  "currentIteration": 5.1,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -114,11 +114,25 @@
       "number": 5,
       "title": "Resolver totality & golden matrix",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/05-resolver-totality-golden-matrix.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "resolver moves from dogfooding misroutes to contract-tested totality",
+      "maturityTarget": "provisional -> stable",
+      "briefRevision": "c75c4b7c5517650e0bdc3cff80fe495a55596e0c",
+      "implementationRevision": "8e4d88014774b22dddfcad19b02c6502430fdd59",
+      "checkpointRevision": "8e4d88014774b22dddfcad19b02c6502430fdd59"
+    },
+    {
+      "number": 5.1,
+      "title": "Finish-scan marker heuristic",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/05b-finish-scan-marker-heuristic.md",
+      "status": "brief_ready",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "finish-scan stops treating bash flags as comments",
       "maturityTarget": "provisional -> stable"
     },
     {
@@ -278,6 +292,12 @@
       "iteration": 5,
       "summary": "golden matrix lives in FOSS tools/mep/test/run-golden-matrix.sh; host tools/mep/test/run.sh is not on this remote",
       "evidence": "051df03"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 5,
+      "summary": "checkpoint --fix blocked by finish-scan false-positive on resolver --reason; 5 human-closed from git 8e4d880; 5b owns I11 comment-vs-flag heuristic",
+      "evidence": "8e4d880"
     }
   ]
 }

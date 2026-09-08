@@ -477,6 +477,9 @@ pass "check scaffolding implied json envelope"
 bash "$SRC/tools/mep/test/run-finish-scan.sh"
 pass "finish-scan suite"
 
+bash "$SRC/tools/mep/test/run-manual-workflow.sh"
+pass "manual-workflow suite"
+
 bash "$SRC/scripts/litmus/slice-boundary.sh" --executor stub
 pass "slice-boundary litmus"
 

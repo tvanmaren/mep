@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/03-workflow-cli-primitives.md`  
-**Status:** draft  
+**Status:** brief_ready  
 **Slice type:** behavioral  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -81,8 +81,8 @@ Milestone U late. Iter 4 may pipe `where` → `exec dispatch --executor stub`. i
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| executor config schema | a stranger can set `executors.default=stub` and run dispatch without secrets in tree | `.mep/config` overlay keys; iter-1 registry as the other public table | (proposed) `executors.default`, `executors.presets.<name>.{kind,command}`; audit doc not live SDKs | `open` |
-| adapter-audit width | audit names presets and override surface; does not ship four vendor integrations | stranger CI uses stub/no overlay; cursor overlay already in-repo as commands | doc-only audit vs implement cursor/claude/codex drivers | `open` |
+| executor config schema | a stranger can set `executors.default=stub` and run dispatch without secrets in tree | `.mep/config` overlay keys; iter-1 registry as the other public table | `executors.default`, `executors.presets.<name>.{kind,command}` — no secrets | `ratified` |
+| adapter-audit width | audit names presets and override surface; does not ship four vendor integrations | stranger CI uses stub/no overlay; cursor overlay already in-repo as commands | doc + working stub only; cursor/claude-code/codex are named preset contracts, not live SDK drivers | `ratified` |
 
 ## File ownership
 
@@ -133,7 +133,7 @@ Milestone U late. Iter 4 may pipe `where` → `exec dispatch --executor stub`. i
 - [x] **No planned shotgun surgery** — Avoid lists litmus/golden/I8
 - [x] **Consolidation routing** — positional arity is I8/iter 5, not this slice
 
-**Preflight note:** pass — roadmap packed primitives+adapters into one slice; instance is stub+doc, not four working SDKs. two finishes still chef-owned until this brief is approved.
+**Preflight note:** pass — 3 stays fat (roadmap-owned extraction). finishes ratified: config schema + stub-only drivers. iter 4 composes `mep` verbs; it must not hide product in `scripts/litmus/`.
 
 ## Slice-type rules
 

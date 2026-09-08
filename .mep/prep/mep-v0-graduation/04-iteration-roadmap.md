@@ -185,7 +185,7 @@ usage/diagnostics, **exit codes aligned with JSON status**, help/version, comman
 
 **Checkpoint:** each resolver row maps to ≥1 CLI primitive or evidence write; `mep exec dispatch --executor stub` works; adapter audit doc lands.
 
-**Status:** draft — `iterations/03-workflow-cli-primitives.md` (awaiting brief_ready)
+**Status:** brief_ready — `iterations/03-workflow-cli-primitives.md`
 
 ---
 
@@ -203,6 +203,7 @@ classification, diffs, and markers. **Not** a claim that humans replace LLM work
 **Approach:**
 - Pipe recipes in test suite: `mep where … | jq … | xargs mep exec dispatch …`.
 - Litmus: where → executionRequest → **stub executor** → evidence → commit scope → checkpoint → where.
+- Litmus **only composes** `mep` verbs shipped in iter 3. if a packet is still missing, this slice extracts it as CLI — it must not hide product functions in `scripts/litmus/`.
 - Optional local smoke (non-CI): `--executor cursor` or other preset when user has credentials.
 - README: runtime-first loop; executor preset as step 2 of getting started.
 
@@ -212,6 +213,8 @@ classification, diffs, and markers. **Not** a claim that humans replace LLM work
 # proves plumbing — stub replays LLM outcomes; NOT a no-LLM product path
 scripts/litmus/slice-boundary.sh --executor stub prep/fixture-demo
 ```
+
+**Avoid:** inventing commit-scope / evidence-write as harness internals; live-vendor CI.
 
 **Checkpoint:** litmus passes in standalone repo CI; epic unix DoD satisfied.
 

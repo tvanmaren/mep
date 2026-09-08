@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 2,
+  "currentIteration": 3,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -84,7 +84,7 @@
       "number": 3,
       "title": "Workflow CLI primitives & executor adapters",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/03-workflow-cli-primitives.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",

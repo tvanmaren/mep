@@ -55,15 +55,15 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `MEP_VERSION` is `0.1.0` (`tools/mep/bin/mep version --json`)
-- [ ] README has an honest **scope table**: ships (unix contract, `executionRequest`, stub dispatch, markers, curate CLI execute, CONTRIBUTING authoring) vs does **not** (live vendor drivers, PATH/AUR install, success #3 three-mode stranger path, document-native manifest)
-- [ ] README footer contains the exact Sator Square block (five lines, spaces as in the roadmap)
-- [ ] README no longer lists "the v0.1.0 release itself" under still-ahead
-- [ ] LICENSE remains MIT; CONTRIBUTING.md remains the 12 authoring surface (no taste rewrite)
-- [ ] `.github/workflows/stranger.yml` still runs stranger + golden + litmus `--executor stub`
-- [ ] `bash tools/mep/test/run-stranger.sh` and `scripts/litmus/slice-boundary.sh --executor stub` green
+- [x] `MEP_VERSION` is `0.1.0` (`tools/mep/bin/mep version --json`)
+- [x] README has an honest **scope section**: ships (unix contract, stub dispatch, markers, `mep curate --execute`, CONTRIBUTING) vs does **not** (live vendor drivers, PATH/package install, document-native manifest). 01 success #3 stays deferred and is not claimed; `/mep stage` is named as Cursor overlay, not a CLI verb
+- [x] README footer contains the exact Sator Square block (five lines, spaces as in the roadmap)
+- [x] README no longer lists "the v0.1.0 release itself" under still-ahead
+- [x] LICENSE remains MIT; CONTRIBUTING.md remains the 12 authoring surface (no taste rewrite)
+- [x] `.github/workflows/stranger.yml` still runs stranger + golden + litmus `--executor stub`
+- [x] `bash tools/mep/test/run-stranger.sh` and `scripts/litmus/slice-boundary.sh --executor stub` green
 - [ ] human annotated tag `v0.1.0` on the release commit — the agent does not `git tag` or `git push --tags` unless asked
-- [ ] no vendor SDK; no I5; no 16; no claim that stub is how operators normally build product
+- [x] no vendor SDK; no I5; no 16; no claim that stub is how operators normally build product
 
 ## Finish-map (fragment classification)
 
@@ -78,7 +78,7 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| scope table | a stranger can tell stub from a live driver, and v0.1 from v0.2 | README "Project status"; 01 success vs rejection; C9 | claim #3 vs defer #3 | `open` |
+| scope table | a stranger can tell stub from a live driver, and v0.1 from v0.2 | README "Project status"; 01 success vs rejection; C9 | claim #3 vs defer #3 | `done` |
 
 ## File ownership
 
@@ -97,9 +97,9 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `MEP_VERSION` is still `0.0.0-dev`
-- [ ] README has no Sator Square footer
-- [ ] README "Project status" still lists v0.1.0 as ahead
+- [x] `MEP_VERSION` is still `0.0.0-dev`
+- [x] README has no Sator Square footer
+- [x] README "Project status" still lists v0.1.0 as ahead
 
 ## Approach
 

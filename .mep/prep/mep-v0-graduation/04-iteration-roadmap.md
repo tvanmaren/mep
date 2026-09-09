@@ -41,7 +41,7 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 7 | committed — `092ade7` autopilot `commit scope` fail-closed (mode parity, not a proxy runtime) |
 | 8 | committed — `84aa6e8` deterministic `mep mark` writer (whole-file `@mise` + monotonic finish `--state`) |
 | 9 | committed — `2f6a514` README Start here (repo-bin + stub loop); brief `6cc901b` |
-| 9b | committed — `52bb530` mode-agnostic finish readiness; brief born this docs-delta (impl preceded brief) |
+| 9b | committed — `52bb530` mode-agnostic finish readiness; brief `1f4ed1e` (impl preceded brief) |
 | 10–12 | not satisfied — policy/runtime guard next (10) |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
@@ -69,7 +69,9 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | I13 | 9 (README stranger start) |
 | I9 | 3 (spellings / overlay labels) |
 | C10 | 4 (core lock) |
+| C11 | 9b (core lock) |
 | I10 | 4 (CI/fixture tactics) |
+| I14 | 9b (open-marker helper spellings) |
 
 ---
 
@@ -402,29 +404,29 @@ the slice is done while `@finish:open` remains.
 
 **Checkpoint:** absent/default `commit scope` exits 2 on `@finish:open`; all emitters derive openness from `finish.sh`; action remains human vs proxy by policy.
 
-**Status:** committed — `iterations/09b-mode-agnostic-finish-readiness.md` (`52bb530`; brief born after impl)
+**Status:** committed — `iterations/09b-mode-agnostic-finish-readiness.md` (`52bb530`; brief `1f4ed1e`)
 
 ---
 
 ## Iteration 10 — Runtime ≠ policy hardening
 
-**Goal:** Lock the invariant 6/7 already implied: `authorshipMode` changes **who acts / who ratifies** (lifecycle + commit-scope), never **what `where` routes**. resolver stays a pure function of persisted workflow state.
+**Goal:** Guard `where` packet identity on a **non-open-finish** row. 9b already locked row 8 (`@finish:open` → implement) and mode-agnostic readiness (C11). 10 must prove the same slug+facts still yield identical `proof.row` + `executionRequest` when the fixture is *not* finish-blocked, then name the three layers (runtime / executor / authorship policy).
 
 **Slice type:** architectural  
-**Epistemic transition:** policy/runtime boundary becomes test-guarded, not prose-only.  
-**Irreversible decision:** `mep where` `executionRequest` (kind/target/argv + proof.row) is invariant across `manual` / `default` / `autopilot` for the same git+manifest workflow facts.  
+**Epistemic transition:** remaining routing invariance (unblocked `where` row) plus layer names become test-and-docs guarded.  
+**Irreversible decision:** for one slug and one set of workflow facts **without** `@finish:open`, `mep where --json` `proof.row` and `executionRequest` `{kind,target,argv}` are identical under absent / `default` / `manual` / `autopilot`.  
 **Maturity target:** provisional → stable  
 **Delivery track:** mixed  
 **Fanout:** sequential (11 may parallel after this brief if files stay disjoint)  
 **Brief:** `iterations/10-runtime-policy-hardening.md`
 
-**Approach:** hermetic proof that the same slug/state yields the same `where` packet under all three modes; document the three layers (runtime C7/C8/C10, executor C9, authorship policy). do not add another `commit scope` mode arm (6/7). do not retune resolver evaluation order unless a test finds a leak.
+**Approach:** hermetic equality on a clean `brief_ready` (or equivalent unblocked) fixture; one three-layer sentence in the foss/skill twins that already state the boundary. do not re-prove C11. do not add a `commit scope` mode arm. do not retune resolver evaluation order unless a test finds a leak.
 
-**Avoid:** live proxy dispatch; `mep mark` expansion; CONTRIBUTING (12); packaging (15); event ledger (11).
+**Avoid:** re-running 9b’s open-finish matrix as this slice’s RED; live proxy; `mep mark`; CONTRIBUTING (12); packaging (15); event ledger (11); `workflow.sh` rewrite.
 
-**Checkpoint:** a fixture’s `where` row+packet is identical at `manual`/`default`/`autopilot`; docs name the three layers.
+**Checkpoint:** unblocked `where` row+packet identical across modes; docs name the three layers; C11 untouched.
 
-**Status:** brief_ready — implement after docs-delta
+**Status:** brief_ready — implement after docs-delta (rewrite approved this checkpoint)
 
 ---
 

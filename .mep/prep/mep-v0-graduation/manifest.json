@@ -204,6 +204,7 @@
       "fanout": "sequential",
       "epistemicTransition": "open-finish readiness becomes mode-agnostic across every emitter",
       "maturityTarget": "provisional -> stable",
+      "briefRevision": "1f4ed1e9450e13beb8d382087fc916d098ca72e5",
       "implementationRevision": "52bb53078415dbb0debbfc4ebe0507f715e93ec6",
       "checkpointRevision": "52bb53078415dbb0debbfc4ebe0507f715e93ec6"
     },
@@ -215,8 +216,9 @@
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
-      "epistemicTransition": "policy/runtime boundary becomes test-guarded",
-      "maturityTarget": "provisional -> stable"
+      "epistemicTransition": "unblocked where packet identity plus three-layer names become guarded",
+      "maturityTarget": "provisional -> stable",
+      "briefRevision": "1f4ed1e9450e13beb8d382087fc916d098ca72e5"
     },
     {
       "number": 11,
@@ -356,6 +358,12 @@
       "iteration": 9.1,
       "summary": "impl 52bb530 landed before brief was in git; checkpoint --fix could not prove post-brief work; human-closed status=committed + implementationRevision=52bb530; briefRevision set by this docs-delta once committed",
       "evidence": "52bb53078415dbb0debbfc4ebe0507f715e93ec6"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 9.1,
+      "summary": "checkpoint --fix would have targeted currentIteration 10 (briefRevision 2358b11 stranger docs-delta, implementationRevision 52bb530 9b code, status committed); skipped --fix; human-set 9b briefRevision=1f4ed1e; pinned 10 briefRevision=1f4ed1e so 52bb530 is not git_post_brief for 10; 10 stays brief_ready until its own implement",
+      "evidence": "1f4ed1e9450e13beb8d382087fc916d098ca72e5"
     }
   ]
 }

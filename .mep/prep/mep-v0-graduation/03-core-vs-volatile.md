@@ -16,6 +16,7 @@
 | C8 | Durable next action from `where --json` is **`executionRequest` `{kind,target,argv}`**, derived from resolver **row**; `nextCommand` is adapter presentation | consumers must parse slash strings to know what to run; envelope and `proof` packets disagree |
 | C9 | Runtime invoke of executors is **`mep exec dispatch`**; in-tree live driver is **stub** (accept/block); command presets are contracts and must not be shell-evaluated | dispatch parses `nextCommand`; runtime `eval`s `presets.*.command`; a vendor SDK ships as the FOSS driver |
 | C10 | Unix-compliance proof is **`scripts/litmus/slice-boundary.sh --executor stub`** required in FOSS CI; the script only composes public `mep` verbs | v0.1.0 tagged without that CI step; the harness reimplements dispatch / evidence / commit-scope |
+| C11 | `@finish:open` is a **mode-agnostic readiness blocker**; authorshipMode changes gate actor/action/provenance only | a mode, including absent/default, treats open finishes as committable or checkpointable |
 
 ## Interchangeable (realizations)
 
@@ -34,6 +35,7 @@
 | I9 | stub primitive template strings; `.mep/history/evidence.jsonl`; documented command-preset names | invoke seam is C9; spellings now include `grok` (TUI harness) alongside cursor / claude-code / codex; still no live driver |
 | I10 | unix-contract optionally invoking litmus; stranger job name; fixture-demo as the litmus seed | the gate is C10; these are CI/fixture tactics |
 | I13 | stranger start surface (README Start here; repo-bin vs later PATH; `run-stranger.sh` token lock) | invoke is C6; stub/fail-closed presets are C9; CI composition is C10 |
+| I14 | open-marker helper names; consumers may call `mep_finish_has_open` or filter `finish_open` writebacks | the fact is C11; spellings are tactics |
 
 ## Amendments
 
@@ -51,7 +53,8 @@
 | 5 | `8e4d880` named context + golden matrix; glossary row 5 = implement interstitial | confirmed C8; I8 collapsed; live slug still row-8 until 5b; registered I11; checkpoint session `a0cecb8` (`--fix` blocked) |
 | 5b | `f749db1` `-- ` vs `--flag` in finish-scan | I11 closed; brief birth `a0cecb8`; docs-delta `46895d9`; `--fix` had pointed briefRevision at `ab9fc9b` — corrected |
 | oob | grok named as command preset (`command=grok`) | I9 hydration — TUI harness on the audit table; no live driver; iter 9 must not drop it |
-| 6 | `bb41b68` commit scope fail-closed in manual; `2f937b7` suite `$TMP` trap | confirmed C7 on the commit packet; default stays `ok`; `--fix` recorded HEAD (`2f937b7`) as implementationRevision |
+| 6 | `bb41b68` commit scope fail-closed in manual; `2f937b7` suite `$TMP` trap | confirmed C7 on the commit packet; **default-ok-with-open-finish falsified by 9b** |
 | 7 | `092ade7` autopilot join on the same `finish_open` arm | confirmed C7; **did not** promote a ratification/proxy C*; title overclaimed — product is enum expansion + fixture; lifecycle proxy mapping pre-existed |
 | 8 | `84aa6e8` `mep mark mise` / `mark finish` | confirmed C9 (no in-tree model); registered I12; category = CLI writer, not watcher / SKILL.md |
 | 9 | `2f6a514` README Start here + twins + stranger README lock | confirmed C6/C9/C10; registered I13; category = operator install contract, not a live driver / PATH package |
+| 9b | `52bb530` shared open-marker predicate; brief `1f4ed1e` | promoted C11; registered I14; category = readiness fact, not another mode arm |

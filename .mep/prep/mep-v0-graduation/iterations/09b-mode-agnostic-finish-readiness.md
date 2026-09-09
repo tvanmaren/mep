@@ -127,24 +127,24 @@ No new finish: feedback exposed an invariant violation, and existing checkpoint 
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: `@finish:open` is one readiness fact in `finish.sh` (`mep_finish_open_markers_json` / `mep_finish_has_open`). `where`, required writebacks, lifecycle, checkpoint, and commit scope consume it. authorshipMode may change `gate` / `action` / `asksUserMidSlice` / ratification provenance only.
+- Coupling increased: every readiness emitter now depends on that helper; a second open-marker scanner is a bug.
+- Harder to change: treating absent/default as exempt from `finish_open` (the 6/7 hole).
+- Easier to change: 10 can prove `where` packet identity on a *non-open* row without re-gating commit scope.
+- **Promote to core:** **C11** — `@finish:open` is a mode-agnostic readiness blocker.
+- **Newly interchangeable:** **I14** — helper names / whether consumers call `mep_finish_has_open` vs filter `requiredWritebacks` for `kind=finish_open`.
+- **Falsified:** iter 6 amendment that default `commit scope` stays `ok` with open finishes. no C7–C10 falsified.
 
 ## Checkpoint
 
-**Seam smell test:** category closed only if absent/default cannot commit or checkpoint an open finish and all emitters derive openness from `finish.sh`.
+**Seam smell test:** category closed — absent/default/manual/autopilot all block scope and checkpoint; `where` row 8 on the same open-finish fixture; lifecycle still human vs proxy.
 
 ## After commit
 
 - [x] `/commit-prep mep-v0-graduation` — code scope (`52bb530`)
 - [x] `git commit`
-- [ ] `/prep mep-v0-graduation checkpoint` → restore iter 10 as current (triplet: impl preceded brief)
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/prep mep-v0-graduation checkpoint` → restore iter 10 as current (triplet: impl preceded brief)
+- [x] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction
 

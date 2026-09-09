@@ -189,9 +189,10 @@ real agent does the building is still ahead of us.
   that politely refuse; `stub` is the only executor that runs. Your credentials, your binary — when
   the drivers land.
 - **No install path.** Clone it and run it from the checkout. No PATH shim, no package manager.
-- **Two of the three authorship modes are beta.** Default mode is in daily use on a real repo.
-  Manual and autopilot pass their suites but haven't been driven through real work yet, so expect
-  rough edges.
+- **Two of the three authorship modes are beta.** Default mode ran **this** repo through the
+  v0.1.0 tag via an agent harness driving the CLI — the failure list is
+  [the default-mode record](tools/mep/docs/pilot-default-mode.md). Manual and autopilot pass
+  their suites but have not been driven through real work on this remote.
 - **`manifest.json` still exists.** Workflow state is supposed to live on the plan documents
   themselves; that's a v0.2 job.
 

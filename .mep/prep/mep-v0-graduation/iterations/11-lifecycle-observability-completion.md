@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/11-lifecycle-observability-completion.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** behavioral  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -55,12 +55,12 @@ Milestone C observability. 12 may assume a stranger can `events tail` a local le
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] RED: unix-contract covers tail missing/malformed only — no FOSS test asserts the four documented classes append and round-trip through `events tail`
-- [ ] GREEN: hermetic suite fails if any of the four classes is missing after the matching `--json` verb, or if `--slug` / `--event` / `--limit` filters lie
-- [ ] envelope fields (`version`, `event`, `id`, `ts`, `slug`, `source`, `payload`) match `event-ledger.md` for those rows
-- [ ] `rg` of `tools/mep/lib/resolver.sh` shows emit-after-packet only — no ledger read on the `where` path
-- [ ] `bash tools/mep/test/run-unix-contract.sh` green; golden + stranger + litmus unchanged
-- [ ] no analytics; no new event class; no 10 suite rewrite
+- [x] RED: unix-contract covers tail missing/malformed only — no FOSS test asserts the four documented classes append and round-trip through `events tail`
+- [x] GREEN: hermetic suite fails if any of the four classes is missing after the matching `--json` verb, or if `--slug` / `--event` / `--limit` filters lie
+- [x] envelope fields (`version`, `event`, `id`, `ts`, `slug`, `source`, `payload`) match `event-ledger.md` for those rows
+- [x] `rg` of `tools/mep/lib/resolver.sh` shows emit-after-packet only — no ledger read on the `where` path
+- [x] `bash tools/mep/test/run-unix-contract.sh` green; golden + stranger + litmus unchanged
+- [x] no analytics; no new event class; no 10 suite rewrite
 
 ## Finish-map (fragment classification)
 
@@ -90,8 +90,8 @@ Milestone C observability. 12 may assume a stranger can `events tail` a local le
 
 ## RED-phase gates (before GREEN)
 
-- [ ] no suite asserts append of `resolver_routed` / `checkpoint_evaluated` / `lifecycle_evaluated` / `review_body_validated`
-- [ ] resolver does not read `events.jsonl` (emit-only)
+- [x] no suite asserts append of `resolver_routed` / `checkpoint_evaluated` / `lifecycle_evaluated` / `review_body_validated`
+- [x] resolver does not read `events.jsonl` (emit-only)
 
 ## Approach
 
@@ -135,24 +135,24 @@ Milestone C observability. 12 may assume a stranger can `events tail` a local le
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: the four documented classes append and round-trip through `events tail` filters; writers were already in `resolver` / `checkpoint` / `lifecycle` / `pr`.
+- Coupling increased: `run-unix-contract.sh` now runs `run-events.sh`.
+- Harder to change: silently dropping a documented emit site.
+- Easier to change: 12 may assume a stranger can `events tail` a local ledger.
+- **Promote to core:** none — confirmed C8; no observability C*.
+- **Newly interchangeable:** **I16** — `run-events.sh` / `MEP_HISTORY_ROOT_OVERRIDE`.
+- **Falsified:** none. the slice was a test lock of already-true emitters (same pattern as 10).
 
 ## Checkpoint
 
-**Seam smell test:** category = history observes packets, does not route. fail if the slice only restates `event-ledger.md` or adds a dashboard.
+**Seam smell test:** category closed as proof, not as new product. `event-ledger.md` was not rewritten. 12 is authoring artifacts, not a fifth event class.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 11`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 12 brief
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation` — code scope
+- [x] `git commit` → `8408fda`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 12 brief
+- [x] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction
 

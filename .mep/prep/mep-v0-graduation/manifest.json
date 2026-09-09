@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 11,
+  "currentIteration": 12,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -226,18 +226,21 @@
       "number": 11,
       "title": "Lifecycle observability completion",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/11-lifecycle-observability-completion.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "documented event classes emit and tail filters tell the truth",
-      "maturityTarget": "provisional -> stable"
+      "maturityTarget": "provisional -> stable",
+      "briefRevision": "8f61a98b0b808823bf22d08f0bb8128cf60ffaef",
+      "implementationRevision": "8408fda3a29f691bce0b7ce7b9b75f23e210a2e4",
+      "checkpointRevision": "8408fda3a29f691bce0b7ce7b9b75f23e210a2e4"
     },
     {
       "number": 12,
       "title": "Curation externalized",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/12-curation-externalized.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "consolidation",
       "deliveryTrack": "mixed",
       "fanout": "sequential",

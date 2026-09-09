@@ -450,7 +450,7 @@ the slice is done while `@finish:open` remains.
 
 **Checkpoint:** four classes round-trip through tail; `rg` shows resolver still does not read the ledger.
 
-**Status:** brief_ready — implement after docs-delta
+**Status:** committed — `iterations/11-lifecycle-observability-completion.md` (`8408fda`; brief `8f61a98`)
 
 ---
 
@@ -459,11 +459,20 @@ the slice is done while `@finish:open` remains.
 **Goal:** Taste lives in CONTRIBUTING, examples, and profile seeds — stranger can follow without author context.
 
 **Slice type:** consolidation  
-**Epistemic transition:** framework **authoring** curation moves from author memory to repo artifacts.
+**Epistemic transition:** framework **authoring** curation moves from author memory to repo artifacts.  
+**Irreversible decision:** CONTRIBUTING is the stranger authoring surface; glossary/resolver table stays the routing contract (no second table). 15 may only verify the file exists at tag time — it does not rewrite taste.  
+**Maturity target:** absent → provisional  
+**Delivery track:** mixed  
+**Fanout:** sequential (15 packaging; 13 leftover CONTRIBUTING AC)  
+**Brief:** `iterations/12-curation-externalized.md`
 
-**Checkpoint:** CONTRIBUTING + 2–3 canonical examples; glossary/resolver table is the routing contract.
+**Approach:** root `CONTRIBUTING.md` pointing at existing examples (`fixture-demo`, `example-stub`, curate fixture) plus any missing worked sample. grep-lock that the file exists and names curate + profile retarget. do not add a fourth “already true” CLI suite.
 
-**Status:** pending
+**Avoid:** 01 success #3 live-executor dogfood; v0.1.0 tag / Sator (15); rewriting 10/11 suites; live vendor driver (C9); forking the glossary into CONTRIBUTING.
+
+**Checkpoint:** CONTRIBUTING + 2–3 canonical examples; glossary/resolver table is still the routing contract; 13’s leftover “CONTRIBUTING documents curate” can close.
+
+**Status:** brief_ready
 
 ---
 
@@ -508,7 +517,7 @@ the slice is done while `@finish:open` remains.
 ## Iteration 15 — v0.1.0 release package (incl. Sator Square)
 
 **Goal:** Honest public release — README (ownership model, one canonical workflow, open roadmap), LICENSE,
-CONTRIBUTING, tag **v0.1.0**. **Hard gate:** README footer contains exact Sator Square block.
+CONTRIBUTING (**created in 12** — 15 verifies, does not rewrite taste), tag **v0.1.0**. **Hard gate:** README footer contains exact Sator Square block.
 
 **Brief:** `iterations/15-v010-release-package.md` (draft at slice start)
 

@@ -62,7 +62,7 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 - [x] LICENSE remains MIT; CONTRIBUTING.md remains the 12 authoring surface (no taste rewrite)
 - [x] `.github/workflows/stranger.yml` still runs stranger + golden + litmus `--executor stub`
 - [x] `bash tools/mep/test/run-stranger.sh` and `scripts/litmus/slice-boundary.sh --executor stub` green
-- [ ] human annotated tag `v0.1.0` on the release commit — the agent does not `git tag` or `git push --tags` unless asked
+- [x] human annotated tag `v0.1.0` on the release commit — the agent does not `git tag` or `git push --tags` unless asked
 - [x] no vendor SDK; no I5; no 16; no claim that stub is how operators normally build product
 
 ## Finish-map (fragment classification)
@@ -153,14 +153,14 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 
 ## Checkpoint
 
-**Seam smell test:** category closed as truth-in-labeling. no driver shipped. square present and exact. `--fix` did **not** mark committed: product `66373b3` precedes brief `43fff44`, so there is no post-brief owned-path commit. annotated tag `v0.1.0` is still the human finish.
+**Seam smell test:** category closed as truth-in-labeling. no driver shipped. square present and exact. `--fix` could not prove post-brief impl (product `66373b3` precedes brief `43fff44`); human-closed. annotated tag `v0.1.0` is on `66373b3` (signed).
 
 ## After commit
 
 - [x] `/commit-prep mep-v0-graduation` — code/docs scope
-- [x] `git commit` → product `66373b3`; docs-delta `43fff44`
-- [ ] human `git tag -a v0.1.0`
-- [x] `/prep mep-v0-graduation checkpoint` → 16 stays blocked until the tag exists
+- [x] `git commit` → product `66373b3`; docs-delta `43fff44`; checkpoint ledger `1d6bb8f`
+- [x] human `git tag -a v0.1.0` → `66373b3` (signed)
+- [x] `/prep mep-v0-graduation checkpoint` → 16 unblocked
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

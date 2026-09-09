@@ -24,9 +24,11 @@ Milestones:
 
 Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
-### Ledger after iteration 0 (this remote)
+### Ledger after v0.1.0
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 9, 9b, 10, 13, 14**. **11** is next. **12, 15, 16** remain pending.
+**15 tagged at `66373b3` (`v0.1.0`, signed).** Milestones U + A + B + stranger README + tag. **16** is post-v0.1 (document-native state) — `brief_ready`.
+
+Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's promised `pilot-default-mode-report.md` **absent** — deviation, do not backfill here). **11** and **12** landed (`8408fda`, `8af941f`).
 
 | iter | git vs promise |
 |------|----------------|
@@ -43,13 +45,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 9 | committed — `2f6a514` README Start here (repo-bin + stub loop); brief `6cc901b` |
 | 9b | committed — `52bb530` mode-agnostic finish readiness; brief `1f4ed1e` (impl preceded brief) |
 | 10 | committed — `50d76f6` unblocked `where` packet identity; brief `1f4ed1e`; docs sentence waived |
-| 11–12 | not satisfied — event emit+tail next (11) |
+| 11 | committed — `8408fda` emit+tail suite; writers already existed |
+| 12 | committed — `8af941f` CONTRIBUTING + examples; brief `1e8df26` |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
-| 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
-| 16 | post-v0.1 |
+| 15 | tagged `v0.1.0` at `66373b3`; brief `43fff44`; checkpoint `1d6bb8f`; 01 success #3 **not** claimed |
+| 16 | post-v0.1 — `brief_ready` (document-colocated state) |
 
-**Next implement:** iteration **11** (lifecycle observability). **Not** 15. **10** already landed (`50d76f6`).
+**Next implement:** iteration **16** (retire `manifest.json` as routing authority). **Not** 9c. **Not** four vendor CLIs.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -74,6 +77,8 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | I10 | 4 (CI/fixture tactics) |
 | I14 | 9b (open-marker helper spellings) |
 | I15 | 10 (unblocked `where` mode-loop suite) |
+| I16 | 11 (emit+tail suite path) |
+| I17 | 12 (CONTRIBUTING + examples) |
 
 ---
 
@@ -532,7 +537,7 @@ CONTRIBUTING (**created in 12** — 15 verifies, does not rewrite taste), tag **
 
 **Avoid:** live executor SDK (C9); claiming 01 success #3; AUR/PATH install; I5 host consume; 16 manifest retirement; rewriting 12 CONTRIBUTING.
 
-**Status:** implementation landed `66373b3`; brief `43fff44`; `--fix` did not promote (product SHA precedes brief); annotated tag `v0.1.0` still human. 16 stays blocked.
+**Status:** committed — product `66373b3`; brief `43fff44`; checkpoint `1d6bb8f`; signed annotated tag `v0.1.0` on `66373b3`. 16 unblocked.
 
 **Sator Square (required footer):**
 
@@ -544,7 +549,7 @@ O P E R A
 R O T A S
 ```
 
-**Checkpoint:** Sator Square in README footer; scope section matches shipped surface; annotated tag still outstanding.
+**Checkpoint:** Sator Square in README footer; scope section matches shipped surface; annotated tag `v0.1.0` on `66373b3`.
 
 ---
 
@@ -554,15 +559,15 @@ R O T A S
 brief documents + git. Same routing semantics as iteration 5 golden matrix.
 
 **Shortcut:** sc-101  
-**Brief:** `iterations/16-document-colocated-workflow-state.md` (draft at slice start)
+**Brief:** `iterations/16-document-colocated-workflow-state.md`
 
 **Slice type:** architectural  
 **Epistemic transition:** transitional manifest retires; plan documents are the workflow ledger.  
-**Blocked by:** v0.1.0 tag (15) + golden matrix (5).
+**Blocked by:** golden matrix (5) — already committed. v0.1.0 tag (15) landed.
 
-**Not a v0.1 gate.** v0.1 ships the authoring contract (0, 12) and transitional manifest.
+**Not a v0.1 gate.** v0.1 shipped the authoring contract (0, 12) and transitional manifest.
 
-**Status:** pending
+**Status:** brief_ready — schema ratified (cursor on 04; triplet on briefs; deviations in 03).
 
 ---
 
@@ -578,7 +583,7 @@ brief documents + git. Same routing semantics as iteration 5 golden matrix.
   → 16 (post-v0.1)    # eliminate manifest; document-colocated state → v0.2.0 program (`.mep/plans/mep-v0.2-outline.md`)
 ```
 
-Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 packaging landed; the annotated tag is the remaining human DoD.**
+Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 is tagged.** 16 is the v0.2.0 headline (document-colocated state), not a v0.1 gate.
 
 ## Fanout eligibility
 

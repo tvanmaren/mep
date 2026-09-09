@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 15,
+  "currentIteration": 16,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -287,13 +287,14 @@
       "epistemicTransition": "MEP graduates to FOSS v0.1.0 with honest scope",
       "maturityTarget": "n/a",
       "briefRevision": "43fff44cc2404edd067ec63471c7dd38ad6d6671",
-      "implementationRevision": "66373b3a3f74de667e96a138b53de852573a762a"
+      "implementationRevision": "66373b3a3f74de667e96a138b53de852573a762a",
+      "checkpointRevision": "1d6bb8f6ce3e04cfa03d0b8965e2d9b41e7d6d8f"
     },
     {
       "number": 16,
       "title": "Document-colocated workflow state (eliminate manifest)",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/16-document-colocated-workflow-state.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -303,6 +304,12 @@
     }
   ],
   "deviations": [
+    {
+      "at": "2026-09-09",
+      "iteration": 15,
+      "summary": "signed annotated tag v0.1.0 points at product 66373b3; 16 unblocked as v0.2.0 headline (A1); schema finish left open",
+      "evidence": "v0.1.0"
+    },
     {
       "at": "2026-09-09",
       "iteration": 15,

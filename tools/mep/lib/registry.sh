@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @stable — public shell contract: JSON status → process exit; this registry feeds help, usage, and tests.
 
-MEP_VERSION=0.0.0-dev
+MEP_VERSION=0.1.0
 
 # TSV: name<TAB>usage<TAB>blurb
 mep_registry_print() {

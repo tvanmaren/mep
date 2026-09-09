@@ -53,7 +53,7 @@ tools/mep/bin/mep version --json
 ```
 
 ```json
-{"status":"ok","version":"0.0.0-dev"}
+{"status":"ok","version":"0.1.0"}
 ```
 
 **3. Ask the tool what to do next.** The repo ships a tiny example initiative called
@@ -165,10 +165,39 @@ point `mep` there instead.
 
 ## Project status
 
-Working today: the shell contract, the router, the executor boundary with the `stub` driver, the
-authorship and decision markers, and the CI suites above. Still ahead: live executor drivers, an
-install path that isn't "run it from the checkout," and the v0.1.0 release itself. The current plan
-of record is [the iteration roadmap](.mep/prep/mep-v0-graduation/04-iteration-roadmap.md).
+This is **v0.1.0**. The short version: the planning half works end to end, and the half where a
+real agent does the building is still ahead of us.
+
+**What works today**
+
+- The whole loop, from this checkout. `mep where` tells you the next step, and each checkpoint
+  re-plans from what actually shipped rather than from the original guess.
+- The shell contract. JSON on stdout, diagnostics on stderr, and an exit code that always agrees
+  with the reported status — so scripts can branch on it.
+- The `stub` executor, which proves the plumbing in CI and fixtures. It is not a way to build
+  software; it accepts or refuses a request and writes nothing.
+- Decision markers. A choice the tool considers yours blocks the commit until you answer it,
+  in every authorship mode.
+- Curating a long branch into reviewable ones with `mep curate --execute`, without touching the
+  branch you developed on. Stacking those for review is `/mep stage`, on the Cursor overlay
+  rather than the CLI.
+- [CONTRIBUTING.md](CONTRIBUTING.md), so you can point `mep` at your own project without asking us.
+
+**What doesn't yet**
+
+- **No live agent driver.** `grok`, `cursor`, `claude-code`, and `codex` are documented contracts
+  that politely refuse; `stub` is the only executor that runs. Your credentials, your binary — when
+  the drivers land.
+- **No install path.** Clone it and run it from the checkout. No PATH shim, no package manager.
+- **Two of the three authorship modes are beta.** Default mode is in daily use on a real repo.
+  Manual and autopilot pass their suites but haven't been driven through real work yet, so expect
+  rough edges.
+- **`manifest.json` still exists.** Workflow state is supposed to live on the plan documents
+  themselves; that's a v0.2 job.
+
+What v0.1 leaves unfinished on purpose is in
+[mep-v0.2-outline.md](.mep/plans/mep-v0.2-outline.md); the slice-by-slice ledger is
+[the roadmap](.mep/prep/mep-v0-graduation/04-iteration-roadmap.md).
 
 ## Going deeper
 
@@ -180,3 +209,15 @@ of record is [the iteration roadmap](.mep/prep/mep-v0-graduation/04-iteration-ro
 | [mep-authorship-modes.md](.mep/plans/mep-authorship-modes.md) | how much the agent decides, and why one combination is left deliberately empty |
 | [mep-curate-outline.md](.mep/plans/mep-curate-outline.md) | turning messy development history into a reviewable story |
 | [mep-v0.2-outline.md](.mep/plans/mep-v0.2-outline.md) | what v0.1 leaves unfinished on purpose |
+
+---
+
+```text
+S A T O R
+A R E P O
+T E N E T
+O P E R A
+R O T A S
+```
+
+*With tools, the coder keeps the cycles moving carefully.*

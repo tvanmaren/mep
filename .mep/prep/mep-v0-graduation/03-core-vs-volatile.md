@@ -36,6 +36,7 @@
 | I10 | unix-contract optionally invoking litmus; stranger job name; fixture-demo as the litmus seed | the gate is C10; these are CI/fixture tactics |
 | I13 | stranger start surface (README Start here; repo-bin vs later PATH; `run-stranger.sh` token lock) | invoke is C6; stub/fail-closed presets are C9; CI composition is C10 |
 | I14 | open-marker helper names; consumers may call `mep_finish_has_open` or filter `finish_open` writebacks | the fact is C11; spellings are tactics |
+| I15 | unblocked mode-loop suite path (`run-mode-resolver.sh`) and compare-key shape | the invariant is C8; the file/jq key are tactics |
 
 ## Amendments
 
@@ -58,3 +59,4 @@
 | 8 | `84aa6e8` `mep mark mise` / `mark finish` | confirmed C9 (no in-tree model); registered I12; category = CLI writer, not watcher / SKILL.md |
 | 9 | `2f6a514` README Start here + twins + stranger README lock | confirmed C6/C9/C10; registered I13; category = operator install contract, not a live driver / PATH package |
 | 9b | `52bb530` shared open-marker predicate; brief `1f4ed1e` | promoted C11; registered I14; category = readiness fact, not another mode arm |
+| 10 | `50d76f6` unblocked `where` mode-loop; brief `1f4ed1e` | confirmed C8; registered I15; **did not** promote a three-layer docs C*; sentence waived |

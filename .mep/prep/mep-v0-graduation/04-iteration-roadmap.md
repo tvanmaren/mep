@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 9, 9b, 13, 14**. **10** is next. **11–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 9, 9b, 10, 13, 14**. **11** is next. **12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -42,13 +42,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 8 | committed — `84aa6e8` deterministic `mep mark` writer (whole-file `@mise` + monotonic finish `--state`) |
 | 9 | committed — `2f6a514` README Start here (repo-bin + stub loop); brief `6cc901b` |
 | 9b | committed — `52bb530` mode-agnostic finish readiness; brief `1f4ed1e` (impl preceded brief) |
-| 10–12 | not satisfied — policy/runtime guard next (10) |
+| 10 | committed — `50d76f6` unblocked `where` packet identity; brief `1f4ed1e`; docs sentence waived |
+| 11–12 | not satisfied — event emit+tail next (11) |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **10** (runtime ≠ policy hardening). **Not** 15. **9b** already landed (`52bb530`).
+**Next implement:** iteration **11** (lifecycle observability). **Not** 15. **10** already landed (`50d76f6`).
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -72,6 +73,7 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | C11 | 9b (core lock) |
 | I10 | 4 (CI/fixture tactics) |
 | I14 | 9b (open-marker helper spellings) |
+| I15 | 10 (unblocked `where` mode-loop suite) |
 
 ---
 
@@ -410,37 +412,45 @@ the slice is done while `@finish:open` remains.
 
 ## Iteration 10 — Runtime ≠ policy hardening
 
-**Goal:** Guard `where` packet identity on a **non-open-finish** row. 9b already locked row 8 (`@finish:open` → implement) and mode-agnostic readiness (C11). 10 must prove the same slug+facts still yield identical `proof.row` + `executionRequest` when the fixture is *not* finish-blocked, then name the three layers (runtime / executor / authorship policy).
+**Goal:** Guard `where` packet identity on a **non-open-finish** row. 9b already locked row 8 and C11. 10 proves the same slug+facts still yield identical `proof.row` + `executionRequest` when the fixture is *not* finish-blocked.
 
 **Slice type:** architectural  
-**Epistemic transition:** remaining routing invariance (unblocked `where` row) plus layer names become test-and-docs guarded.  
+**Epistemic transition:** remaining routing invariance (unblocked `where` row) is test-guarded.  
 **Irreversible decision:** for one slug and one set of workflow facts **without** `@finish:open`, `mep where --json` `proof.row` and `executionRequest` `{kind,target,argv}` are identical under absent / `default` / `manual` / `autopilot`.  
 **Maturity target:** provisional → stable  
 **Delivery track:** mixed  
 **Fanout:** sequential (11 may parallel after this brief if files stay disjoint)  
 **Brief:** `iterations/10-runtime-policy-hardening.md`
 
-**Approach:** hermetic equality on a clean `brief_ready` (or equivalent unblocked) fixture; one three-layer sentence in the foss/skill twins that already state the boundary. do not re-prove C11. do not add a `commit scope` mode arm. do not retune resolver evaluation order unless a test finds a leak.
+**Approach:** hermetic equality on a clean `brief_ready` fixture; commit fixture manifest after each `mode set`. do not re-prove C11. do not add a `commit scope` mode arm. operator docs already name the boundary — no new taxonomy sentence.
 
-**Avoid:** re-running 9b’s open-finish matrix as this slice’s RED; live proxy; `mep mark`; CONTRIBUTING (12); packaging (15); event ledger (11); `workflow.sh` rewrite.
+**Avoid:** re-running 9b’s open-finish matrix as this slice’s RED; live proxy; `mep mark`; CONTRIBUTING (12); packaging (15); event ledger (11); `workflow.sh` rewrite; README/glossary restatement.
 
-**Checkpoint:** unblocked `where` row+packet identical across modes; docs name the three layers; C11 untouched.
+**Checkpoint:** unblocked `where` row+packet identical across modes; C11 untouched; docs sentence waived.
 
-**Status:** brief_ready — implement after docs-delta (rewrite approved this checkpoint)
+**Status:** committed — `iterations/10-runtime-policy-hardening.md` (`50d76f6`; brief `1f4ed1e`)
 
 ---
 
 ## Iteration 11 — Lifecycle observability completion
 
-**Goal:** Close event-coverage gaps — meaningful transitions emit machine-readable events; `--json` proof
-separate from human reason across where/status/checkpoint/finish scan.
+**Goal:** Close the observability gap: documented event classes (`resolver_routed`, `checkpoint_evaluated`, `lifecycle_evaluated`, `review_body_validated`) actually append, and `events tail --json` filters are proven — history stays off the resolver.
 
 **Slice type:** behavioral  
-**Epistemic transition:** observability matches the runtime spine (Milestone A from runtime-evolution).
+**Epistemic transition:** observability matches the runtime spine (Milestone C remaining vs Milestone A routing).  
+**Irreversible decision:** the four documented emit sites are the v0.1 ledger surface; tail is inspectable JSON; events never participate in `where` derivation.  
+**Maturity target:** provisional → stable  
+**Delivery track:** mixed  
+**Fanout:** sequential (disjoint from 12’s CONTRIBUTING)  
+**Brief:** `iterations/11-lifecycle-observability-completion.md`
 
-**Checkpoint:** event ledger covers resolver, checkpoint, lifecycle, review validation; reads filter correctly.
+**Approach:** hermetic `MEP_HISTORY_ROOT_OVERRIDE`; drive `where` / `checkpoint` / `lifecycle status` / `pr scaffold`; assert envelope + `events tail` `--slug` / `--event` / `--limit`. fill silent documented classes only. do not add analytics.
 
-**Status:** pending
+**Avoid:** resolver input from the ledger; new event classes for mark/commit-scope/mode unless a listed class is missing; dashboards; 12 CONTRIBUTING; packaging (15).
+
+**Checkpoint:** four classes round-trip through tail; `rg` shows resolver still does not read the ledger.
+
+**Status:** brief_ready — implement after docs-delta
 
 ---
 

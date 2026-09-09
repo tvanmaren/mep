@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** architectural  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -20,7 +20,7 @@
 
 **Category certainty (close this slice):** one invariant, test-guarded: mode is not a resolver input on an unblocked row. C8 stays row→packet; C7 still pairs JSON status with exit; C11 stays 9b’s fact; policy lives in lifecycle / commit-scope / execution-policies.
 
-**Instance certainty (this slice only):** hermetic fixture covering a `where` row that is **not** the open-finish/row-8 case (clean `brief_ready` / implement interstitial is enough), plus a docs sentence naming the three layers (runtime / executor / authorship policy).
+**Instance certainty (this slice only):** hermetic fixture covering a `where` row that is **not** the open-finish/row-8 case (clean `brief_ready` / implement interstitial). operator docs already state same-plan / different-chef and resolver-as-pure-function; no new taxonomy sentence.
 
 **Acceptance order:** failing RED (no mode-loop on an *unblocked* `where`) before GREEN. do not “fix” a green `where` by special-casing mode in `resolver.sh`. do not re-own 9b’s open-finish matrix.
 
@@ -28,11 +28,11 @@
 
 | | |
 |---|---|
-| **Owns** | FOSS proof that unblocked `where` is mode-invariant (extend `tools/mep/test/run-golden-matrix.sh` **or** add a dedicated hermetic suite hooked from `run-unix-contract.sh`); docs that already claim the boundary (`tools/mep/docs/README.md` / glossary / execution-policies twins, `.cursor/skills/mise-en-place/**` copies) — **only** the sentence that states the three layers, not a SKILL rewrite |
+| **Owns** | FOSS proof that unblocked `where` is mode-invariant (`tools/mep/test/run-mode-resolver.sh` hooked from `run-unix-contract.sh`) |
 | **May know** | C7, C8, C9, C11; `mep mode set`; `authorshipMode` on lifecycle + `commit scope` (6/7/9b); golden-matrix fixture helper; glossary evaluation order as **read-only spec**; 9b’s open-finish `where` helpers |
 | **Must not know** | new resolver rows; `mep mark`; event ledger (`events.sh` — 11); CONTRIBUTING (12); packaging (15); live Task/LLM proxy; vendor SDKs |
 | **Invariants** | C7, C8, C9, C10, C11; 6/7/9b `commit scope` packets stay as landed; `resolver.sh` does not grow an `authorshipMode` branch unless a test proves a leak **and** the fix restores invariance (no new row) |
-| **Still provisional** | actual autopilot host dispatch; dual skill/docs copies except the one three-layer sentence this slice must keep in sync |
+| **Still provisional** | actual autopilot host dispatch; dual skill/docs copies |
 
 ## Epistemic markers (`@` tags)
 
@@ -56,13 +56,13 @@ Milestone C continues. 11 may assume `where` is not a mode switch even when fini
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] RED: today no FOSS test asserts `where` packet equality across absent/`default`/`manual`/`autopilot` on a fixture **without** `@finish:open`
-- [ ] GREEN: hermetic suite fails if any of those modes changes `proof.row` or `executionRequest` for that unblocked fixture
-- [ ] fixture is an unblocked row (clean `brief_ready` / implement interstitial). **not** 9b’s row-8 open-finish fixture
-- [ ] docs name three layers: runtime (`where`/envelope/litmus), executor (`exec dispatch` / stub), authorship policy (lifecycle + execution-policies). no fourth “resolver mode” layer
-- [ ] `resolver.sh` still has no `authorshipMode` branch (or a leak-fix that removes one — never a new evaluation-order row)
-- [ ] `bash tools/mep/test/run-unix-contract.sh` green; `run-golden-matrix.sh` still green; stranger + litmus unchanged
-- [ ] no vendor SDK; no `events.sh` product; no 6/7/9b packet rewrite; no second open-finish matrix as this slice’s proof
+- [x] RED: today no FOSS test asserts `where` packet equality across absent/`default`/`manual`/`autopilot` on a fixture **without** `@finish:open`
+- [x] GREEN: hermetic suite fails if any of those modes changes `proof.row` or `executionRequest` for that unblocked fixture
+- [x] fixture is an unblocked row (clean `brief_ready` / implement interstitial). **not** 9b’s row-8 open-finish fixture
+- [x] docs three-layer sentence — **waived**: existing README “plan stays the same” + glossary pure-function resolver already name the boundary; new jargon was restatement
+- [x] `resolver.sh` still has no `authorshipMode` branch (or a leak-fix that removes one — never a new evaluation-order row)
+- [x] `bash tools/mep/test/run-unix-contract.sh` green; `run-golden-matrix.sh` still green; stranger + litmus unchanged
+- [x] no vendor SDK; no `events.sh` product; no 6/7/9b packet rewrite; no second open-finish matrix as this slice’s proof
 
 ## Finish-map (fragment classification)
 
@@ -78,7 +78,7 @@ Milestone C continues. 11 may assume `where` is not a mode switch even when fini
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| layer names | a stranger reading getting-started/glossary can tell routing ≠ executor ≠ authorship gate | README “connecting your own agent”; `execution-policies/*.md` vs `resolver` glossary | one paragraph in foss docs + skill twin vs glossary-only | `open` |
+| layer names | a stranger reading getting-started/glossary can tell routing ≠ executor ≠ authorship gate | README “connecting your own agent”; `execution-policies/*.md` vs `resolver` glossary | one paragraph in foss docs + skill twin vs glossary-only | `done` (waived — existing prose) |
 
 ## File ownership
 
@@ -99,15 +99,15 @@ Milestone C continues. 11 may assume `where` is not a mode switch even when fini
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `rg authorshipMode tools/mep/lib/resolver.sh` is empty (or document the leak as the GREEN fix)
-- [ ] no existing suite compares `where` across modes on a fixture **without** `@finish:open` (9b’s row-8 identity does **not** satisfy this gate)
+- [x] `rg authorshipMode tools/mep/lib/resolver.sh` is empty (or document the leak as the GREEN fix)
+- [x] no existing suite compares `where` across modes on a fixture **without** `@finish:open` (9b’s row-8 identity does **not** satisfy this gate)
 
 ## Approach
 
 1. Prove RED: no unblocked mode-loop on `where`; `resolver.sh` has no `authorshipMode`.
 2. Hermetic fixture: same owned paths / iteration status; **no** `# @finish:open`; absent + `mep mode set` through the three values; assert `where` packets equal.
 3. Hook into unix-contract. do not duplicate golden row tables unless extending that file is smaller. do not copy-paste 9b’s open-finish asserts as the new suite.
-4. One docs sentence for the three layers. keep twins in sync if you touch a copied node.
+4. Docs sentence skipped — existing operator copy already states the boundary.
 5. If a leak exists: restore invariance (mode is not a resolver input). do not add a row.
 
 ## Avoid (out of scope this iteration)
@@ -146,24 +146,24 @@ Milestone C continues. 11 may assume `where` is not a mode switch even when fini
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: unblocked `where` `proof.row` + `executionRequest` are identical across absent/`default`/`manual`/`autopilot` on a git-clean `brief_ready` fixture (commit the fixture manifest after each `mode set`).
+- Coupling increased: `run-unix-contract.sh` now runs `run-mode-resolver.sh`.
+- Harder to change: teaching `resolver.sh` to read `authorshipMode`.
+- Easier to change: 11 may assume `where` is not a mode switch when finishes are closed.
+- **Promote to core:** none — confirmed C8; no C12.
+- **Newly interchangeable:** **I15** — suite path / compare-key `{row, executionRequest}` (not `nextCommand`).
+- **Falsified:** that category close required a new three-layer operator sentence. existing README/glossary already said it.
 
 ## Checkpoint
 
-**Seam smell test:** category = unblocked `where` ignores mode. fail if the slice only restates execution-policies, retunes 6/7/9b packets, or treats row-8 identity as this slice’s proof.
+**Seam smell test:** category closed — the suite is the guard. docs restatement was declined; 9b row-8 was not re-owned.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code scope
-- [ ] `git commit` → optional `/prep-pr-description mep-v0-graduation 10`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 11 brief (or 11 if 10/11 parallel already briefed)
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation` — code scope
+- [x] `git commit` → `50d76f6`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 11 brief
+- [x] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction
 

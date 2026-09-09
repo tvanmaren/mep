@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 10,
+  "currentIteration": 11,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -212,23 +212,25 @@
       "number": 10,
       "title": "Runtime ≠ policy hardening",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "architectural",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
-      "epistemicTransition": "unblocked where packet identity plus three-layer names become guarded",
+      "epistemicTransition": "unblocked where packet identity is test-guarded",
       "maturityTarget": "provisional -> stable",
-      "briefRevision": "1f4ed1e9450e13beb8d382087fc916d098ca72e5"
+      "briefRevision": "1f4ed1e9450e13beb8d382087fc916d098ca72e5",
+      "implementationRevision": "50d76f6881ca5ff415bd2d10538c968608fe7a35",
+      "checkpointRevision": "50d76f6881ca5ff415bd2d10538c968608fe7a35"
     },
     {
       "number": 11,
       "title": "Lifecycle observability completion",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/11-lifecycle-observability-completion.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "behavioral",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
-      "epistemicTransition": "observability matches runtime spine",
+      "epistemicTransition": "documented event classes emit and tail filters tell the truth",
       "maturityTarget": "provisional -> stable"
     },
     {
@@ -364,6 +366,12 @@
       "iteration": 9.1,
       "summary": "checkpoint --fix would have targeted currentIteration 10 (briefRevision 2358b11 stranger docs-delta, implementationRevision 52bb530 9b code, status committed); skipped --fix; human-set 9b briefRevision=1f4ed1e; pinned 10 briefRevision=1f4ed1e so 52bb530 is not git_post_brief for 10; 10 stays brief_ready until its own implement",
       "evidence": "1f4ed1e9450e13beb8d382087fc916d098ca72e5"
+    },
+    {
+      "at": "2026-09-09",
+      "iteration": 10,
+      "summary": "docs three-layer sentence waived; existing README/glossary already state same-plan and resolver purity; category close is run-mode-resolver.sh only",
+      "evidence": "50d76f6881ca5ff415bd2d10538c968608fe7a35"
     }
   ]
 }

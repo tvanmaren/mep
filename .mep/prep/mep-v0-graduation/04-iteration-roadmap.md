@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after v0.1.0
 
-**15 tagged at `66373b3` (`v0.1.0`, signed).** Milestones U + A + B + stranger README + tag. **16** is post-v0.1 (document-native state) — `brief_ready`.
+**15 tagged at `66373b3` (`v0.1.0`, signed).** **15b** landed post-tag (`2aa8a7c`). **16** is next (document-native state) — `brief_ready`.
 
 Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's promised `pilot-default-mode-report.md` **absent** — deviation, do not backfill here). **11** and **12** landed (`8408fda`, `8af941f`).
 
@@ -50,10 +50,10 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** — debt closed by **15b** (post-tag; 14's own "14b" was curate dogfood, a different fragment) |
 | 15 | tagged `v0.1.0` at `66373b3`; brief `43fff44`; checkpoint `1d6bb8f`; 01 success #3 **not** claimed |
-| 15b | `brief_ready` — default-mode evidence report; may run alongside 16 (disjoint ownership) |
+| 15b | committed — `2aa8a7c` public report + README citation; brief `4b3b893`; `--fix` checkpointRevision was pre-amend product `5b37dd8` — stripped pending docs-delta |
 | 16 | post-v0.1 — `brief_ready` (document-colocated state) |
 
-**Next implement:** **15b** (default-mode evidence report), then **16** (retire `manifest.json` as routing authority). **Not** 9c. **Not** four vendor CLIs — v0.2 D0 is *one* generic `command` driver.
+**Next implement:** **16** (retire `manifest.json` as routing authority). **Not** 9c. **Not** four vendor CLIs — v0.2 D0 is *one* generic `command` driver.
 
 **Skin order (operator 2026-09-09):** grok TUI first, then Cursor marketplace, then Claude. Skins are generated adapters over PATH `mep`; they do not own the resolver.
 
@@ -84,6 +84,7 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | I15 | 10 (unblocked `where` mode-loop suite) |
 | I16 | 11 (emit+tail suite path) |
 | I17 | 12 (CONTRIBUTING + examples) |
+| I18 | 15b (`tools/mep/docs/pilot-default-mode.md`) |
 
 ---
 
@@ -573,9 +574,9 @@ R O T A S
 
 **Avoid:** piloting manual/autopilot; the D0 driver; install path; 16; upgrading README past the report.
 
-**Status:** brief_ready — claim-ceiling finish open. May run alongside 16 (disjoint ownership).
+**Status:** committed — `2aa8a7c`; brief `4b3b893`. `--fix` also wrote `checkpointRevision=5b37dd8` (pre-amend impl); stripped (impl ≠ checkpoint).
 
-**Checkpoint:** report exists; every SHA resolves; README default-mode wording matches it; #3 still deferred.
+**Checkpoint:** report exists; this-remote SHAs resolve; host 13/14 SHAs named as unresolved; README default-mode wording matches the report; #3 still deferred.
 
 ---
 

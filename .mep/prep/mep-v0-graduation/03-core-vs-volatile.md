@@ -39,6 +39,7 @@
 | I15 | unblocked mode-loop suite path (`run-mode-resolver.sh`) and compare-key shape | the invariant is C8; the file/jq key are tactics |
 | I16 | emit+tail suite path (`run-events.sh`) and hermetic `MEP_HISTORY_ROOT_OVERRIDE` | history ≠ state is C8; the file/override are tactics |
 | I17 | root `CONTRIBUTING.md` + `tools/mep/examples/{profiles,curate-walkthrough.md}` | stranger authoring is C6; these files are the instance |
+| I18 | `tools/mep/docs/pilot-default-mode.md` | default-mode evidence record; not a routing input |
 
 ## Amendments
 
@@ -65,3 +66,4 @@
 | 11 | `8408fda` emit+tail suite; writers already existed | confirmed C8 (ledger still not a `where` input); registered I16; **did not** promote an observability C*; product was FOSS proof |
 | 12 | `8af941f` CONTRIBUTING + examples; brief `1e8df26` | confirmed C1–C5 and C4 (CLI `--preview` is status, not synthesis); confirmed C8 (no resolver table in CONTRIBUTING); registered I17; **did not** promote an authoring-docs C* |
 | 15 | product `66373b3`; brief `43fff44`; checkpoint `1d6bb8f`; tag `v0.1.0` on `66373b3` | confirmed C6/C9/C10; **did not** promote a "scope table form" C*; 01 #3 stays deferred; `--fix` could not prove post-brief impl; tag unblocks 16 |
+| 15b | `2aa8a7c` public report + README citation; brief `4b3b893` | **did not** promote default-mode-as-core; 01 #3 stays deferred; registered I18. 14's missing host report stays absent; `--fix` checkpointRevision stripped (impl SHA) |

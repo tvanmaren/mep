@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/15b-default-mode-evidence-report.md`
-**Status:** brief_ready
+**Status:** committed
 **Slice type:** consolidation
 **Mode:** hardening
 **Delivery track:** mixed
@@ -52,13 +52,13 @@ The README's default-mode claim. Gives manual/autopilot pilots a shape to copy w
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `tools/mep/docs/pilot-default-mode.md` exists: what was built, over how many slices, with which commits
-- [ ] it names **at least three** things that went wrong (e.g. `--fix` mispointing `briefRevision` at 5.1; impl-before-brief ordering at 9b/15; 14's own missing artifact) and what the loop did about each
-- [ ] it states plainly that the executor was an **agent harness driving the CLI**, not `mep exec dispatch` — and that autopilot/manual are unproven
-- [ ] it states that 01 success #3 remains open (a stranger, their credentials, three modes)
-- [ ] README default-mode wording matches the report; no claim is upgraded past its evidence
-- [ ] `run-stranger.sh`, litmus, golden matrix still green
-- [ ] no live driver, no install path, no 16 work
+- [x] `tools/mep/docs/pilot-default-mode.md` exists: what was built, over how many slices, with which commits
+- [x] it names **at least three** things that went wrong (e.g. `--fix` mispointing `briefRevision` at 5.1; impl-before-brief ordering at 9b/15; 14's own missing artifact) and what the loop did about each
+- [x] it states plainly that the executor was an **agent harness driving the CLI**, not `mep exec dispatch` — and that autopilot/manual are unproven
+- [x] it states that 01 success #3 remains open (a stranger, their credentials, three modes)
+- [x] README default-mode wording matches the report; no claim is upgraded past its evidence
+- [x] `run-stranger.sh`, litmus, golden matrix still green
+- [x] no live driver, no install path, no 16 work
 
 ## Finish-map (fragment classification)
 
@@ -72,7 +72,7 @@ The README's default-mode claim. Gives manual/autopilot pilots a shape to copy w
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| claim ceiling | a skeptic reading it cannot accuse the README of overclaiming | README "What doesn't yet"; 15's honest scope section; 01 success vs rejection | "default mode works" vs "default mode worked here, N times, and here is the failure list" | `open` |
+| claim ceiling | a skeptic reading it cannot accuse the README of overclaiming | README "What doesn't yet"; 15's honest scope section; 01 success vs rejection | "default mode works" vs "default mode worked here, N times, and here is the failure list" | `done` |
 
 ## File ownership
 
@@ -88,8 +88,8 @@ The README's default-mode claim. Gives manual/autopilot pilots a shape to copy w
 
 ## RED-phase gates (before GREEN)
 
-- [ ] no default-mode evidence document exists in the repo
-- [ ] README's default-mode claim rests on maintainer assertion with nothing to cite
+- [x] no default-mode evidence document exists in the repo
+- [x] README's default-mode claim rests on maintainer assertion with nothing to cite
 
 ## Approach
 
@@ -131,23 +131,23 @@ The README's default-mode claim. Gives manual/autopilot pilots a shape to copy w
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: "proven default mode" means a public failure list + chronology on this remote (`2aa8a7c`); the executor was the harness, not `mep exec dispatch`; 01 #3 stays open; host SHAs `954828bdd` / `64802ec14` do not resolve here.
+- Coupling increased: README default-mode bullet cites `tools/mep/docs/pilot-default-mode.md`; the file is `@reference-only` (must not become a routing input).
+- Harder to change: uncited "daily use" language; claiming #3 or a live driver from this record.
+- Easier to change: manual/autopilot pilots copy the report shape; 16 does not own the citation.
+- **Promote to core:** none — confirmed C6/C9; default-mode-as-identity stays unpromoted.
+- **Newly interchangeable:** I18 (`pilot-default-mode.md` path and claim ceiling).
+- **Falsified:** none of C*. the uncited README vibe claim.
 
 ## Checkpoint
 
-**Seam smell test:** the report earns its place by the failure list. fail if it reads as marketing, or if it quietly claims #3.
+**Seam smell test:** category closed as citation, not as "the mode works." failure list first. #3 not claimed. `--fix` wrote `checkpointRevision=5b37dd8` (product); stripped until docs-delta.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code/docs scope
-- [ ] `git commit`
-- [ ] `/prep mep-v0-graduation checkpoint`
+- [x] `/commit-prep mep-v0-graduation` — code/docs scope
+- [x] `git commit` → product `2aa8a7c` (amended from `5b37dd8`); brief `4b3b893`
+- [x] `/prep mep-v0-graduation checkpoint`
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

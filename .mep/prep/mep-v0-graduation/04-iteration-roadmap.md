@@ -26,7 +26,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after iteration 0 (this remote)
 
-Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 9, 13, 14**. **10** is next. **11–12, 15, 16** remain pending.
+Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4, 5, 5b, 6, 7, 8, 9, 9b, 13, 14**. **10** is next. **11–12, 15, 16** remain pending.
 
 | iter | git vs promise |
 |------|----------------|
@@ -41,13 +41,14 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0, 1, 2, 3, 4,
 | 7 | committed — `092ade7` autopilot `commit scope` fail-closed (mode parity, not a proxy runtime) |
 | 8 | committed — `84aa6e8` deterministic `mep mark` writer (whole-file `@mise` + monotonic finish `--state`) |
 | 9 | committed — `2f6a514` README Start here (repo-bin + stub loop); brief `6cc901b` |
+| 9b | committed — `52bb530` mode-agnostic finish readiness; brief born this docs-delta (impl preceded brief) |
 | 10–12 | not satisfied — policy/runtime guard next (10) |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
 | 15 | unix litmus (4) landed; remaining v0.1.0 packaging still open |
 | 16 | post-v0.1 |
 
-**Next implement:** iteration **10** (runtime ≠ policy hardening). **Not** 15. **11** may run parallel after 10’s brief if ownership stays disjoint.
+**Next implement:** iteration **10** (runtime ≠ policy hardening). **Not** 15. **9b** already landed (`52bb530`).
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -383,6 +384,28 @@ the slice is done while `@finish:open` remains.
 
 ---
 
+## Iteration 9b — Mode-agnostic finish readiness
+
+**Goal:** One open-finish fact gates every emitter. absent/default/manual/autopilot may project different actors/actions, but none may call `@finish:open` committable or checkpointable.
+
+**Slice type:** architectural  
+**Epistemic transition:** open-finish readiness becomes mode-agnostic across `where`, lifecycle, commit scope, and checkpoint.  
+**Irreversible decision:** mode changes gate action/provenance, never readiness.  
+**Maturity target:** provisional → stable  
+**Delivery track:** mixed  
+**Fanout:** sequential  
+**Brief:** `iterations/09b-mode-agnostic-finish-readiness.md`
+
+**Approach:** move open-marker selection to `finish.sh`; remove resolver’s duplicate helper; remove commit scope’s manual/autopilot condition; matrix absent/default/manual/autopilot across all four emitters.
+
+**Avoid:** resolver rows; events (11); live proxy; README; packaging.
+
+**Checkpoint:** absent/default `commit scope` exits 2 on `@finish:open`; all emitters derive openness from `finish.sh`; action remains human vs proxy by policy.
+
+**Status:** committed — `iterations/09b-mode-agnostic-finish-readiness.md` (`52bb530`; brief born after impl)
+
+---
+
 ## Iteration 10 — Runtime ≠ policy hardening
 
 **Goal:** Lock the invariant 6/7 already implied: `authorshipMode` changes **who acts / who ratifies** (lifecycle + commit-scope), never **what `where` routes**. resolver stays a pure function of persisted workflow state.
@@ -522,7 +545,7 @@ brief documents + git. Same routing semantics as iteration 5 golden matrix.
   → 5                 # resolver totality (semantic; storage-agnostic tests)
   → 5b                # finish-scan comment heuristic (unblocks dogfood where)
   → 6,7,8             # workflow closure (identity work; 8 last of B)
-  → 9 → 10,11 (parallel) → 12 → 13 → 14 → 15
+  → 9 → 9b → 10,11 (parallel) → 12 → 13 → 14 → 15
   → 16 (post-v0.1)    # eliminate manifest; document-colocated state → v0.2.0 program (`.mep/plans/mep-v0.2-outline.md`)
 ```
 
@@ -533,7 +556,8 @@ Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v
 | Iterations | Parallel? | Reason |
 |------------|-----------|--------|
 | 5b then 6, 7, 8 | sequential now | 6–7 landed as commit-scope mode arms; 8 is the writer — last B identity |
-| 10, 11 | yes after 9 | docs/tests vs events.sh |
+| 9b before 10 | no | 10's mode-invariant routing proof assumes readiness is already mode-agnostic |
+| 10, 11 | yes after 9b | docs/tests vs events.sh |
 
 ## Re-plan triggers
 

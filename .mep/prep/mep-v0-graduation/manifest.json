@@ -195,6 +195,19 @@
       "checkpointRevision": "2f6a514e89330c115a3c3c467a8dd6f17b8fb627"
     },
     {
+      "number": 9.1,
+      "title": "Mode-agnostic finish readiness",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/09b-mode-agnostic-finish-readiness.md",
+      "status": "committed",
+      "sliceType": "architectural",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "open-finish readiness becomes mode-agnostic across every emitter",
+      "maturityTarget": "provisional -> stable",
+      "implementationRevision": "52bb53078415dbb0debbfc4ebe0507f715e93ec6",
+      "checkpointRevision": "52bb53078415dbb0debbfc4ebe0507f715e93ec6"
+    },
+    {
       "number": 10,
       "title": "Runtime ≠ policy hardening",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
@@ -331,6 +344,18 @@
       "iteration": 7,
       "summary": "brief titled ratification/proxy path; landed 092ade7 is autopilot join on commit-scope finish_open only — lifecycle proxy mapping pre-existed; no Task/LLM dispatch",
       "evidence": "092ade73d91d5adadcd107c457cd97866edaaaa6"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 9.1,
+      "summary": "external review found absent/default commit scope allowed @finish:open; inserted blocking 9b before queued iter 10 so one finish.sh fact governs readiness across emitters",
+      "evidence": "2358b116d662a664d4722069e19649d025eaca1f"
+    },
+    {
+      "at": "2026-09-08",
+      "iteration": 9.1,
+      "summary": "impl 52bb530 landed before brief was in git; checkpoint --fix could not prove post-brief work; human-closed status=committed + implementationRevision=52bb530; briefRevision set by this docs-delta once committed",
+      "evidence": "52bb53078415dbb0debbfc4ebe0507f715e93ec6"
     }
   ]
 }

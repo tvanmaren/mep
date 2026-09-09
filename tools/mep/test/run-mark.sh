@@ -112,9 +112,9 @@ pass "finish scan keeps marker axes separate"
 
 rc=0
 run_mep commit scope mark-fx --json >"$out" 2>"$err" || rc=$?
-[[ "$rc" == 0 ]] || fail "default commit scope exit 0 with open finish (got $rc)"
-jq -e '.status == "ok"' "$out" >/dev/null || fail "default commit scope unchanged"
-pass "default commit scope remains permissive"
+[[ "$rc" == 2 ]] || fail "default commit scope exit 2 with open finish (got $rc)"
+jq -e '.status == "blocked" and .reason == "finish_open"' "$out" >/dev/null || fail "default commit scope blocks open finish"
+pass "default commit scope blocks open finish"
 
 decision_before=$(git -C "$root" hash-object src/decision.sh)
 run_mep mark finish src/decision.sh --state "done" --json --dry-run >"$out" 2>"$err"

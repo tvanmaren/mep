@@ -202,13 +202,6 @@ mep_where_proof_facts_json() {
     '
 }
 
-mep_has_open_finish() {
-  local manifest_json=$1
-  local markers_json
-  markers_json=$(mep_finish_marker_lines_json "$manifest_json")
-  [[ "$(printf '%s' "$markers_json" | jq '[.[] | select(.state == "open")] | length')" != 0 ]]
-}
-
 mep_has_any_implementation_commit() {
   local manifest_json=$1
   local paths=() prefix
@@ -455,7 +448,7 @@ mep_where_json() {
   dirty_implementation_json=$(mep_dirty_implementation_paths_json "$slug" "$dirty_owned_json" "$manifest_json")
 
   if [[ "$current_status" == brief_ready && "$(printf '%s' "$dirty_implementation_json" | jq 'length')" == 0 ]]; then
-    if ! mep_has_open_finish "$manifest_json"; then
+    if ! mep_finish_has_open "$manifest_json"; then
       landed_evidence=$(mep_where_slice_implementation_landed_evidence_json \
         "$manifest_json" \
         "$current_json" \
@@ -521,7 +514,7 @@ mep_where_json() {
   fi
 
   if [[ "$current_status" == brief_ready ]]; then
-    if mep_has_open_finish "$manifest_json"; then
+    if mep_finish_has_open "$manifest_json"; then
       proof_facts=$(mep_where_proof_facts_json \
         "$current_json" \
         "$dirty_owned_json" \
@@ -589,7 +582,7 @@ mep_where_json() {
   fi
 
   if [[ "$current_status" != committed && "$current_status" != merged ]]; then
-    if mep_has_open_finish "$manifest_json"; then
+    if mep_finish_has_open "$manifest_json"; then
       mep_where_resolver_json "$(mep_resolver_context_json \
         --row 8 \
         --state "the slice has an unmade decision -> author the open finish(es) before it can be committed" \

@@ -92,7 +92,7 @@ mep_implement_scope_json() {
 mep_commit_scope_json() {
   local slug=$1 manifest_json current_json brief_rel brief_abs owned_paths
   local markers_json dirty_owned_json dirty_implementation_json writebacks_json
-  local authorship_mode finish_open_json
+  local finish_open_json
   manifest_json=$(mep_manifest_summary_json "$slug")
   if [[ "$(printf '%s' "$manifest_json" | jq -r '.exists')" != true ]]; then
     jq -cn --arg slug "$slug" '{status:"not_found",reason:"manifest_not_found",slug:$slug}'
@@ -109,16 +109,14 @@ mep_commit_scope_json() {
   fi
 
   owned_paths=$(mep_brief_owned_paths_json "$brief_abs")
-  authorship_mode=$(printf '%s' "$manifest_json" | jq -r '.authorshipMode // "default"')
   markers_json=$(mep_finish_marker_lines_json "$manifest_json")
   dirty_owned_json=$(mep_dirty_owned_paths_json "$manifest_json")
   dirty_implementation_json=$(mep_dirty_implementation_paths_json "$slug" "$dirty_owned_json" "$manifest_json")
   writebacks_json=$(mep_finish_required_writebacks_json "$manifest_json" "$markers_json" "$dirty_implementation_json")
   finish_open_json=$(printf '%s' "$writebacks_json" | jq -c '[.[] | select(.kind == "finish_open")]')
 
-  # @provisional — first honest stop: open finishes cannot look committable in manual or autopilot.
-  if [[ "$authorship_mode" == "manual" || "$authorship_mode" == "autopilot" ]] \
-    && [[ "$(printf '%s' "$finish_open_json" | jq 'length')" -gt 0 ]]; then
+  # @provisional — open finishes cannot look committable in any authorship mode.
+  if [[ "$(printf '%s' "$finish_open_json" | jq 'length')" -gt 0 ]]; then
     jq -cn \
       --arg slug "$slug" \
       --arg briefPath "$brief_rel" \

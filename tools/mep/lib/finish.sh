@@ -65,23 +65,38 @@ mep_finish_marker_lines_json() {
   printf ']'
 }
 
+# @provisional — one readiness fact shared by resolver, lifecycle, scope, and checkpoint.
+mep_finish_open_markers_json() {
+  local markers_json=$1
+  printf '%s' "$markers_json" | jq -c '[.[] | select(.state == "open")]'
+}
+
+mep_finish_has_open() {
+  local manifest_json=$1 markers_json open_markers_json
+  markers_json=$(mep_finish_marker_lines_json "$manifest_json")
+  open_markers_json=$(mep_finish_open_markers_json "$markers_json")
+  [[ "$(printf '%s' "$open_markers_json" | jq 'length')" -gt 0 ]]
+}
+
 # Required-writeback rules are intentionally conservative:
 # validate observable marker/provenance state without inferring semantic finish classifications.
 mep_finish_required_writebacks_json() {
-  local manifest_json=$1 markers_json=$2 dirty_implementation_json=$3
+  local manifest_json=$1 markers_json=$2 dirty_implementation_json=$3 open_markers_json
+  open_markers_json=$(mep_finish_open_markers_json "$markers_json")
   jq -cn \
     --argjson manifest "$manifest_json" \
     --argjson markers "$markers_json" \
+    --argjson openMarkers "$open_markers_json" \
     --argjson dirtyImplementation "$dirty_implementation_json" '
       ($manifest.authorshipMode // "default") as $mode
       | ($manifest.currentIterationRecord.status // "") as $currentStatus
       | [
-          (if ([ $markers[] | select(.state == "open") ] | length) > 0 then
+          (if ($openMarkers | length) > 0 then
             {
               kind: "finish_open",
               severity: "blocker",
               detail: "one or more @finish:open markers remain",
-              count: ([ $markers[] | select(.state == "open") ] | length)
+              count: ($openMarkers | length)
             }
           else empty end),
           (if $mode == "autopilot" then
@@ -128,7 +143,7 @@ mep_finish_required_writebacks_json() {
 }
 
 mep_finish_scan_json() {
-  local slug=$1 manifest_json markers_json dirty_owned_json dirty_implementation_json writebacks_json
+  local slug=$1 manifest_json markers_json open_markers_json dirty_owned_json dirty_implementation_json writebacks_json
   mep_require jq rg "$MEP_VCS_KIND" || return $?
 
   manifest_json=$(mep_manifest_summary_json "$slug")
@@ -138,6 +153,7 @@ mep_finish_scan_json() {
   fi
 
   markers_json=$(mep_finish_marker_lines_json "$manifest_json")
+  open_markers_json=$(mep_finish_open_markers_json "$markers_json")
   dirty_owned_json=$(mep_dirty_owned_paths_json "$manifest_json")
   dirty_implementation_json=$(mep_dirty_implementation_paths_json "$slug" "$dirty_owned_json" "$manifest_json")
   writebacks_json=$(mep_finish_required_writebacks_json "$manifest_json" "$markers_json" "$dirty_implementation_json")
@@ -146,6 +162,7 @@ mep_finish_scan_json() {
     --arg slug "$slug" \
     --argjson manifest "$manifest_json" \
     --argjson markers "$markers_json" \
+    --argjson openMarkers "$open_markers_json" \
     --argjson dirtyOwned "$dirty_owned_json" \
     --argjson dirtyImplementation "$dirty_implementation_json" \
     --argjson requiredWritebacks "$writebacks_json" '
@@ -157,7 +174,7 @@ mep_finish_scan_json() {
         currentIterationStatus: ($manifest.currentIterationRecord.status // null),
         counts: {
           total: ($markers | length),
-          open: ([ $markers[] | select(.state == "open") ] | length),
+          open: ($openMarkers | length),
           done: ([ $markers[] | select(.state == "done") ] | length),
           ratified: ([ $markers[] | select(.state == "ratified") ] | length)
         },

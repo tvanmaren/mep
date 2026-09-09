@@ -484,6 +484,9 @@ pass "mark suite"
 bash "$SRC/tools/mep/test/run-manual-workflow.sh"
 pass "manual-workflow suite"
 
+bash "$SRC/tools/mep/test/run-mode-resolver.sh"
+pass "mode-resolver suite"
+
 bash "$SRC/scripts/litmus/slice-boundary.sh" --executor stub
 pass "slice-boundary litmus"
 

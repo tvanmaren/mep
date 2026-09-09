@@ -33,7 +33,7 @@ then **materialize publication history** on integration branches. Hand off to **
 - [x] Execute: publication history on integration branches; lab unchanged (fixture-tested)
 - [x] Outline + schema v2 (`discoveries`, `trunkStateAfterMerge`, gating)
 - [ ] `/mep stage` reads approved artifact (stage integration noted; full dogfood iter 14)
-- [ ] CONTRIBUTING documents curate workflow (blocked on iteration 12)
+- [x] CONTRIBUTING documents curate workflow (blocked on iteration 12)
 - [ ] txn-adjustment dogfood or documented blocker → **iteration 14**
 
 ---
@@ -61,4 +61,4 @@ then **materialize publication history** on integration branches. Hand off to **
 
 ## Checkpoint (closed)
 
-Curate preview + execute on fixture landed. txn-adjustment dogfood + CONTRIBUTING → iteration 14.
+Curate preview + execute on fixture landed. CONTRIBUTING curate section closed in iteration 12. txn-adjustment dogfood + `/mep stage` artifact read remain open (scope-table gaps for 15, not a reopen of this product).

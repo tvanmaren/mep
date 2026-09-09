@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 12,
+  "currentIteration": 15,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -240,12 +240,15 @@
       "number": 12,
       "title": "Curation externalized",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/12-curation-externalized.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "consolidation",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "curation moves from author memory to repo artifacts",
-      "maturityTarget": "n/a"
+      "maturityTarget": "n/a",
+      "briefRevision": "1e8df2673bdfc58a39327857e9e8c153bf5c03c4",
+      "implementationRevision": "8af941fad7ed474346b8526ecc1d0e884a15c37c",
+      "checkpointRevision": "8af941fad7ed474346b8526ecc1d0e884a15c37c"
     },
     {
       "number": 13,
@@ -277,7 +280,7 @@
       "number": 15,
       "title": "v0.1.0 release package (incl. Sator Square)",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/15-v010-release-package.md",
-      "status": "pending",
+      "status": "brief_ready",
       "sliceType": "cleanup",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
@@ -375,6 +378,12 @@
       "iteration": 10,
       "summary": "docs three-layer sentence waived; existing README/glossary already state same-plan and resolver purity; category close is run-mode-resolver.sh only",
       "evidence": "50d76f6881ca5ff415bd2d10538c968608fe7a35"
+    },
+    {
+      "at": "2026-09-09",
+      "iteration": 15,
+      "summary": "v0.1.0 tag does not claim 01 success #3 (stranger + live executor in three modes); live drivers would punch C9; #3 deferred and named in the README scope table",
+      "evidence": "pending-tag"
     }
   ]
 }

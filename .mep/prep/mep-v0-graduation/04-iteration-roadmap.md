@@ -472,7 +472,7 @@ the slice is done while `@finish:open` remains.
 
 **Checkpoint:** CONTRIBUTING + 2–3 canonical examples; glossary/resolver table is still the routing contract; 13’s leftover “CONTRIBUTING documents curate” can close.
 
-**Status:** brief_ready
+**Status:** committed — `iterations/12-curation-externalized.md` (`8af941f`; brief `1e8df26`)
 
 ---
 
@@ -519,10 +519,20 @@ the slice is done while `@finish:open` remains.
 **Goal:** Honest public release — README (ownership model, one canonical workflow, open roadmap), LICENSE,
 CONTRIBUTING (**created in 12** — 15 verifies, does not rewrite taste), tag **v0.1.0**. **Hard gate:** README footer contains exact Sator Square block.
 
-**Brief:** `iterations/15-v010-release-package.md` (draft at slice start)
+**Brief:** `iterations/15-v010-release-package.md`
 
 **Slice type:** cleanup  
-**Epistemic transition:** MEP graduates from private thesis to FOSS v0.1.0 with honest scope table.
+**Epistemic transition:** MEP graduates from private thesis to FOSS v0.1.0 with honest scope table.  
+**Irreversible decision:** the tag tells the truth about what runs (`stub` only) and what does not (live drivers, PATH package, success #3). Sator Square is a README footer gate, not an easter egg.  
+**Maturity target:** thesis → public v0.1.0  
+**Delivery track:** mixed  
+**Fanout:** sequential (16 is post-tag)
+
+**Approach:** bump `MEP_VERSION`; README scope table + Sator footer; verify LICENSE and CONTRIBUTING exist without rewriting taste; human `git tag v0.1.0`. do not ship a vendor driver.
+
+**Avoid:** live executor SDK (C9); claiming 01 success #3; AUR/PATH install; I5 host consume; 16 manifest retirement; rewriting 12 CONTRIBUTING.
+
+**Status:** brief_ready
 
 **Sator Square (required footer):**
 
@@ -534,9 +544,7 @@ O P E R A
 R O T A S
 ```
 
-**Checkpoint:** v0.1.0 tagged; epic #85 DoD checkboxes satisfied; Sator Square present in README.
-
-**Status:** pending
+**Checkpoint:** v0.1.0 tagged; Sator Square in README footer; scope table matches shipped surface.
 
 ---
 

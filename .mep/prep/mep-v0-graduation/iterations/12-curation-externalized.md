@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/12-curation-externalized.md`  
-**Status:** brief_ready  
+**Status:** committed  
 **Slice type:** consolidation  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -54,13 +54,13 @@ v0.1 authoring contract that 0 left as follow-up. 13 leftover CONTRIBUTING AC. 1
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `CONTRIBUTING.md` at repo root: how to retarget a profile, how to author a brief/checkpoint, how `/mep curate` preview → execute works (closes 13 leftover)
-- [ ] 2–3 canonical examples exist **or** are linked without author context: `fixture-demo`, `example-stub`, curate fixture/outline
-- [ ] glossary / resolver table is **not** copied into CONTRIBUTING (pointer only)
-- [ ] README Start here (9) gains at most a one-line link to CONTRIBUTING — no recipe rewrite
-- [ ] 15 still owns tag / Sator / honest scope table; this slice does not tag
-- [ ] FOSS: `run-stranger.sh` and litmus still green; optional grep-lock that CONTRIBUTING exists. **no** new `run-*.sh` that only restates already-green CLI
-- [ ] no live executor, no credentials, no 10/11 suite rewrite
+- [x] `CONTRIBUTING.md` at repo root: how to retarget a profile, how to author a brief/checkpoint, how `/mep curate` preview → execute works (closes 13 leftover)
+- [x] 2–3 canonical examples exist **or** are linked without author context: `fixture-demo`, `example-stub`, curate fixture/outline
+- [x] glossary / resolver table is **not** copied into CONTRIBUTING (pointer only)
+- [x] README Start here (9) gains at most a one-line link to CONTRIBUTING — no recipe rewrite
+- [x] 15 still owns tag / Sator / honest scope table; this slice does not tag
+- [x] FOSS: `run-stranger.sh` and litmus still green; optional grep-lock that CONTRIBUTING exists. **no** new `run-*.sh` that only restates already-green CLI
+- [x] no live executor, no credentials, no 10/11 suite rewrite
 
 ## Finish-map (fragment classification)
 
@@ -75,7 +75,7 @@ v0.1 authoring contract that 0 left as follow-up. 13 leftover CONTRIBUTING AC. 1
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| stranger can author | CONTRIBUTING + examples replace author memory for profile, brief, curate | README Start here; `example-stub.md`; `mep-curate-outline.md` | one CONTRIBUTING vs burying taste in 15 README | `open` |
+| stranger can author | CONTRIBUTING + examples replace author memory for profile, brief, curate | README Start here; `example-stub.md`; `mep-curate-outline.md` | one CONTRIBUTING vs burying taste in 15 README | `done` |
 
 ## File ownership
 
@@ -95,8 +95,8 @@ v0.1 authoring contract that 0 left as follow-up. 13 leftover CONTRIBUTING AC. 1
 
 ## RED-phase gates (before GREEN)
 
-- [ ] no root `CONTRIBUTING.md`
-- [ ] 13 still has an open “CONTRIBUTING documents curate” checkbox
+- [x] no root `CONTRIBUTING.md`
+- [x] 13 still has an open “CONTRIBUTING documents curate” checkbox
 
 ## Approach
 
@@ -140,24 +140,24 @@ v0.1 authoring contract that 0 left as follow-up. 13 leftover CONTRIBUTING AC. 1
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: a stranger can retarget a profile, write a slice, and curate without asking the maintainer; glossary remains the routing table; `mep curate --preview` is status, not plan synthesis (C4).
+- Coupling increased: `run-stranger.sh` greps CONTRIBUTING for `curate` / `example-stub` / `profile`.
+- Harder to change: burying authoring taste in README Start here or the 15 tag notes.
+- Easier to change: 15 may assume CONTRIBUTING exists and only verify it.
+- **Promote to core:** none — confirmed C1–C5, C4, C8; no C12.
+- **Newly interchangeable:** **I17** — CONTRIBUTING + example paths.
+- **Falsified:** that `--preview` on the CLI proposes the curation plan. it reports artifact/manifest/git status; synthesis is `/mep curate <slug>` (agent).
 
 ## Checkpoint
 
-**Seam smell test:** category = taste is in the repo. fail if the slice is another green suite of already-true CLI, or if it tags v0.1.0.
+**Seam smell test:** category closed as repo artifacts, not a fourth green suite. Sator/tag stayed out. C4 lie in the first draft was caught at commit-prep and rewritten before `8af941f`.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code/docs scope
-- [ ] `git commit`
-- [ ] `/prep mep-v0-graduation checkpoint` → iter 15 brief (13–14 already committed)
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation` — code/docs scope
+- [x] `git commit` → `8af941f`
+- [x] `/prep mep-v0-graduation checkpoint` → iter 15 brief
+- [x] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction
 

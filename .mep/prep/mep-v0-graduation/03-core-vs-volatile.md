@@ -38,6 +38,7 @@
 | I14 | open-marker helper names; consumers may call `mep_finish_has_open` or filter `finish_open` writebacks | the fact is C11; spellings are tactics |
 | I15 | unblocked mode-loop suite path (`run-mode-resolver.sh`) and compare-key shape | the invariant is C8; the file/jq key are tactics |
 | I16 | emit+tail suite path (`run-events.sh`) and hermetic `MEP_HISTORY_ROOT_OVERRIDE` | history ≠ state is C8; the file/override are tactics |
+| I17 | root `CONTRIBUTING.md` + `tools/mep/examples/{profiles,curate-walkthrough.md}` | stranger authoring is C6; these files are the instance |
 
 ## Amendments
 
@@ -62,3 +63,4 @@
 | 9b | `52bb530` shared open-marker predicate; brief `1f4ed1e` | promoted C11; registered I14; category = readiness fact, not another mode arm |
 | 10 | `50d76f6` unblocked `where` mode-loop; brief `1f4ed1e` | confirmed C8; registered I15; **did not** promote a three-layer docs C*; sentence waived |
 | 11 | `8408fda` emit+tail suite; writers already existed | confirmed C8 (ledger still not a `where` input); registered I16; **did not** promote an observability C*; product was FOSS proof |
+| 12 | `8af941f` CONTRIBUTING + examples; brief `1e8df26` | confirmed C1–C5 and C4 (CLI `--preview` is status, not synthesis); confirmed C8 (no resolver table in CONTRIBUTING); registered I17; **did not** promote an authoring-docs C* |

@@ -2,7 +2,7 @@
 
 **Prep slug:** mep-v0-graduation  
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/15-v010-release-package.md`  
-**Status:** brief_ready  
+**Status:** committed
 **Slice type:** cleanup  
 **Mode:** hardening  
 **Delivery track:** mixed  
@@ -13,7 +13,7 @@
 
 **What became more certain:** v0.1.0 is a public, honest package of what already runs — not a promise that a stranger can finish real work through a live vendor driver.
 
-**Irreversible decision (one):** the tag and the README footer tell the same truth. Sator Square is required, exact, and not optional. the scope table names what ships and what does not. `stub` remains the only in-tree executor that runs.
+**Irreversible decision (one):** the tag and the README footer tell the same truth. Sator Square is required, exact, and not optional. the public scope section names what ships and what does not. `stub` remains the only in-tree executor that runs.
 
 **Maturity target:** thesis → public v0.1.0
 
@@ -143,24 +143,24 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: public v0.1.0 is a statement about what already runs (`MEP_VERSION=0.1.0`, stub-only, Sator footer exact); 01 success #3 is deferred, not claimed; `/mep stage` is Cursor overlay, not a CLI verb.
+- Coupling increased: README `version --json` example must match `registry.sh`; stranger suite still greps README tokens.
+- Harder to change: moving the square to an easter egg (01 falsifier); claiming live drivers or PATH install in the status section.
+- Easier to change: 16 may assume the public claim exists; presentation of ships/does-not (lists vs table) is instance.
+- **Promote to core:** none — confirmed C6, C9, C10.
+- **Newly interchangeable:** none. I13 still owns stranger start surface; the status section is that slot's hydration.
+- **Falsified:** none of C*. the two-column "scope table" as the required *form* — shipped as labeled lists; the *content* contract (stub vs live driver, v0.1 vs v0.2) held.
 
 ## Checkpoint
 
-**Seam smell test:** the tag is a label on what exists. fail if the slice ships a driver to "complete" 01 #3, or omits the square.
+**Seam smell test:** category closed as truth-in-labeling. no driver shipped. square present and exact. `--fix` did **not** mark committed: product `66373b3` precedes brief `43fff44`, so there is no post-brief owned-path commit. annotated tag `v0.1.0` is still the human finish.
 
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code/docs scope
-- [ ] `git commit`
+- [x] `/commit-prep mep-v0-graduation` — code/docs scope
+- [x] `git commit` → product `66373b3`; docs-delta `43fff44`
 - [ ] human `git tag -a v0.1.0`
-- [ ] `/prep mep-v0-graduation checkpoint` → 16 is post-v0.1 (optional) or `/mep done`
+- [x] `/prep mep-v0-graduation checkpoint` → 16 stays blocked until the tag exists
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

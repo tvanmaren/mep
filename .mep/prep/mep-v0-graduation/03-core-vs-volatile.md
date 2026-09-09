@@ -64,3 +64,4 @@
 | 10 | `50d76f6` unblocked `where` mode-loop; brief `1f4ed1e` | confirmed C8; registered I15; **did not** promote a three-layer docs C*; sentence waived |
 | 11 | `8408fda` emit+tail suite; writers already existed | confirmed C8 (ledger still not a `where` input); registered I16; **did not** promote an observability C*; product was FOSS proof |
 | 12 | `8af941f` CONTRIBUTING + examples; brief `1e8df26` | confirmed C1–C5 and C4 (CLI `--preview` is status, not synthesis); confirmed C8 (no resolver table in CONTRIBUTING); registered I17; **did not** promote an authoring-docs C* |
+| 15 | product `66373b3`; brief `43fff44`; tag absent | confirmed C6/C9/C10; **did not** promote a "scope table form" C* — lists vs table is instance; 01 #3 stays deferred; `--fix` could not prove post-brief impl |

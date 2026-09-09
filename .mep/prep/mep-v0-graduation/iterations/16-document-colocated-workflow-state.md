@@ -9,7 +9,7 @@
 
 **Epistemic transition:** `manifest.json` retires; workflow state lives on plan documents.
 
-**Blocked by:** iteration 15 (v0.1.0 tag), iteration 5 (resolver golden matrix).
+**Blocked by:** iteration 15 (annotated `v0.1.0` tag — still outstanding after the 2026-09-09 checkpoint), iteration 5 (resolver golden matrix).
 
 **Not a v0.1 gate.** v0.1 ships the authoring contract and transitional manifest.
 

@@ -280,12 +280,14 @@
       "number": 15,
       "title": "v0.1.0 release package (incl. Sator Square)",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/15-v010-release-package.md",
-      "status": "brief_ready",
+      "status": "committed",
       "sliceType": "cleanup",
       "deliveryTrack": "mixed",
       "fanout": "sequential",
       "epistemicTransition": "MEP graduates to FOSS v0.1.0 with honest scope",
-      "maturityTarget": "n/a"
+      "maturityTarget": "n/a",
+      "briefRevision": "43fff44cc2404edd067ec63471c7dd38ad6d6671",
+      "implementationRevision": "66373b3a3f74de667e96a138b53de852573a762a"
     },
     {
       "number": 16,
@@ -301,6 +303,12 @@
     }
   ],
   "deviations": [
+    {
+      "at": "2026-09-09",
+      "iteration": 15,
+      "summary": "impl 66373b3 landed before brief 43fff44; checkpoint --fix wrote briefRevision only and could not prove post-brief work; human-closed status=committed + implementationRevision=66373b3; annotated tag v0.1.0 still outstanding; 16 stays draft/blocked",
+      "evidence": "66373b3a3f74de667e96a138b53de852573a762a"
+    },
     {
       "at": "2026-06-30",
       "iteration": 13,

@@ -532,7 +532,7 @@ CONTRIBUTING (**created in 12** — 15 verifies, does not rewrite taste), tag **
 
 **Avoid:** live executor SDK (C9); claiming 01 success #3; AUR/PATH install; I5 host consume; 16 manifest retirement; rewriting 12 CONTRIBUTING.
 
-**Status:** brief_ready
+**Status:** implementation landed `66373b3`; brief `43fff44`; `--fix` did not promote (product SHA precedes brief); annotated tag `v0.1.0` still human. 16 stays blocked.
 
 **Sator Square (required footer):**
 
@@ -544,7 +544,7 @@ O P E R A
 R O T A S
 ```
 
-**Checkpoint:** v0.1.0 tagged; Sator Square in README footer; scope table matches shipped surface.
+**Checkpoint:** Sator Square in README footer; scope section matches shipped surface; annotated tag still outstanding.
 
 ---
 
@@ -578,7 +578,7 @@ brief documents + git. Same routing semantics as iteration 5 golden matrix.
   → 16 (post-v0.1)    # eliminate manifest; document-colocated state → v0.2.0 program (`.mep/plans/mep-v0.2-outline.md`)
 ```
 
-Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 (15) still needs its remaining packaging DoD.**
+Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 packaging landed; the annotated tag is the remaining human DoD.**
 
 ## Fanout eligibility
 

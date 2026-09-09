@@ -48,11 +48,16 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | 11 | committed — `8408fda` emit+tail suite; writers already existed |
 | 12 | committed — `8af941f` CONTRIBUTING + examples; brief `1e8df26` |
 | 13 | committed — curate preview/execute on fixture (`954828bdd`) |
-| 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** |
+| 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** — debt closed by **15b** (post-tag; 14's own "14b" was curate dogfood, a different fragment) |
 | 15 | tagged `v0.1.0` at `66373b3`; brief `43fff44`; checkpoint `1d6bb8f`; 01 success #3 **not** claimed |
+| 15b | `brief_ready` — default-mode evidence report; may run alongside 16 (disjoint ownership) |
 | 16 | post-v0.1 — `brief_ready` (document-colocated state) |
 
-**Next implement:** iteration **16** (retire `manifest.json` as routing authority). **Not** 9c. **Not** four vendor CLIs.
+**Next implement:** **15b** (default-mode evidence report), then **16** (retire `manifest.json` as routing authority). **Not** 9c. **Not** four vendor CLIs — v0.2 D0 is *one* generic `command` driver.
+
+**Skin order (operator 2026-09-09):** grok TUI first, then Cursor marketplace, then Claude. Skins are generated adapters over PATH `mep`; they do not own the resolver.
+
+**Why no live driver yet (asked 2026-09-09):** manual and default are already agent-usable — a harness drives the CLI from outside via `portable-routing.md`, which is how every slice here was built. Only **autopilot** structurally needs `mep` to spawn an executor. That is v0.2 **D0**, sequenced after 16 so the evidence loop reads document-native state once.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -515,7 +520,7 @@ the slice is done while `@finish:open` remains.
 **Slice type:** behavioral  
 **Epistemic transition:** default mode proven on non-fixture slug; long-initiative merge path dogfooded.
 
-**Status:** committed — git owned-path landing `64802ec14`; promised `pilot-default-mode-report.md` **absent**. Do not backfill on this host branch; extract (0) is the next certainty move.
+**Status:** committed — git owned-path landing `64802ec14`; promised `pilot-default-mode-report.md` **absent**. Not backfilled on the host branch. The debt is paid by **15b** in this repo (post-tag). Iter 14's "14b" remains the curate-instance probe in that brief — a different fragment.
 
 ---
 
@@ -550,6 +555,27 @@ R O T A S
 ```
 
 **Checkpoint:** Sator Square in README footer; scope section matches shipped surface; annotated tag `v0.1.0` on `66373b3`.
+
+---
+
+## Iteration 15b — Default-mode evidence report
+
+**Goal:** A public record that default mode ran a real initiative — what was built, over how many slices, and **what went wrong**. Closes 14's unpaid artifact without pretending the host-branch pilot happened here. Numbered **15b** because it is post-tag work, not a rewind of 14 (whose "14b" was curate dogfood).
+
+**Brief:** `iterations/15b-default-mode-evidence-report.md`
+
+**Slice type:** consolidation
+**Epistemic transition:** default mode is proven by a citable record, not by maintainer assertion.
+**Irreversible decision:** the artifact is a **public repo doc** (`tools/mep/docs/pilot-default-mode.md`), not a prep-tree retrospective — a stranger evaluating `mep` reads it without opening `.mep/prep/`.
+**Maturity target:** provisional → stable (default mode only)
+
+**Approach:** chronology from the `04` ledger + `git log` + `manifest.deviations[]`; failure list first; state that the executor was an **agent harness driving the CLI**, not `mep exec dispatch`; leave 01 #3 open.
+
+**Avoid:** piloting manual/autopilot; the D0 driver; install path; 16; upgrading README past the report.
+
+**Status:** brief_ready — claim-ceiling finish open. May run alongside 16 (disjoint ownership).
+
+**Checkpoint:** report exists; every SHA resolves; README default-mode wording matches it; #3 still deferred.
 
 ---
 

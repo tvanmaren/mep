@@ -31,7 +31,7 @@
   ],
   "masterPlanPath": ".mep/prep/mep-v0-graduation/04-iteration-roadmap.md",
   "consolidationTrigger": null,
-  "currentIteration": 16,
+  "currentIteration": 15.1,
   "targetRepo": "standalone-foss",
   "v010BlockedUntilIteration": 4,
   "iterations": [
@@ -210,7 +210,7 @@
     },
     {
       "number": 10,
-      "title": "Runtime ≠ policy hardening",
+      "title": "Runtime \u2260 policy hardening",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/10-runtime-policy-hardening.md",
       "status": "committed",
       "sliceType": "architectural",
@@ -291,6 +291,17 @@
       "checkpointRevision": "1d6bb8f6ce3e04cfa03d0b8965e2d9b41e7d6d8f"
     },
     {
+      "number": 15.1,
+      "title": "Default-mode evidence report",
+      "briefPath": ".mep/prep/mep-v0-graduation/iterations/15b-default-mode-evidence-report.md",
+      "status": "brief_ready",
+      "sliceType": "consolidation",
+      "deliveryTrack": "mixed",
+      "fanout": "sequential",
+      "epistemicTransition": "default mode is proven by a citable public record, not maintainer assertion",
+      "maturityTarget": "provisional -> stable"
+    },
+    {
       "number": 16,
       "title": "Document-colocated workflow state (eliminate manifest)",
       "briefPath": ".mep/prep/mep-v0-graduation/iterations/16-document-colocated-workflow-state.md",
@@ -312,6 +323,12 @@
     },
     {
       "at": "2026-09-09",
+      "iteration": 15.1,
+      "summary": "post-tag ledger audit found 04 header still claiming '11 is next / 15 packaging open'; rewritten to the tagged destination. operator asked when mep becomes agent-usable: manual+default already are via harness driving the CLI (portable-routing); only autopilot needs mep to spawn an executor (v0.2 D0, one generic command arm). 14's missing report reopened as 15b (not 14b \u2014 14b already meant curate dogfood in iter 14). skin order: grok TUI, then Cursor marketplace, then Claude; skins are generated adapters over PATH mep",
+      "evidence": "66373b3a3f74de667e96a138b53de852573a762a"
+    },
+    {
+      "at": "2026-09-09",
       "iteration": 15,
       "summary": "impl 66373b3 landed before brief 43fff44; checkpoint --fix wrote briefRevision only and could not prove post-brief work; human-closed status=committed + implementationRevision=66373b3; annotated tag v0.1.0 still outstanding; 16 stays draft/blocked",
       "evidence": "66373b3a3f74de667e96a138b53de852573a762a"
@@ -319,7 +336,7 @@
     {
       "at": "2026-06-30",
       "iteration": 13,
-      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1–4); ledger reconciled at checkpoint; iters 0–12 remain pending until evidenced",
+      "summary": "host-embedded dogfood landed iter 13 (curate) before standalone extract (0) and unix foundation (1\u20134); ledger reconciled at checkpoint; iters 0\u201312 remain pending until evidenced",
       "evidence": "954828bdd"
     },
     {
@@ -367,7 +384,7 @@
     {
       "at": "2026-09-08",
       "iteration": 7,
-      "summary": "brief titled ratification/proxy path; landed 092ade7 is autopilot join on commit-scope finish_open only — lifecycle proxy mapping pre-existed; no Task/LLM dispatch",
+      "summary": "brief titled ratification/proxy path; landed 092ade7 is autopilot join on commit-scope finish_open only \u2014 lifecycle proxy mapping pre-existed; no Task/LLM dispatch",
       "evidence": "092ade73d91d5adadcd107c457cd97866edaaaa6"
     },
     {

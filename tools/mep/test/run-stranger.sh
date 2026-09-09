@@ -40,6 +40,13 @@ if rg -q 'not shipped yet' "$readme"; then
 fi
 pass "README stranger install contract"
 
+contributing="$SRC/CONTRIBUTING.md"
+[[ -f "$contributing" ]] || fail "CONTRIBUTING.md must exist at repo root"
+rg -q 'curate' "$contributing" || fail "CONTRIBUTING must document curate"
+rg -q 'example-stub' "$contributing" || fail "CONTRIBUTING must name profile retarget (example-stub)"
+rg -q 'profile' "$contributing" || fail "CONTRIBUTING must name profile retarget"
+pass "CONTRIBUTING authoring contract"
+
 assert_jq() {
   local expr=$1 input=$2 label=$3
   printf '%s' "$input" | jq -e "$expr" >/dev/null || fail "$label"

@@ -114,6 +114,8 @@ slice boundary using only public commands. Both run in CI on every push.
 
 The no-config proof is step 5 (`run-stranger.sh`): a throwaway clone with no `.mep/config` at all. That's CI, not a second onboarding path.
 
+Ready to point it at your own project? [CONTRIBUTING.md](CONTRIBUTING.md) covers profiles, writing a slice, and curating a long branch for review.
+
 ## Connecting your own agent
 
 Two commands matter: `mep where` tells you the next action, and `mep exec dispatch` hands that

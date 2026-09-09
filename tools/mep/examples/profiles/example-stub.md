@@ -1,8 +1,15 @@
 # Profile — example-stub
 
-A minimal skeleton proving the profile seam. To retarget the framework to another repo: copy this
-file to `profiles/<repo>.md`, fill the sections for your repo, and set `active` to `<repo>` —
-**no engine edits**. Placeholder content below.
+A minimal skeleton showing what a profile has to answer. To point the framework at another repo:
+
+1. Copy this file to `.mep/profiles/<name>.md` and replace the placeholders with your repo's facts.
+2. Add `.mep/profiles/<name>.json` beside it. That JSON is what the tool reads; this markdown is for
+   people, so list it under `referenceOnly`. Fields are documented in
+   [`profile-capabilities.md`](../../docs/profile-capabilities.md).
+3. Set `profile.active=<name>` and `profile.dir=.mep/profiles` in `.mep/config`.
+4. Don't edit the engine — retargeting never requires it.
+
+The longer walkthrough is in the repo-root `CONTRIBUTING.md`. Placeholder content follows.
 
 ## reducers — uncertainty type → how to reduce it here
 

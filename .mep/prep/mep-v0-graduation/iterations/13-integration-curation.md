@@ -1,3 +1,13 @@
+---
+mepIteration: 13
+mepTitle: Integration curation (preview + execute)
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepImplementationRevision: 954828bdd1df5117bc3591ac3e6c85e34fa98be1
+---
+
 # Iteration 13 — Integration curation (`/mep curate`)
 
 **Phase:** 5  

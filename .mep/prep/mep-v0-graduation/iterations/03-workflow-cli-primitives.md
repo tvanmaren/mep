@@ -1,3 +1,15 @@
+---
+mepIteration: 3
+mepTitle: Workflow CLI primitives & executor adapters
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 41f92a9177ad512064a62305fa94a48d4cf1d05c
+mepImplementationRevision: cafdc85825d1e124939127d747796d02b6042d7d
+mepCheckpointRevision: cafdc85825d1e124939127d747796d02b6042d7d
+---
+
 # Iteration 3 — Workflow CLI primitives & executor adapters
 
 **Prep slug:** mep-v0-graduation  

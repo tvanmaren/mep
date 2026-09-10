@@ -1,3 +1,15 @@
+---
+mepIteration: 10
+mepTitle: Runtime ≠ policy hardening
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 1f4ed1e9450e13beb8d382087fc916d098ca72e5
+mepImplementationRevision: 50d76f6881ca5ff415bd2d10538c968608fe7a35
+mepCheckpointRevision: 50d76f6881ca5ff415bd2d10538c968608fe7a35
+---
+
 # Iteration 10 — Runtime ≠ policy hardening
 
 **Prep slug:** mep-v0-graduation  

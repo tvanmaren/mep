@@ -1,3 +1,15 @@
+---
+mepIteration: 12
+mepTitle: Curation externalized
+mepStatus: committed
+mepSliceType: consolidation
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 1e8df2673bdfc58a39327857e9e8c153bf5c03c4
+mepImplementationRevision: 8af941fad7ed474346b8526ecc1d0e884a15c37c
+mepCheckpointRevision: 8af941fad7ed474346b8526ecc1d0e884a15c37c
+---
+
 # Iteration 12 — Curation externalized (authoring taste)
 
 **Prep slug:** mep-v0-graduation  

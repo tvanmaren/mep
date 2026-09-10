@@ -1,3 +1,15 @@
+---
+mepIteration: 9.1
+mepTitle: Mode-agnostic finish readiness
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 1f4ed1e9450e13beb8d382087fc916d098ca72e5
+mepImplementationRevision: 52bb53078415dbb0debbfc4ebe0507f715e93ec6
+mepCheckpointRevision: 52bb53078415dbb0debbfc4ebe0507f715e93ec6
+---
+
 # Iteration 9b — Mode-agnostic finish readiness
 
 **Prep slug:** mep-v0-graduation  

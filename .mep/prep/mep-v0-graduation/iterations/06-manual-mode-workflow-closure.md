@@ -1,3 +1,15 @@
+---
+mepIteration: 6
+mepTitle: Manual mode workflow closure
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 46895d9393659136a74d248a95a10f438ff0572c
+mepImplementationRevision: 2f937b719cd49c7399c246040fa3e2710fd3235c
+mepCheckpointRevision: 2f937b719cd49c7399c246040fa3e2710fd3235c
+---
+
 # Iteration 6 — Manual mode workflow closure
 
 **Prep slug:** mep-v0-graduation  

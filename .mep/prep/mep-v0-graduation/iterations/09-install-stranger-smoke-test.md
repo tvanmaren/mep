@@ -1,3 +1,15 @@
+---
+mepIteration: 9
+mepTitle: Install path & stranger smoke test
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 6cc901b1d4366e99658ede2efa410e87b4b274b2
+mepImplementationRevision: 2f6a514e89330c115a3c3c467a8dd6f17b8fb627
+mepCheckpointRevision: 2f6a514e89330c115a3c3c467a8dd6f17b8fb627
+---
+
 # Iteration 9 — Install path & stranger smoke test
 
 **Prep slug:** mep-v0-graduation  

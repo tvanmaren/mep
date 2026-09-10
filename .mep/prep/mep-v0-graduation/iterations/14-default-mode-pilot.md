@@ -1,3 +1,15 @@
+---
+mepIteration: 14
+mepTitle: Default mode end-to-end pilot
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 9826558630deb7ca416faaebec74b4570a358383
+mepImplementationRevision: 64802ec14a97891ce6a57ccfa37899eb245d561e
+mepCheckpointRevision: 376853be37f097f60c55a2f1f453ec4c7c6d2a6c
+---
+
 # Iteration 14 — Default mode end-to-end pilot
 
 **Prep slug:** mep-v0-graduation  

@@ -1,3 +1,15 @@
+---
+mepIteration: 4
+mepTitle: Shell litmus & pipe harness
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 89cb849e1102e28569ea2fcc606457ae06dccf7c
+mepImplementationRevision: 051df031ceae15071f64be9bc92888f6e72d685d
+mepCheckpointRevision: 051df031ceae15071f64be9bc92888f6e72d685d
+---
+
 # Iteration 4 — Shell litmus & pipe harness
 
 **Prep slug:** mep-v0-graduation  

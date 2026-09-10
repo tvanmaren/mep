@@ -1,3 +1,15 @@
+---
+mepIteration: 5.1
+mepTitle: Finish-scan marker heuristic
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: a0cecb82c9a9dc1be7ad9b44960f61b68444d91d
+mepImplementationRevision: f749db12c8dd0333b074439c6a506101a2e72d6b
+mepCheckpointRevision: f749db12c8dd0333b074439c6a506101a2e72d6b
+---
+
 # Iteration 5b — Finish-scan marker heuristic
 
 **Prep slug:** mep-v0-graduation  

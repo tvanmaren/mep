@@ -1,3 +1,15 @@
+---
+mepIteration: 15
+mepTitle: v0.1.0 release package (incl. Sator Square)
+mepStatus: committed
+mepSliceType: cleanup
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 43fff44cc2404edd067ec63471c7dd38ad6d6671
+mepImplementationRevision: 66373b3a3f74de667e96a138b53de852573a762a
+mepCheckpointRevision: 1d6bb8f6ce3e04cfa03d0b8965e2d9b41e7d6d8f
+---
+
 # Iteration 15 — v0.1.0 release package (incl. Sator Square)
 
 **Prep slug:** mep-v0-graduation  

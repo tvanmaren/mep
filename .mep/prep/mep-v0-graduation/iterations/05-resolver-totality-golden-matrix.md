@@ -1,3 +1,15 @@
+---
+mepIteration: 5
+mepTitle: Resolver totality & golden matrix
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: c75c4b7c5517650e0bdc3cff80fe495a55596e0c
+mepImplementationRevision: 8e4d88014774b22dddfcad19b02c6502430fdd59
+mepCheckpointRevision: 8e4d88014774b22dddfcad19b02c6502430fdd59
+---
+
 # Iteration 5 — Resolver totality & golden matrix
 
 **Prep slug:** mep-v0-graduation  

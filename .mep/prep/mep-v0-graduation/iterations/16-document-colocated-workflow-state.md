@@ -1,8 +1,19 @@
-# Iteration 16 — Document-colocated workflow state (post-v0.1)
+---
+mepIteration: 16
+mepTitle: Document-native state authority & legacy migration
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: acf06b0a9b36e065415689fe59e46cfc692b680b
+mepImplementationRevision: 8a738e42c8d7592cd65d79583c9c12aa0f2fb130
+mepCheckpointRevision: 8a738e42c8d7592cd65d79583c9c12aa0f2fb130
+---
+
+# Iteration 16 — Document-native state authority & legacy migration (post-v0.1)
 
 **Prep slug:** mep-v0-graduation
 **Brief path:** `.mep/prep/mep-v0-graduation/iterations/16-document-colocated-workflow-state.md`
-**Status:** brief_ready
 **Slice type:** architectural
 **Mode:** hardening
 **Delivery track:** mixed
@@ -11,7 +22,7 @@
 
 ## Epistemic transition
 
-**What became more certain:** workflow routing reads plan documents + git. `manifest.json` is not a routing authority.
+**What became more certain:** workflow routing reads plan documents + git, and *writes* them too — a sidecar is retired only when every writer follows the reader. `manifest.json` is not an authority; it is an import format with a named refusal and a conversion verb.
 
 **Irreversible decision (one):** the initiative cursor lives in YAML frontmatter on `04-iteration-roadmap.md`; each iteration's status and revision triplet live in that brief's YAML frontmatter. checkpoint writes those nodes. resolver composes them. `manifest.json` is removed once goldens pass on the composed view.
 
@@ -29,11 +40,11 @@
 
 | | |
 |---|---|
-| **Owns** | `tools/mep/lib/resolver.sh` (read compose); `tools/mep/lib/checkpoint.sh` / `doctor.sh` writebacks that today mutate `manifest.json`; `tools/mep/lib/paths.sh`; `tools/mep/lib/status.sh` if it reads the index; `tools/mep/test/run-golden-matrix.sh`; glossary twins (`manifest` definition + inputs); this initiative's live `manifest.json` *retirement* |
-| **May know** | C7, C8, C10, I4; iter 5 golden oracle; `workflow.sh` / `mode` only as consumers of the compose helper; curate.py if it currently loads the index for status |
+| **Owns** | document-state runtime (`resolver`, `manifest`, `checkpoint`, `doctor`, `paths`, `status`, `workflow`, `lifecycle`, `finish`, `pr`, `migrate`, CLI registry); all state-sensitive fixtures; `.mep/prep/fixture-demo/` migration; every shipped operator surface that instructs sidecar reads/writes (`SKILL`, command adapters, tidy, curate, bundled reference, glossary, portable routing, policies, templates, READMEs); the v0.2 A1 outline/invariant reconciliation; this initiative's live `manifest.json` *retirement* |
+| **May know** | C7, C8, C10, I4; iter 5 golden oracle; curate.py if it currently loads the index for status |
 | **Must not know** | `mep infer` (v0.2 B1); desync-first `where` (B3); `where` ⊕ lifecycle merge (C1); live vendor drivers; PATH/AUR; rewriting 15 README taste; I5 host consume |
-| **Invariants** | C4, C7, C8, C9, C10, C11; golden rows 1–11 + documented recoveries still match; stdout `status` agrees with exit; no in-tree live driver |
-| **Still provisional** | git heuristics for “built” (I4) — still transitional; dual skill/docs copies; event ledger |
+| **Invariants** | C4, C7, C8, C9, C10, C11; **C12 promoted at close** (`8a738e4`); golden rows 1–11 + documented recoveries still match; stdout `status` agrees with exit; no in-tree live driver |
+| **Still provisional** | git heuristics for “built” (I4) — still transitional; dual skill/docs copies; event ledger; frontmatter primitives still live in `resolver.sh` (I19 → iter 17) |
 
 ## Epistemic markers (`@` tags)
 
@@ -57,13 +68,24 @@ v0.2.0 headline (outline A1). B1 infer may assume the hot path no longer *requir
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] resolver + `where --json` compose initiative cursor + current brief from documents + git — they do **not** read `manifest.json` as authority
-- [ ] `tools/mep/test/run-golden-matrix.sh` still green with **row parity** to iter 5 (same rows, same `executionRequest` / `proof` assertions); fixtures seed documents, not a routing manifest
-- [ ] checkpoint `--fix` writes brief/roadmap frontmatter (status, revision triplet, current iteration) — not `manifest.json` fields
-- [ ] live `.mep/prep/mep-v0-graduation/manifest.json` is gone or is a one-release import stub that `where` ignores
-- [ ] glossary twins: `manifest.json` is no longer described as the resolver input; composed documents + git are
-- [ ] unix-contract, stranger, slice-boundary `--executor stub` still green
-- [ ] no `mep infer`; no A2 phase enum; no live vendor driver
+- [x] resolver + `where --json` compose initiative cursor + current brief from documents + git — they do **not** read `manifest.json` as authority
+- [x] `tools/mep/test/run-golden-matrix.sh` still green with **row parity** to iter 5 (same rows, same `executionRequest` / `proof` assertions); fixtures seed documents, not a routing manifest
+- [x] checkpoint `--fix` writes brief/roadmap frontmatter (status, revision triplet, current iteration) — not `manifest.json` fields
+- [x] live `.mep/prep/mep-v0-graduation/manifest.json` is gone or is a one-release import stub that `where` ignores
+- [x] glossary twins: `manifest.json` is no longer described as the resolver input; composed documents + git are
+- [x] every state *writer* follows the reader: `mode set` rewrites roadmap `mepAuthorshipMode`, `implement` reads brief `mepStatus`, `pr scaffold` reads the composed summary, and `run-unix-contract.sh` covers both authority arms (document-native fixture + legacy import fixture)
+- [x] document authority requires a frontmatter block, not a roadmap *file* — a pre-migration roadmap with no frontmatter imports its manifest instead of resolving to an empty cursor
+- [x] a literal `null` in frontmatter reads as absent, never as the revision string `"null"`
+- [x] legacy initiatives get a named refusal (`legacy_state_read_only`) and a supported exit (`mep migrate`), not a silent no-op under `--fix` — `checkpoint`, `doctor`, and `mode set` all refuse at `blocked`/exit 2, and `mep_frontmatter_set` fails closed rather than succeeding as a no-op
+- [x] no writer decides authority for itself: `mep_document_state_present` is the single test, and every mode-set fixture no longer shares one authority arm
+- [x] no doc instructs an agent to read or write `manifest.json` as authority; `templates/manifest.json` and the superseded `mise-en-place/doctor.sh` sed writer are gone
+- [x] document state never fabricates retired `phaseApproved` / `sessionMode` fields; malformed roadmap or brief frontmatter blocks routing instead of disappearing or defaulting optimistically
+- [x] checkpoint and doctor report only writebacks that reached disk; any failed frontmatter mutation is `blocked/state_write_failed`
+- [x] migration is resumable: every referenced brief validates first, briefs write before the roadmap authority flip, modeled fields survive, and intentionally dropped legacy keys are named in the packet
+- [x] every live adapter and recovery/publication surface reads the composed state or document nodes; tidy no longer creates a manifest-native initiative
+- [x] vision documents say exactly where reality is: A1 implemented here; A2/B/C/D remain future work
+- [x] unix-contract, stranger, slice-boundary `--executor stub` still green
+- [x] no `mep infer`; no A2 phase enum; no live vendor driver
 
 ## Finish-map (fragment classification)
 
@@ -87,25 +109,47 @@ v0.2.0 headline (outline A1). B1 infer may assume the hot path no longer *requir
 | file | slice op | zone | notes |
 |------|----------|------|-------|
 | `tools/mep/lib/resolver.sh` | modify | domain | compose from documents + git |
+| `tools/mep/lib/manifest.sh` | modify | domain | retain only the explicitly named legacy path; no shadow reader |
 | `tools/mep/lib/checkpoint.sh` | modify | domain | write frontmatter |
 | `tools/mep/lib/doctor.sh` | modify | domain | git-proven writebacks to documents, not JSON index |
 | `tools/mep/lib/paths.sh` | modify | domain | drop or demote `manifest.json` path helper |
 | `tools/mep/lib/status.sh` | modify | domain | if it reads the index |
+| `tools/mep/lib/workflow.sh` | modify | domain | `mode set` writes frontmatter; `implement` reads `mepStatus` |
+| `tools/mep/lib/pr.sh` | modify | domain | read the composed summary, not the manifest file |
+| `tools/mep/lib/lifecycle.sh` | modify | domain | packet key `manifest` → `documents` |
+| `tools/mep/lib/migrate.sh` | add | domain | manifest → frontmatter conversion |
+| `tools/mep/bin/mep` + `tools/mep/lib/registry.sh` | modify | domain | `mep migrate` verb + usage |
+| `tools/mep/lib/exec.sh` | modify | domain | `kind: migrate` on the dispatch allowlist (row-derived; not a second resolver) |
+| `tools/mep/lib/events.sh` | modify | domain | `resolver_routed` payload carries `status` so blocked routes are distinguishable |
 | `tools/mep/test/run-golden-matrix.sh` | modify | integration | seed documents |
-| `.cursor/skills/mise-en-place/glossary.md` + `tools/mep/docs/glossary.md` | modify | integration | twins |
+| `tools/mep/test/run-unix-contract.sh` | modify | integration | both authority arms; legacy refusal; migrate round trip |
+| `tools/mep/test/run-events.sh` | modify | integration | fixture off the legacy path |
+| `tools/mep/test/run-stranger.sh` + `scripts/litmus/slice-boundary.sh` | modify | integration | migrate the copied `fixture-demo` at runtime; do not require a committed tree migration |
+| `tools/mep/test/run-finish-scan.sh` + `tools/mep/test/run-mark.sh` + `tools/mep/test/run-mode-resolver.sh` + `tools/mep/test/run-manual-workflow.sh` | modify | integration | document-authority coverage for state-sensitive verbs |
+| `tools/mep/templates/{04-iteration-roadmap,slice-brief,05-handoff}.md` + skill twins | modify | integration | ship the frontmatter new initiatives need |
+| `tools/mep/templates/manifest.json` + skill twin | delete | integration | no template for a retired format |
+| `.cursor/skills/mise-en-place/doctor.sh` | delete | integration | sed-based manifest writer, superseded by `mep doctor` |
+| glossary / `portable-routing` / `SKILL` / `slice-integrity-check` / `maturity-tags` / `event-ledger` / `execution-policies` / README twins | modify | integration | no doc may instruct a sidecar read or write |
+| `README.md` | modify | integration | the v0.1 scope bullet this slice falsifies |
+| `.cursor/commands/{mep,prep-stage,prep-cleanup,prep-pr-description,prep-curate}.md` | modify | integration | remove live manifest-authority instructions |
+| `.cursor/skills/tidy/SKILL.md` + `.cursor/skills/mise-en-place/curate/SKILL.md` | modify | integration | recovery/publication operate on document state |
+| `tools/mep/scripts/{bundle-reference.py,curate.py}` | modify | integration | generated/runtime status surfaces name document state |
+| `.mep/plans/mep-v0.2-outline.md` + `01-invariant-goal.md` | modify | integration | reconcile A1 reality and persisted cursor decision |
+| `.mep/prep/fixture-demo/**` | leave | integration | **not** in `8a738e4` — stranger/litmus migrate a copy; working tree may still be legacy |
 | `.mep/prep/mep-v0-graduation/manifest.json` | delete | integration | after compose works |
 | `.mep/prep/mep-v0-graduation/04-iteration-roadmap.md` | modify | integration | cursor frontmatter |
 | `.mep/prep/mep-v0-graduation/iterations/*.md` | modify | integration | per-iter frontmatter as needed for *this* slug to keep routing |
+| `.mep/prep/mep-v0-graduation/03-core-vs-volatile.md` | modify | integration | amendments 16 through 16e + **16 close** (C12 / I19) |
 
-**Conflicts:** sequential vs all other lib owners. do not take `events.sh`, `exec` dispatch, README taste, curate execute semantics.
+**Conflicts:** sequential vs all other lib owners. README taste and curate execute semantics stayed out. `exec.sh` / `events.sh` *did* move — only the `migrate` kind and blocked-route `status` on the ledger, not dispatch rewrite.
 
 **Explicitly not this slice:** infer; doctor as forensic orchestrator; A2 phases; C1 unified `where`; live drivers; 15 README rewrite.
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `mep where mep-v0-graduation --json` still depends on `manifest.json` (authority)
-- [ ] golden matrix fixtures still write `manifest.json`
-- [ ] `manifest.json` still present under `.mep/prep/mep-v0-graduation/`
+- [x] `mep where mep-v0-graduation --json` still depends on `manifest.json` (authority)
+- [x] golden matrix fixtures still write `manifest.json`
+- [x] `manifest.json` still present under `.mep/prep/mep-v0-graduation/`
 
 ## Approach
 
@@ -149,23 +193,32 @@ v0.2.0 headline (outline A1). B1 infer may assume the hot path no longer *requir
 
 ## Architectural diff (fill at checkpoint)
 
-- Assumptions hardened:
-- Coupling increased:
-- Harder to change:
-- Easier to change:
-- **Promote to core:**
-- **Newly interchangeable:**
-- **Falsified:**
+- Assumptions hardened: document authority is a validated frontmatter block, not file existence;
+  readers and writers share that seam; roadmap is the final migration commit point.
+- Coupling increased: roadmap/brief key spellings are now a public persistence contract for v0.2.
+- Harder to change: cursor placement and the legacy import window require explicit migration logic.
+- Easier to change: routing no longer depends on a sidecar mirror; forensic B1/B2 can compare one
+  authoritative tree against git without deciding which persisted copy wins.
+- **Promote to core:** C12 — plan documents are the only mutable ledger; malformed state blocks;
+  writes report disk truth; compatibility imports never accept mutations.
+- **Newly interchangeable:** legacy manifest parsing and `mep migrate` are one-release adapters,
+  deletable without changing document-native callers. I19 (which file owns the primitives) stayed
+  interchangeable — queued as iter 17, not promoted.
+- **Falsified:** a green legacy-only fixture proves document-native behavior; a document's existence
+  proves state exists; migration can safely flip authority before every child node lands;
+  compatibility fields may be synthesized harmlessly.
 
 ## Checkpoint
 
 **Seam smell test:** category is “who is the ledger,” not “prettier YAML.” fail if goldens were rewritten to hide a row, or if infer shipped to “finish” compose.
 
+**Close (`8a738e4` + this docs-delta):** C12 promoted; I19 registered and *not* extracted here; live `mep-v0-graduation/manifest.json` retires in the docs-delta. `fixture-demo` remains a legacy seed that the harness migrates.
+
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation` — code/docs scope
-- [ ] `git commit`
-- [ ] `/prep mep-v0-graduation checkpoint`
+- [x] `/commit-prep mep-v0-graduation` — code/docs scope
+- [x] `git commit`
+- [x] `/prep mep-v0-graduation checkpoint`
 - [ ] `/commit-prep mep-v0-graduation docs-delta`
 
 ## implement-plan instruction

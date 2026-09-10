@@ -1,3 +1,15 @@
+---
+mepIteration: 7
+mepTitle: Autopilot ratification path
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 2f37c64f9ab51638b293dc9fa514fa6cd2a8bee1
+mepImplementationRevision: 092ade73d91d5adadcd107c457cd97866edaaaa6
+mepCheckpointRevision: 092ade73d91d5adadcd107c457cd97866edaaaa6
+---
+
 # Iteration 7 — Autopilot ratification path
 
 **Prep slug:** mep-v0-graduation  

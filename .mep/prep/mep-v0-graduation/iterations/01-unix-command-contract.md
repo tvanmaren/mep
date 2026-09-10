@@ -1,3 +1,15 @@
+---
+mepIteration: 1
+mepTitle: Unix command contract
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 793b607cc3ec793f2806bea7cef70f94c6cee0f7
+mepImplementationRevision: b0886e555615cb7f4e8538a08801a25057d400a5
+mepCheckpointRevision: b0886e555615cb7f4e8538a08801a25057d400a5
+---
+
 # Iteration 1 — Unix command contract
 
 **Prep slug:** mep-v0-graduation  

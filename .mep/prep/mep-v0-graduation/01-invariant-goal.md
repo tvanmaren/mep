@@ -51,27 +51,28 @@ config, not MEP env vars.
 
 ## Document-native SSOT (binding identity; v0.1 contract layer)
 
-**Steady-state target:** workflow state lives on the plan documents themselves — initiative policy in
-`01-invariant-goal.md` frontmatter, slice workflow ledger in each brief's frontmatter, roster in
-`04-iteration-roadmap.md`. No central index tracking things *about* markdown outside markdown.
+**Steady-state target:** workflow state lives on the plan documents themselves — initiative policy
+and cursor in `04-iteration-roadmap.md` frontmatter, slice workflow ledger in each brief's
+frontmatter, semantic invariants in this document's body. No central index tracking things *about*
+markdown outside markdown.
 
-**v0.1 ships:** the **authoring contract** (schema, templates, prep layout) plus `manifest.json` as
-**transitional runtime storage** (machine-sync overlay). Strangers orient from documents under
-configured `storage.prepRoot` (engine default **`.mep/prep`**). `manifest.json` is not the
-specification layer. Hosts may overlay (`wiki/prep` is one overlay, not identity).
+**v0.1 shipped:** the **authoring contract** (schema, templates, prep layout) plus `manifest.json` as
+**transitional runtime storage**. Iteration **16** (`8a738e4`) implemented the steady-state home:
+checkpoint/resolver read and write document-colocated state. `manifest.json` is import-only for one
+compatibility release and converts via `mep migrate`. Strangers orient from documents under
+configured `storage.prepRoot` (engine default **`.mep/prep`**). Hosts may overlay (`wiki/prep` is one
+overlay, not identity).
 
-| Field class | v0.1 authority | steady-state home |
-|-------------|----------------|-------------------|
-| Initiative policy (phase, authorshipMode, ownedPaths, gates) | manifest (+ initiative doc mirrors) | initiative frontmatter |
-| Slice intent (constitution, finish-map) | brief body | brief body |
-| Slice metadata (sliceType, deliveryTrack, fanout) | brief header/frontmatter | brief frontmatter |
-| Machine sync (status, revision triplets) | manifest (checkpoint writes) | brief frontmatter |
-| Derived orchestration (currentIteration) | manifest | derived at resolve — not persisted |
+| Field class | authority now |
+|-------------|----------------|
+| Initiative policy (phase, authorshipMode, ownedPaths) | roadmap frontmatter |
+| Slice intent (constitution, finish-map) | brief body |
+| Slice metadata (sliceType, deliveryTrack, fanout) | brief frontmatter |
+| Machine sync (status, revision triplets) | brief frontmatter |
+| Initiative cursor (currentIteration) | roadmap `mepCurrentIteration` |
 
-**v0.1 rejects:** duplicated slice status in brief header *and* manifest without declared authority.
-
-**Post-v0.1 (sc-101):** checkpoint/resolver
-read/write document-colocated state; eliminate `manifest.json`.
+**Rejects:** a sidecar as routing or write authority; duplicated slice status without a declared
+reader.
 
 ## Invariants (must survive any implementation)
 

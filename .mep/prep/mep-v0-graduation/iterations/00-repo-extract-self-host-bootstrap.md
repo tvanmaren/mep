@@ -1,3 +1,15 @@
+---
+mepIteration: 0
+mepTitle: Repo extract & self-host bootstrap
+mepStatus: committed
+mepSliceType: architectural
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 606ec4ef01e530e6ec88af931322baa5966b7378
+mepImplementationRevision: 8ae1f246b0bf509fd128445eeed01b9ff48f2995
+mepCheckpointRevision: 606ec4ef01e530e6ec88af931322baa5966b7378
+---
+
 # Iteration 0 — Repo extract & self-host bootstrap
 
 **Prep slug:** mep-v0-graduation  

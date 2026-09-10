@@ -1,3 +1,15 @@
+---
+mepIteration: 11
+mepTitle: Lifecycle observability completion
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 8f61a98b0b808823bf22d08f0bb8128cf60ffaef
+mepImplementationRevision: 8408fda3a29f691bce0b7ce7b9b75f23e210a2e4
+mepCheckpointRevision: 8408fda3a29f691bce0b7ce7b9b75f23e210a2e4
+---
+
 # Iteration 11 — Lifecycle observability completion
 
 **Prep slug:** mep-v0-graduation  

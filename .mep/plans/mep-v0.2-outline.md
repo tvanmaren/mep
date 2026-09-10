@@ -1,6 +1,6 @@
 # MEP v0.2 — outline
 
-**Status:** draft outline (not staffed)  
+**Status:** active outline — A1 implemented by mep-v0-graduation iteration 16; remainder not staffed
 **Canonical vision:** [mep-vision-proposal.md](./mep-vision-proposal.md) · [mep-vision-one-pager.md](./mep-vision-one-pager.md)  
 **Predecessor program:** epic #85 · `.mep/prep/mep-v0-graduation/`
 
@@ -68,7 +68,10 @@ v0.2 **demotes** git reconstruction from the default `where` path and moves it t
 | **v0.2.x** | `infer`, doctor expansion, desync routing, unified mode-aware `where`, tidy seeding, classification feedback |
 | **v0.3.0** | Auto mode assignment — MEP classifies work into manual / default / autopilot (see below) |
 
-v0.1 iter 15 (*document-colocated workflow state*) is the natural **v0.2.0** headline. Infer/router work can follow as v0.2.1+ in the same program without blocking the document-state milestone. **v0.3** opens only after v0.2 program success criteria pass.
+Post-v0.1 iteration 16 (*document-native state authority & legacy migration*) is the **v0.2.0**
+headline and implements A1. It does not complete v0.2: infer, desync routing, unified mode-aware
+`where`, tidy seeding, and the generic live driver remain B–D work. **v0.3** opens only after the
+v0.2 program success criteria pass.
 
 ---
 
@@ -76,7 +79,7 @@ v0.1 iter 15 (*document-colocated workflow state*) is the natural **v0.2.0** hea
 
 ### Milestone A — composed state reader (v0.2.0)
 
-**A1. Document-colocated state**  
+**A1. Document-colocated state — implemented by iteration 16**
 Retire central index as routing authority. Checkpoint writes brief/roadmap frontmatter; runtime walks prep tree + git + markers. Same routing *semantics* as v0.1 golden matrix, new *inputs*.  
 *Likely inherits v0.1 iter 15 scope.*
 
@@ -107,8 +110,15 @@ Recovery skill/tooling seeds from `mep infer --json` instead of ad-hoc agent arc
 
 ### Milestone D — delegation depth (v0.2.x, policy-dependent)
 
+**D0. One generic live driver**
+`exec dispatch` gains a single `kind: command` arm: exec the preset's argv with the `executionRequest` on stdin. No vendor SDK, no shell `eval` (C9). `cursor` / `claude-code` / `codex` / `grok` stay **config examples**, not four maintained drivers.
+
+This is the only slice that makes **autopilot** real — manual and default are already served by an agent harness driving the CLI from outside (`portable-routing.md`), which is how every closed slice in v0.1 was built. Sequenced **after A1** so the evidence loop reads document-native state once.
+
+**Skin emit order (operator 2026-09-09):** generated adapters over PATH `mep`, not second resolvers. **grok TUI first**, then Cursor marketplace, then Claude. VS Code is a Cursor-adjacent emit, not a fourth architecture. Marketplace packages declare a CLI compatibility range and fail closed if `mep` is missing.
+
 **D1. Evidence-gated autopilot commit**  
-Policy validates evidence packet; runtime emits execution request; executor performs commit. Requires frozen request/evidence schema from v0.1.
+Policy validates evidence packet; runtime emits execution request; executor performs commit. Requires frozen request/evidence schema from v0.1 and **D0**.
 
 **D2. Autopilot graduation re-ratification**  
 Risk-tiered human re-review of semantic/foundational proxy finishes; spot-audit remainder; finish-map retained at graduation.
@@ -126,7 +136,8 @@ v0.1 tag + litmus + executionRequest + golden matrix (transitional)
   → B3 desync routing row
   → C1 where ⊕ lifecycle
   → C2 tidy ← infer
-  → D1 autopilot evidence commit (parallel ok after B2 + v0.1 iter 2 frozen)
+  → D0 generic command driver (after A1; unblocks autopilot)
+  → D1 autopilot evidence commit (after D0; parallel ok after B2 + v0.1 iter 2 frozen)
   → D2 graduation re-ratification
   → B0 classification feedback (parallel ok after iter 13 pilot; no mode writes)
   → v0.3 program (E1 → E2 → E3) after v0.2 success criteria
@@ -144,6 +155,7 @@ B milestones can start fixture work **in parallel** with late A1 once prep-tree 
 - Ungoverned autonomous commit/push/merge
 - Rich epistemic tag taxonomy beyond slice-brief needs
 - Replacing Cursor adapter with a new executor framework
+- **Per-vendor drivers.** One generic `command` arm (D0), not four vendor integrations tracking four flag surfaces.
 - **Auto mode assignment** — runtime or CLI selecting manual / default / autopilot from classification (v0.3; see below). v0.2 routes for the **operator-chosen** mode only.
 - **Prep style runtime (`hash` | `house`)** — vision principle in [mep-vision-proposal.md](./mep-vision-proposal.md) (ceremony depth orthogonal to authorship mode; same rail). Do **not** staff `style` / `--hash` as v0.2 slices; keep A–D focused on composed state / infer / unified `where`.
 
@@ -194,7 +206,8 @@ Classifier may set `iterations[N].authorshipMode` when policy allows; initiative
 ## Open decisions (resolve at v0.1 tag)
 
 1. **v0.2 epic** — extend epic #85 post-v0.1 section vs new epic #N?
-2. **Manifest retirement** — v0.2.0 hard requirement or compatibility shim for one release?
+2. **Manifest retirement — resolved:** document state is authoritative; manifests are import-only
+   for one compatibility release and convert explicitly via `mep migrate`.
 3. **Infer API stability** — semver-minor for heuristic improvements inside v0.2.x?
 4. **Productization rewrite** — does v0.2 land in bash reference runtime only, or block on substrate choice?
 

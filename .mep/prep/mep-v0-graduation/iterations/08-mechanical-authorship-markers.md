@@ -1,3 +1,15 @@
+---
+mepIteration: 8
+mepTitle: Mechanical authorship markers
+mepStatus: committed
+mepSliceType: behavioral
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 2e38627cd340d2c2f44726066d9e8a9dba845caf
+mepImplementationRevision: 84aa6e8597d3aa770c611da54b541ccfc718a5b0
+mepCheckpointRevision: 84aa6e8597d3aa770c611da54b541ccfc718a5b0
+---
+
 # Iteration 8 — Mechanical authorship markers
 
 **Prep slug:** mep-v0-graduation  

@@ -1,3 +1,15 @@
+---
+mepSlug: mep-v0-graduation
+mepPhase: 5
+mepPrepDocsBootstrapped: true
+mepHandoffApproved: false
+mepInitiativeStatus: active
+mepAuthorshipMode: default
+mepCurrentIteration: 17
+mepOwnedPaths: ["tools/mep/**",".cursor/skills/mise-en-place/**",".cursor/commands/mep.md",".cursor/commands/prep.md",".cursor/commands/prep-cleanup.md",".cursor/commands/prep-curate.md",".cursor/commands/prep-pr-description.md",".cursor/commands/prep-stage.md",".mep/prep/mep-v0-graduation/**",".mep/plans/mep-curate-outline.md"]
+mepMasterPlanPath: .mep/prep/mep-v0-graduation/04-iteration-roadmap.md
+---
+
 # Iteration roadmap — mep-v0-graduation
 
 **Phase:** 4  
@@ -26,7 +38,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after v0.1.0
 
-**15 tagged at `66373b3` (`v0.1.0`, signed).** **15b** landed post-tag (`2aa8a7c`). **16** is next (document-native state) — `brief_ready`.
+**15 tagged at `66373b3` (`v0.1.0`, signed).** **15b** landed post-tag (`2aa8a7c`). **16** committed (`8a738e4`). **17** is next (document-state module) — `brief_ready`.
 
 Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's promised `pilot-default-mode-report.md` **absent** — deviation, do not backfill here). **11** and **12** landed (`8408fda`, `8af941f`).
 
@@ -51,9 +63,9 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | 14 | committed by owned-path history (`64802ec14` curate docs); **pilot report never created** — debt closed by **15b** (post-tag; 14's own "14b" was curate dogfood, a different fragment) |
 | 15 | tagged `v0.1.0` at `66373b3`; brief `43fff44`; checkpoint `1d6bb8f`; 01 success #3 **not** claimed |
 | 15b | committed — `2aa8a7c` public report + README citation; brief `4b3b893`; `--fix` checkpointRevision was pre-amend product `5b37dd8` — stripped pending docs-delta |
-| 16 | post-v0.1 — `brief_ready` (document-colocated state) |
+| 16 | committed — `8a738e4`; document-native authority + `mep migrate`; live sidecar retirement is docs-delta |
 
-**Next implement:** **16** (retire `manifest.json` as routing authority). **Not** 9c. **Not** four vendor CLIs — v0.2 D0 is *one* generic `command` driver.
+**Next implement:** **17** (give frontmatter persistence one module). **Not** A2 phases. **Not** four vendor CLIs — v0.2 D0 is *one* generic `command` driver, still after this extract.
 
 **Skin order (operator 2026-09-09):** grok TUI first, then Cursor marketplace, then Claude. Skins are generated adapters over PATH `mep`; they do not own the resolver.
 
@@ -85,6 +97,8 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | I16 | 11 (emit+tail suite path) |
 | I17 | 12 (CONTRIBUTING + examples) |
 | I18 | 15b (`tools/mep/docs/pilot-default-mode.md`) |
+| C12 | 16 (core lock) |
+| I19 | 17 (document-state module path) |
 
 ---
 
@@ -580,21 +594,49 @@ R O T A S
 
 ---
 
-## Iteration 16 — Document-colocated workflow state (post-v0.1)
+## Iteration 16 — Document-native state authority & legacy migration (post-v0.1)
 
-**Goal:** Eliminate `manifest.json`. Checkpoint writes brief frontmatter; resolver reads initiative +
-brief documents + git. Same routing semantics as iteration 5 golden matrix.
+**Goal:** Make the plan documents the only state authority, and give everything that isn't one a
+named exit. Readers compose from initiative + brief frontmatter + git; **every** writer follows
+(`checkpoint`, `doctor`, `mode set`, `implement`, `pr scaffold`); an unmigrated initiative imports
+its `manifest.json` read-only, refuses writes out loud, and converts via `mep migrate`. Same routing
+semantics as iteration 5 golden matrix.
 
 **Shortcut:** sc-101  
 **Brief:** `iterations/16-document-colocated-workflow-state.md`
 
 **Slice type:** architectural  
-**Epistemic transition:** transitional manifest retires; plan documents are the workflow ledger.  
+**Epistemic transition:** transitional manifest retires to import-only; plan documents are the workflow ledger, read *and* written.
 **Blocked by:** golden matrix (5) — already committed. v0.1.0 tag (15) landed.
 
 **Not a v0.1 gate.** v0.1 shipped the authoring contract (0, 12) and transitional manifest.
 
-**Status:** brief_ready — schema ratified (cursor on 04; triplet on briefs; deviations in 03).
+**Status:** committed — `iterations/16-document-colocated-workflow-state.md` (`8a738e4`)
+
+---
+
+## Iteration 17 — Document-state module (post-16 consolidation)
+
+**Goal:** Give the frontmatter persistence grammar one home. Iteration 16 froze the contract inside
+`resolver.sh`; this slice moves the primitives so routing and persistence are not the same reason
+to change a file.
+
+**Brief:** `iterations/17-document-state-module.md`
+
+**Slice type:** consolidation
+**Epistemic transition:** C12's grammar is interchangeable as a module path (I19), not as a second
+authority.
+**Blocked by:** 16 (`8a738e4`).
+
+**Approach:** extract `mep_frontmatter_*`, `mep_document_state_present`, and compose helpers into
+`tools/mep/lib/document.sh` (name is instance); `resolver.sh` keeps rows. no key-spelling changes.
+no packet-shape changes. no A2 ladder. no live driver.
+
+**Avoid:** A2 phases; B1 infer; D0 driver; rewriting twins for taste; changing `mep migrate` semantics.
+
+**Status:** brief_ready — queued at 16 close.
+
+---
 
 ---
 
@@ -607,10 +649,12 @@ brief documents + git. Same routing semantics as iteration 5 golden matrix.
   → 5b                # finish-scan comment heuristic (unblocks dogfood where)
   → 6,7,8             # workflow closure (identity work; 8 last of B)
   → 9 → 9b → 10,11 (parallel) → 12 → 13 → 14 → 15
-  → 16 (post-v0.1)    # eliminate manifest; document-colocated state → v0.2.0 program (`.mep/plans/mep-v0.2-outline.md`)
+  → 16 (post-v0.1)    # manifest → import-only; document-native state authority → v0.2.0 A1
+  → 17                # persistence module; not A2 / D0
 ```
 
-Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 is tagged.** 16 is the v0.2.0 headline (document-colocated state), not a v0.1 gate.
+Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 is tagged.** 16
+closed A1. 17 is the consolidation tax on that freeze. A2/B/C/D remain queued on the v0.2 outline.
 
 ## Fanout eligibility
 

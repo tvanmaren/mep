@@ -1,3 +1,14 @@
+---
+mepIteration: 15.1
+mepTitle: Default-mode evidence report
+mepStatus: committed
+mepSliceType: consolidation
+mepDeliveryTrack: mixed
+mepFanout: sequential
+mepBriefRevision: 4b3b893bb6a4c36d2cc60875dd92f27175992c28
+mepImplementationRevision: 2aa8a7c657d290cc5b27db4cbf291ba172e9d387
+---
+
 # Iteration 15b — Default-mode evidence report
 
 **Prep slug:** mep-v0-graduation

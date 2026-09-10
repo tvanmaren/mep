@@ -27,6 +27,10 @@ executor is pointless — there is no "solo" product mode.
    **`/mep stage`** a review stack.
 4. Epic #85 DoD satisfied; **v0.1.0** tagged with Sator Square footer.
 
+**At graduation (2026-09-10):** 1, 2, and 4 hold. **#3 does not** — it needs a live vendor driver
+(v0.2 D0), which 15 already refused to fake. deferred on the public README scope table; not a last
+slice on this slug.
+
 ## Rejection criteria
 
 - v0.1.0 tagged while `scripts/litmus/slice-boundary.sh --executor stub` fails.
@@ -58,7 +62,8 @@ markdown outside markdown.
 
 **v0.1 shipped:** the **authoring contract** (schema, templates, prep layout) plus `manifest.json` as
 **transitional runtime storage**. Iteration **16** (`8a738e4`) implemented the steady-state home:
-checkpoint/resolver read and write document-colocated state. `manifest.json` is import-only for one
+checkpoint/resolver read and write document-colocated state via `tools/mep/lib/document.sh`
+(iteration **17**, `09f8e54`). `manifest.json` is import-only for one
 compatibility release and converts via `mep migrate`. Strangers orient from documents under
 configured `storage.prepRoot` (engine default **`.mep/prep`**). Hosts may overlay (`wiki/prep` is one
 overlay, not identity).

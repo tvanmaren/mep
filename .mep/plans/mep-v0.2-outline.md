@@ -1,6 +1,7 @@
 # MEP v0.2 — outline
 
-**Status:** active outline — A1 implemented by mep-v0-graduation iteration 16; remainder not staffed
+**Status:** active outline — A1 implemented by mep-v0-graduation iteration 16; persistence module by
+iteration 17; mep-v0-graduation graduates there. remainder needs a **new** v0.2 initiative.
 **Canonical vision:** [mep-vision-proposal.md](./mep-vision-proposal.md) · [mep-vision-one-pager.md](./mep-vision-one-pager.md)  
 **Predecessor program:** epic #85 · `.mep/prep/mep-v0-graduation/`
 
@@ -83,8 +84,9 @@ v0.2 program success criteria pass.
 Retire central index as routing authority. Checkpoint writes brief/roadmap frontmatter; runtime walks prep tree + git + markers. Same routing *semantics* as v0.1 golden matrix, new *inputs*.  
 *Likely inherits v0.1 iter 15 scope.*
 
-**A2. Explicit slice phase transitions**  
+**A2. Explicit slice phase transitions**
 Phase ladder on nodes: not planned → plan ready → code landed → planning synced → committed → merged. Trusted writers only (checkpoint, ratification, doctor `--fix` for git-proven fixes).
+*Not staffed on mep-v0-graduation. Open a v0.2 epic.*
 
 ### Milestone B — forensic layer (v0.2.1)
 

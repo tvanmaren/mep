@@ -3,7 +3,7 @@ mepSlug: mep-v0-graduation
 mepPhase: 5
 mepPrepDocsBootstrapped: true
 mepHandoffApproved: false
-mepInitiativeStatus: active
+mepInitiativeStatus: graduated
 mepAuthorshipMode: default
 mepCurrentIteration: 17
 mepOwnedPaths: ["tools/mep/**",".cursor/skills/mise-en-place/**",".cursor/commands/mep.md",".cursor/commands/prep.md",".cursor/commands/prep-cleanup.md",".cursor/commands/prep-curate.md",".cursor/commands/prep-pr-description.md",".cursor/commands/prep-stage.md",".mep/prep/mep-v0-graduation/**",".mep/plans/mep-curate-outline.md"]
@@ -38,7 +38,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after v0.1.0
 
-**15 tagged at `66373b3` (`v0.1.0`, signed).** **15b** landed post-tag (`2aa8a7c`). **16** committed (`8a738e4`). **17** is next (document-state module) — `brief_ready`.
+**15 tagged at `66373b3` (`v0.1.0`, signed).** **15b** landed post-tag (`2aa8a7c`). **16** committed (`8a738e4`). **17** committed (`09f8e54`). **program closed** — A2+ lives on `.mep/plans/mep-v0.2-outline.md` as a new epic, not this slug.
 
 Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's promised `pilot-default-mode-report.md` **absent** — deviation, do not backfill here). **11** and **12** landed (`8408fda`, `8af941f`).
 
@@ -64,8 +64,9 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | 15 | tagged `v0.1.0` at `66373b3`; brief `43fff44`; checkpoint `1d6bb8f`; 01 success #3 **not** claimed |
 | 15b | committed — `2aa8a7c` public report + README citation; brief `4b3b893`; `--fix` checkpointRevision was pre-amend product `5b37dd8` — stripped pending docs-delta |
 | 16 | committed — `8a738e4`; document-native authority + `mep migrate`; live sidecar retirement is docs-delta |
+| 17 | committed — `09f8e54`; persistence primitives in `document.sh`; resolver is rows only |
 
-**Next implement:** **17** (give frontmatter persistence one module). **Not** A2 phases. **Not** four vendor CLIs — v0.2 D0 is *one* generic `command` driver, still after this extract.
+**Next implement:** none on this slug. graduate. v0.2 A2/B/C/D wait for a new initiative.
 
 **Skin order (operator 2026-09-09):** grok TUI first, then Cursor marketplace, then Claude. Skins are generated adapters over PATH `mep`; they do not own the resolver.
 
@@ -98,7 +99,7 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | I17 | 12 (CONTRIBUTING + examples) |
 | I18 | 15b (`tools/mep/docs/pilot-default-mode.md`) |
 | C12 | 16 (core lock) |
-| I19 | 17 (document-state module path) |
+| I19 | 17 — **done** in `09f8e54` (`document.sh`) |
 
 ---
 
@@ -634,9 +635,7 @@ no packet-shape changes. no A2 ladder. no live driver.
 
 **Avoid:** A2 phases; B1 infer; D0 driver; rewriting twins for taste; changing `mep migrate` semantics.
 
-**Status:** brief_ready — queued at 16 close.
-
----
+**Status:** committed — `iterations/17-document-state-module.md` (`09f8e54`)
 
 ---
 
@@ -650,11 +649,12 @@ no packet-shape changes. no A2 ladder. no live driver.
   → 6,7,8             # workflow closure (identity work; 8 last of B)
   → 9 → 9b → 10,11 (parallel) → 12 → 13 → 14 → 15
   → 16 (post-v0.1)    # manifest → import-only; document-native state authority → v0.2.0 A1
-  → 17                # persistence module; not A2 / D0
+  → 17                # persistence module; last slice on this slug
 ```
 
 Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 is tagged.** 16
-closed A1. 17 is the consolidation tax on that freeze. A2/B/C/D remain queued on the v0.2 outline.
+closed A1. 17 closed I19. this initiative **graduates** here. A2/B/C/D wait for a new v0.2 epic
+from `.mep/plans/mep-v0.2-outline.md`.
 
 ## Fanout eligibility
 

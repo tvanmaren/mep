@@ -1,13 +1,13 @@
 ---
 mepIteration: 17
 mepTitle: Document-state module
-mepStatus: brief_ready
+mepStatus: committed
 mepSliceType: consolidation
 mepDeliveryTrack: mixed
 mepFanout: sequential
-mepBriefRevision: null
-mepImplementationRevision: null
-mepCheckpointRevision: null
+mepBriefRevision: b02b97e97a8161ecbc68c147c84aa0b49f307994
+mepImplementationRevision: 09f8e548023f94d6d7db10d82558c2ecedcee823
+mepCheckpointRevision: 09f8e548023f94d6d7db10d82558c2ecedcee823
 mepImplementationPaths: []
 ---
 
@@ -71,14 +71,14 @@ I19. leaves A2/B/C/D unblocked rather than stacked on a 900-line router.
 
 ## Acceptance criteria (this iteration ONLY)
 
-- [ ] `tools/mep/lib/document.sh` exists and is sourced before `resolver.sh`
-- [ ] `resolver.sh` no longer defines frontmatter read/write or `mep_document_state_present`
-- [ ] `mep_state_summary_json` still composes the same document-native packet (move it only if it is
+- [x] `tools/mep/lib/document.sh` exists and is sourced before `resolver.sh`
+- [x] `resolver.sh` no longer defines frontmatter read/write or `mep_document_state_present`
+- [x] `mep_state_summary_json` still composes the same document-native packet (move it only if it is
       not row selection — prefer it lives with the documents)
-- [ ] `bash tools/mep/test/run-unix-contract.sh` green
-- [ ] `bash tools/mep/test/run-golden-matrix.sh` green with iter-5 row parity
-- [ ] `bash tools/mep/test/run-stranger.sh` and `scripts/litmus/slice-boundary.sh --executor stub` green
-- [ ] no key-spelling change; no new resolver row; no `mep infer`; no live vendor driver
+- [x] `bash tools/mep/test/run-unix-contract.sh` green
+- [x] `bash tools/mep/test/run-golden-matrix.sh` green with iter-5 row parity
+- [x] `bash tools/mep/test/run-stranger.sh` and `scripts/litmus/slice-boundary.sh --executor stub` green
+- [x] no key-spelling change; no new resolver row; no `mep infer`; no live vendor driver
 
 ## Finish-map (fragment classification)
 
@@ -110,8 +110,8 @@ I19. leaves A2/B/C/D unblocked rather than stacked on a 900-line router.
 
 ## RED-phase gates (before GREEN)
 
-- [ ] `resolver.sh` still defines `mep_frontmatter_value` / `mep_frontmatter_set`
-- [ ] no `tools/mep/lib/document.sh`
+- [x] `resolver.sh` still defines `mep_frontmatter_value` / `mep_frontmatter_set`
+- [x] no `tools/mep/lib/document.sh`
 
 ## Approach
 
@@ -153,18 +153,26 @@ I19. leaves A2/B/C/D unblocked rather than stacked on a 900-line router.
 
 ## Architectural diff (fill at checkpoint)
 
--
+- Assumptions hardened: persistence I/O is a sourced module; `resolver.sh` is evaluation-order rows.
+- Coupling increased: `bin/mep` and unit-test harnesses must source `document.sh` before `resolver.sh`.
+- Harder to change: that source order is now a public persistence contract.
+- Easier to change: A2/B1 can edit rows without touching awk frontmatter; migrate can keep its importer.
+- **Promote to core:** none — the grammar was already C12; this only closed the module slot.
+- **Newly interchangeable:** I19 collapsed to `tools/mep/lib/document.sh`.
+- **Falsified:** frontmatter helpers living in the router as the persistence home.
 
 ## Checkpoint
 
 **Seam smell test:** category is “one reason to change the router,” not “rename keys.” fail if packets or migrate behavior moved.
 
+**Close (`09f8e54`):** packets and migrate untouched; I19 closed as `document.sh`. A2/B/C/D still not this slice. operator 2026-09-10: last slice; graduate rather than queue A2 here.
+
 ## After commit
 
-- [ ] `/commit-prep mep-v0-graduation`
-- [ ] `git commit`
-- [ ] `/prep mep-v0-graduation checkpoint`
-- [ ] `/commit-prep mep-v0-graduation docs-delta`
+- [x] `/commit-prep mep-v0-graduation`
+- [x] `git commit`
+- [x] `/prep mep-v0-graduation checkpoint`
+- [ ] `/commit-prep mep-v0-graduation docs-delta` — close 17 + `06-graduation.md` (no iter 18)
 
 ## implement-plan instruction
 

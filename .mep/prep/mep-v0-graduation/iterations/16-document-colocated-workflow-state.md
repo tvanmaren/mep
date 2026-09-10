@@ -40,9 +40,9 @@ mepCheckpointRevision: 8a738e42c8d7592cd65d79583c9c12aa0f2fb130
 
 | | |
 |---|---|
-| **Owns** | document-state runtime (`resolver`, `manifest`, `checkpoint`, `doctor`, `paths`, `status`, `workflow`, `lifecycle`, `finish`, `pr`, `migrate`, CLI registry); all state-sensitive fixtures; `.mep/prep/fixture-demo/` migration; every shipped operator surface that instructs sidecar reads/writes (`SKILL`, command adapters, tidy, curate, bundled reference, glossary, portable routing, policies, templates, READMEs); the v0.2 A1 outline/invariant reconciliation; this initiative's live `manifest.json` *retirement* |
+| **Owns** | document-state runtime (`resolver`, `manifest`, `checkpoint`, `doctor`, `paths`, `status`, `workflow`, `lifecycle`, `finish`, `pr`, `migrate`, CLI registry); all state-sensitive fixtures; `.mep/prep/fixture-demo/` migration; every shipped operator surface that instructs sidecar reads/writes (`SKILL`, command adapters, tidy, curate, bundled reference, glossary, portable routing, policies, templates, READMEs); the v0.2.0 A1 outline/invariant reconciliation; this initiative's live `manifest.json` *retirement* |
 | **May know** | C7, C8, C10, I4; iter 5 golden oracle; curate.py if it currently loads the index for status |
-| **Must not know** | `mep infer` (v0.2 B1); desync-first `where` (B3); `where` ⊕ lifecycle merge (C1); live vendor drivers; PATH/AUR; rewriting 15 README taste; I5 host consume |
+| **Must not know** | `mep infer` (v0.3 B1); desync-first `where` (B3); `where` ⊕ lifecycle merge (C1); live vendor drivers; PATH/AUR; rewriting 15 README taste; I5 host consume |
 | **Invariants** | C4, C7, C8, C9, C10, C11; **C12 promoted at close** (`8a738e4`); golden rows 1–11 + documented recoveries still match; stdout `status` agrees with exit; no in-tree live driver |
 | **Still provisional** | git heuristics for “built” (I4) — still transitional; dual skill/docs copies; event ledger; frontmatter primitives still live in `resolver.sh` (I19 → iter 17) |
 
@@ -52,7 +52,7 @@ mepCheckpointRevision: 8a738e42c8d7592cd65d79583c9c12aa0f2fb130
 |----------|-----|--------|
 | compose reader | `@stable` | add — public routing inputs |
 | frontmatter schema | `@provisional` | add — key spellings are instance (I*) |
-| git-heuristic “built” | `@provisional` | keep — v0.2 B1 demotes |
+| git-heuristic “built” | `@provisional` | keep — v0.3 B1 demotes |
 
 ## Stabilizes
 
@@ -93,7 +93,7 @@ v0.2.0 headline (outline A1). B1 infer may assume the hot path no longer *requir
 |----------|-------|----------------------------------|
 | golden matrix keeps iter-5 rows | `mechanical` | iter 5 irreversible decision; `run-golden-matrix.sh` |
 | checkpoint `--fix` stays git-proven / deterministic | `mechanical` | C4; existing `checkpoint.sh` |
-| retire sidecar as routing authority | `mechanical` | this brief's category; v0.2 outline A1 |
+| retire sidecar as routing authority | `mechanical` | this brief's category; v0.2.0 outline A1 |
 | document schema (which file holds the cursor vs per-iter triplet) | `finish` | — |
 
 **Frame — document schema:**
@@ -134,7 +134,7 @@ v0.2.0 headline (outline A1). B1 infer may assume the hot path no longer *requir
 | `.cursor/commands/{mep,prep-stage,prep-cleanup,prep-pr-description,prep-curate}.md` | modify | integration | remove live manifest-authority instructions |
 | `.cursor/skills/tidy/SKILL.md` + `.cursor/skills/mise-en-place/curate/SKILL.md` | modify | integration | recovery/publication operate on document state |
 | `tools/mep/scripts/{bundle-reference.py,curate.py}` | modify | integration | generated/runtime status surfaces name document state |
-| `.mep/plans/mep-v0.2-outline.md` + `01-invariant-goal.md` | modify | integration | reconcile A1 reality and persisted cursor decision |
+| `.mep/plans/mep-v0.3-outline.md` + `01-invariant-goal.md` | modify | integration | reconcile A1 reality and persisted cursor decision |
 | `.mep/prep/fixture-demo/**` | leave | integration | **not** in `8a738e4` — stranger/litmus migrate a copy; working tree may still be legacy |
 | `.mep/prep/mep-v0-graduation/manifest.json` | delete | integration | after compose works |
 | `.mep/prep/mep-v0-graduation/04-iteration-roadmap.md` | modify | integration | cursor frontmatter |
@@ -195,7 +195,7 @@ v0.2.0 headline (outline A1). B1 infer may assume the hot path no longer *requir
 
 - Assumptions hardened: document authority is a validated frontmatter block, not file existence;
   readers and writers share that seam; roadmap is the final migration commit point.
-- Coupling increased: roadmap/brief key spellings are now a public persistence contract for v0.2.
+- Coupling increased: roadmap/brief key spellings are now a public persistence contract for v0.2.0.
 - Harder to change: cursor placement and the legacy import window require explicit migration logic.
 - Easier to change: routing no longer depends on a sidecar mirror; forensic B1/B2 can compare one
   authoritative tree against git without deciding which persisted copy wins.

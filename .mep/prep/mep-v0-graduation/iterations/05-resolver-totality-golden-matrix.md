@@ -34,7 +34,7 @@ mepCheckpointRevision: 8e4d88014774b22dddfcad19b02c6502430fdd59
 
 **Instance certainty (this slice only):** FOSS suite `tools/mep/test/run-golden-matrix.sh` with temp manifests per row (not this initiative’s live ledger).
 
-**Acceptance order:** spec + emit helper before extra rows. do not grow `scripts/litmus/` into routing. do not invent v0.2 composed-state routing.
+**Acceptance order:** spec + emit helper before extra rows. do not grow `scripts/litmus/` into routing. do not invent v0.2.0 composed-state routing.
 
 ## Constitution (binding for implement)
 
@@ -42,7 +42,7 @@ mepCheckpointRevision: 8e4d88014774b22dddfcad19b02c6502430fdd59
 |---|---|
 | **Owns** | `tools/mep/lib/resolver.sh`; both `glossary.md` copies; golden suite under `tools/mep/test/`; unix-contract/stranger only if they must call the golden script; portable-routing only if evaluation-order facts live there |
 | **May know** | C7–C10; I4 (revision-triplet as “built”); I8; fixture-demo; glossary rows 1–11 |
-| **Must not know** | live vendor drivers; expanding litmus product; authorship-mode policy changes (6–8); install path (9); v0.2 git-demotion |
+| **Must not know** | live vendor drivers; expanding litmus product; authorship-mode policy changes (6–8); install path (9); v0.3 git-demotion |
 | **Invariants** | C4, C6, C7, C8, C9, C10; `executionRequest` still row-derived; stdout `--json` still matches process exit |
 | **Still provisional** | dual skill/docs copies except glossary twins this slice keeps in sync; event-ledger still slash-shaped; git heuristics remain v0.1 transitional |
 
@@ -52,7 +52,7 @@ mepCheckpointRevision: 8e4d88014774b22dddfcad19b02c6502430fdd59
 |----------|-----|--------|
 | `resolver.sh` evaluation / packet emit | `@stable` | keep or add — public routing engine |
 | golden matrix suite | `@stable` | add — totality proof |
-| git-heuristic “built” detection | `@provisional` | keep — v0.1 transitional (v0.2 demotes) |
+| git-heuristic “built” detection | `@provisional` | keep — v0.1 transitional (v0.3 demotes) |
 
 ## Stabilizes
 
@@ -108,7 +108,7 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 
 **Conflicts:** sequential — resolver + glossary + goldens share the evaluation seam.
 
-**Explicitly not this slice:** `scripts/litmus/` product growth; `exec.sh` vendor drivers; mode policies; SKILL.md rewrite; host `run.sh`; v0.2 composed-state default path.
+**Explicitly not this slice:** `scripts/litmus/` product growth; `exec.sh` vendor drivers; mode policies; SKILL.md rewrite; host `run.sh`; v0.2.0 composed-state default path.
 
 ## RED-phase gates (before GREEN)
 
@@ -129,7 +129,7 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 - new authorship modes / finish-scan policy (6–8)
 - live vendor adapters; API keys
 - expanding `scripts/litmus/` beyond composition
-- v0.2: composed prep-tree as default routing input; demoting git heuristics
+- v0.2.0: composed prep-tree as default routing input; v0.3: demoting git heuristics
 - mutating this initiative’s manifest as a golden workspace
 - SKILL.md / host `run.sh`
 
@@ -139,7 +139,7 @@ Milestone A. workflow closure (6–8) may assume `where` does not bounce a lande
 - [x] **Ownership minimal** — resolver + glossary twins + golden suite; CI optional
 - [x] **Category before instance** — named context + spec before extra row folklore
 - [x] **One place to edit** — evaluation lives in resolver; glossary is the spec twin; goldens are proof
-- [x] **No planned shotgun surgery** — Avoid lists litmus/vendors/v0.2/modes
+- [x] **No planned shotgun surgery** — Avoid lists litmus/vendors/v0.2.0/modes
 - [x] **Consolidation routing** — I8 wait is this slice; not leftover from 4
 
 **Preflight note:** pass — 5 stays fat (roadmap-owned). named context ratified (jq/object or nameref). golden file is FOSS-native (no host `run.sh`).

@@ -6,8 +6,8 @@
 ## Summary
 
 Epic #85 / v0.1 program is closed. Last product slice is **17** (`09f8e54`, document-state
-module). v0.1.0 remains tagged at `66373b3`. A2/B/C/D and 0.3 stay on
-`.mep/plans/mep-v0.2-outline.md` as a **new** initiative — not more iterations here.
+module). v0.1.0 remains tagged at `66373b3`; document-native state is **v0.2.0**. A2/B/C/D and 0.4 stay on
+`.mep/plans/mep-v0.3-outline.md` as a **new** initiative — not more iterations here.
 
 01 success **#3** (stranger + live preset + three modes) is still false. that is D0, not a
 cleanup/evidence slice; 15 already named it deferred.
@@ -61,4 +61,4 @@ scaffolding (the engine *emits* those into other trees). none to strip there.
 ## Final PR
 
 `/pr-description` — graduation PR; epistemic lead: v0.1 program complete through document-native
-state; #3 and v0.2 remain explicit non-claims.
+state; #3 and v0.3 remain explicit non-claims.

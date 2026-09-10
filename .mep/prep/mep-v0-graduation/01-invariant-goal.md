@@ -28,7 +28,7 @@ executor is pointless — there is no "solo" product mode.
 4. Epic #85 DoD satisfied; **v0.1.0** tagged with Sator Square footer.
 
 **At graduation (2026-09-10):** 1, 2, and 4 hold. **#3 does not** — it needs a live vendor driver
-(v0.2 D0), which 15 already refused to fake. deferred on the public README scope table; not a last
+(v0.3 D0), which 15 already refused to fake. deferred on the public README scope table; not a last
 slice on this slug.
 
 ## Rejection criteria

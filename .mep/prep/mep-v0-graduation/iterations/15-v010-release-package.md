@@ -90,7 +90,7 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 
 | finish | contract (what it must satisfy) | ≥2 in-repo precedents | fork (the question, not the answer) | state |
 |--------|---------------------------------|-----------------------|-------------------------------------|-------|
-| scope table | a stranger can tell stub from a live driver, and v0.1 from v0.2 | README "Project status"; 01 success vs rejection; C9 | claim #3 vs defer #3 | `done` |
+| scope table | a stranger can tell stub from a live driver, and v0.1 from v0.2.0 | README "Project status"; 01 success vs rejection; C9 | claim #3 vs defer #3 | `done` |
 
 ## File ownership
 
@@ -161,7 +161,7 @@ Milestone R. 16 may assume a tagged v0.1.0 exists. strangers read README + CONTR
 - Easier to change: 16 may assume the public claim exists; presentation of ships/does-not (lists vs table) is instance.
 - **Promote to core:** none — confirmed C6, C9, C10.
 - **Newly interchangeable:** none. I13 still owns stranger start surface; the status section is that slot's hydration.
-- **Falsified:** none of C*. the two-column "scope table" as the required *form* — shipped as labeled lists; the *content* contract (stub vs live driver, v0.1 vs v0.2) held.
+- **Falsified:** none of C*. the two-column "scope table" as the required *form* — shipped as labeled lists; the *content* contract (stub vs live driver, v0.1 vs v0.2.0) held.
 
 ## Checkpoint
 

@@ -41,7 +41,7 @@ mepImplementationRevision: 2aa8a7c657d290cc5b27db4cbf291ba172e9d387
 |---|---|
 | **Owns** | new `tools/mep/docs/pilot-default-mode.md`; the README "Project status" sentence about default mode **only if** the report changes what is true; `.mep/prep/mep-v0-graduation/03-core-vs-volatile.md` amendment row |
 | **May know** | 14's brief and its missing-artifact deviation; this initiative's commit history as the primary evidence; `01-invariant-goal.md` success #3 |
-| **Must not know** | live driver work (v0.2); 16 internals; manual/autopilot pilots; install path; curate execute semantics |
+| **Must not know** | live driver work (v0.3); 16 internals; manual/autopilot pilots; install path; curate execute semantics |
 | **Invariants** | C6, C9, C11; 01 success #3 stays **deferred** — a maintainer running default mode is not a stranger with their own credentials |
 | **Still provisional** | manual and autopilot remain beta; 14's host-branch `pilot-default-mode-report.md` stays absent by deviation |
 

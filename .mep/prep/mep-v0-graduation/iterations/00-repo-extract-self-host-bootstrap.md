@@ -86,7 +86,7 @@ Milestone 0. Unix 1–4 runs **in the FOSS remote**. v0.1.0 stays forbidden unti
 - [x] `tools/mep/test/run-stranger.sh` uses a **temp git root and no FOSS `.mep/config`**; asserts engine defaults (`prepRoot=.mep/prep`, `adapter=plain`, `profile.active=default`); `mep where fixture-demo --json` `status=ok`; **must not** assert `wiki/prep`, `example`, or `host-api`
 - [x] `.github/workflows/stranger.yml` runs `run-stranger.sh` only; CI green
 - [x] Graduation ledger at `.mep/prep/mep-v0-graduation/` (not `wiki/prep/`). Rewrite `briefPath`, `masterPlanPath`, in-doc links, and **narrow** `ownedPaths` (see table). Do **not** keep `.mep/**` or `wiki/**`. Do **not** invent missing iter 1–12 brief files.
-- [x] All five `.mep/plans/mep-*.md` relocated to `.mep/plans/` (engine `storage.plansRoot` default): `mep-vision-proposal`, `mep-vision-one-pager`, `mep-curate-outline`, `mep-v0.2-outline`, `mep-authorship-modes`. **Verbatim** — link fixups only, no prose rewrites. Their relative cross-links resolve inside the set
+- [x] All five `.mep/plans/mep-*.md` relocated to `.mep/plans/` (engine `storage.plansRoot` default): `mep-vision-proposal`, `mep-vision-one-pager`, `mep-curate-outline`, `mep-v0.3-outline`, `mep-authorship-modes`. **Verbatim** — link fixups only, no prose rewrites. Their relative cross-links resolve inside the set
 - [x] `.mep/prep/mep-authorship-modes/**` relocated to `.mep/prep/` so `mep-authorship-modes.md`'s architecture-doc link resolves. It is **graduated**: copy the ledger verbatim, do **not** rewrite its `ownedPaths` (a historical record of what it touched in host, including paths FOSS does not carry)
 - [x] No `.mep/plans` hole: the engine defaults `storage.plansRoot=.mep/plans` and the FOSS tree populates it
 - [x] On a FOSS clone **with** the Cursor overlay, `mep where mep-v0-graduation --json` runs (`status=ok`). At `currentIteration` 0 `pending` this may be checkpoint/plan-only — smoke that routing **works**, not that iter 0 is `committed`
@@ -115,7 +115,7 @@ tools/mep/**
 
 Drop: `.mep/**`, `wiki/prep/**`, `wiki/plans/**`.
 
-`mep-curate-outline.md` is iteration 13's own artifact, so this slug owns it. The vision docs, `mep-v0.2-outline.md`, and the `mep-authorship-modes` ledger are **relocated but not owned** — they ship in the tree without this initiative claiming the right to rewrite them.
+`mep-curate-outline.md` is iteration 13's own artifact, so this slug owns it. The vision docs, `mep-v0.3-outline.md`, and the `mep-authorship-modes` ledger are **relocated but not owned** — they ship in the tree without this initiative claiming the right to rewrite them.
 
 ### Export path set (FOSS tree)
 
@@ -128,7 +128,7 @@ Drop: `.mep/**`, `wiki/prep/**`, `wiki/plans/**`.
 | `.mep/config` | Cursor overlay + `vcs.defaultTrunk=master` |
 | `.mep/prep/fixture-demo/**` | stranger CI fixture |
 | `.mep/prep/mep-v0-graduation/**` | live ledger (copy + rewrite; **created then published**, not a pre-existing filter path) |
-| `.mep/plans/mep-*.md` | five relocated MEP docs — vision proposal, one-pager, curate outline, v0.2 outline, authorship modes |
+| `.mep/plans/mep-*.md` | five relocated MEP docs — vision proposal, one-pager, curate outline, v0.3 outline, authorship modes |
 | `.mep/prep/mep-authorship-modes/**` | graduated ledger, moved verbatim so the authorship doc's architecture link resolves |
 | `.mep/profiles/default.md` | optional copy of `tools/mep/examples/profiles/example-stub.md` |
 

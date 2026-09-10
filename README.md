@@ -53,7 +53,7 @@ tools/mep/bin/mep version --json
 ```
 
 ```json
-{"status":"ok","version":"0.1.0"}
+{"status":"ok","version":"0.2.0"}
 ```
 
 **3. Ask the tool what to do next.** The repo ships a tiny example initiative called
@@ -165,9 +165,10 @@ point `mep` there instead.
 
 ## Project status
 
-The latest tag is **v0.1.0**; main is building **v0.2.0**. The short version: the planning half works
-end to end, document-native state has landed after the tag, and the half where a real agent does the
-building is still ahead of us.
+The latest tag is **v0.2.0**: everything v0.1.0 shipped, plus the write-contract break that made
+your plan documents the actual source of truth for where you are. `manifest.json` is import-only;
+`mep migrate` is the exit. The planning half of the tool works end to end. The half where a real
+agent does the building is still ahead.
 
 **What works today**
 
@@ -180,11 +181,10 @@ building is still ahead of us.
 - Decision markers. A choice the tool considers yours blocks the commit until you answer it,
   in every authorship mode.
 - The plan documents *are* the state. Routing reads frontmatter on the roadmap and the iteration
-  briefs, so there is no sidecar that can disagree with the prose next to it. This landed after the
-  v0.1.0 tag; an initiative written under the tag still carries a `manifest.json`, which the resolver
-  imports read-only. It can be read and routed, but not checkpointed — `mep migrate <slug> --json`
-  writes the modeled facts into frontmatter, reports intentionally retired keys, and is what
-  unblocks it.
+  briefs, so there is no sidecar that can disagree with the prose next to it. An initiative you
+  started before this change still carries a `manifest.json`, which the tool now reads but never
+  writes: you can route from it, but not checkpoint against it. `mep migrate <slug> --json` copies
+  those facts into frontmatter, tells you which old keys it dropped, and gets you moving again.
 - Curating a long branch into reviewable ones with `mep curate --execute`, without touching the
   branch you developed on. Stacking those for review is `/mep stage`, on the Cursor overlay
   rather than the CLI.
@@ -201,8 +201,12 @@ building is still ahead of us.
   [the default-mode record](tools/mep/docs/pilot-default-mode.md). Manual and autopilot pass
   their suites but have not been driven through real work on this remote.
 
-What v0.1 leaves unfinished on purpose is in
-[mep-v0.2-outline.md](.mep/plans/mep-v0.2-outline.md); the slice-by-slice ledger is
+Next up are the first two items on that list: making `mep` something you install rather than clone,
+and giving it one generic way to hand a request to your agent instead of only describing what it
+would send. Together those are what let you run the real loop, in every mode, on your own machine.
+
+The rest of what v0.2 leaves unfinished on purpose is in
+[mep-v0.3-outline.md](.mep/plans/mep-v0.3-outline.md); the slice-by-slice ledger is
 [the roadmap](.mep/prep/mep-v0-graduation/04-iteration-roadmap.md).
 
 ## Going deeper
@@ -214,7 +218,7 @@ What v0.1 leaves unfinished on purpose is in
 | [mep-vision-proposal.md](.mep/plans/mep-vision-proposal.md) | the thesis, at length |
 | [mep-authorship-modes.md](.mep/plans/mep-authorship-modes.md) | how much the agent decides, and why one combination is left deliberately empty |
 | [mep-curate-outline.md](.mep/plans/mep-curate-outline.md) | turning messy development history into a reviewable story |
-| [mep-v0.2-outline.md](.mep/plans/mep-v0.2-outline.md) | what v0.1 leaves unfinished on purpose |
+| [mep-v0.3-outline.md](.mep/plans/mep-v0.3-outline.md) | what v0.2 leaves unfinished on purpose |
 
 ---
 

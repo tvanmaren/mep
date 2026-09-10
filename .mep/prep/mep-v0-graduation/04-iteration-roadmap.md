@@ -38,7 +38,7 @@ Shortcut epic: **#85**. Each iteration maps to one backlog story.
 
 ### Ledger after v0.1.0
 
-**15 tagged at `66373b3` (`v0.1.0`, signed).** **15b** landed post-tag (`2aa8a7c`). **16** committed (`8a738e4`). **17** committed (`09f8e54`). **program closed** — A2+ lives on `.mep/plans/mep-v0.2-outline.md` as a new epic, not this slug.
+**15 tagged at `66373b3` (`v0.1.0`, signed).** **15b** landed post-tag (`2aa8a7c`). **16** committed (`8a738e4`). **17** committed (`09f8e54`). **program closed** — A2+ lives on `.mep/plans/mep-v0.3-outline.md` as a new epic, not this slug.
 
 Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's promised `pilot-default-mode-report.md` **absent** — deviation, do not backfill here). **11** and **12** landed (`8408fda`, `8af941f`).
 
@@ -66,11 +66,11 @@ Git-proven or checkpoint-closed `committed` on this initiative: **0–14** (14's
 | 16 | committed — `8a738e4`; document-native authority + `mep migrate`; live sidecar retirement is docs-delta |
 | 17 | committed — `09f8e54`; persistence primitives in `document.sh`; resolver is rows only |
 
-**Next implement:** none on this slug. graduate. v0.2 A2/B/C/D wait for a new initiative.
+**Next implement:** none on this slug. graduate. v0.3 A2/B/C/D wait for a new initiative.
 
 **Skin order (operator 2026-09-09):** grok TUI first, then Cursor marketplace, then Claude. Skins are generated adapters over PATH `mep`; they do not own the resolver.
 
-**Why no live driver yet (asked 2026-09-09):** manual and default are already agent-usable — a harness drives the CLI from outside via `portable-routing.md`, which is how every slice here was built. Only **autopilot** structurally needs `mep` to spawn an executor. That is v0.2 **D0**, sequenced after 16 so the evidence loop reads document-native state once.
+**Why no live driver yet (asked 2026-09-09):** manual and default are already agent-usable — a harness drives the CLI from outside via `portable-routing.md`, which is how every slice here was built. Only **autopilot** structurally needs `mep` to spawn an executor. That is v0.3 **D0**, sequenced after 16 so the evidence loop reads document-native state once.
 
 ### Coverage (C\* / I\* → iteration)
 
@@ -292,7 +292,7 @@ landed detection, golden coverage for every row + recovery path.
 - Keep `glossary.md` evaluation order and `resolver.sh` twins; glossary is the spec.
 - Collapse `mep_where_resolver_json` / `mep_resolver_json` positional fanout (incl. implement `execution_target`) behind a named context; golden matrix is the safety net.
 
-**Avoid:** new lifecycle features; adapter rewrites; expanding litmus into a second resolver; net-new inline git fallbacks beyond fixing proven misroutes (golden matrix locks **v0.1 transitional** routing — v0.2 demotes git from the default path; see `.mep/plans/mep-v0.2-outline.md`).
+**Avoid:** new lifecycle features; adapter rewrites; expanding litmus into a second resolver; net-new inline git fallbacks beyond fixing proven misroutes (golden matrix locks **v0.1 transitional** routing — v0.3 demotes git from the default path; see `.mep/plans/mep-v0.3-outline.md`).
 
 **Checkpoint:** `mep where` on fixture slugs never disagrees with golden expectations; dogfood notes empty.
 
@@ -653,8 +653,8 @@ no packet-shape changes. no A2 ladder. no live driver.
 ```
 
 Iterations 1–15 execute in the **standalone repo**. Litmus (4) has passed. **v0.1.0 is tagged.** 16
-closed A1. 17 closed I19. this initiative **graduates** here. A2/B/C/D wait for a new v0.2 epic
-from `.mep/plans/mep-v0.2-outline.md`.
+closed A1. 17 closed I19. this initiative **graduates** here. A2/B/C/D wait for a new v0.3 epic
+from `.mep/plans/mep-v0.3-outline.md`.
 
 ## Fanout eligibility
 

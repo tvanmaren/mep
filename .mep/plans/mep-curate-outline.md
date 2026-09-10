@@ -628,4 +628,4 @@ layers (not lab-WIP chronology, not nested-commit-only inside one PR).
 | `.cursor/commands/prep-curate.md` | operator command |
 | `.cursor/skills/mise-en-place/curate/SKILL.md` | executor workflow |
 | `wiki/architecture/TICKET-2235-sample-architecture.md` | AD-11 ship order (dogfood) |
-| `.mep/plans/mep-v0.2-outline.md` | routing architecture (separate from curate) |
+| `.mep/plans/mep-v0.3-outline.md` | routing architecture (separate from curate) |

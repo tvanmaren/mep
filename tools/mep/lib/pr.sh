@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
+# These take the composed state summary, not a file, so document and legacy initiatives read alike.
 mep_pr_iteration_json() {
-  local manifest=$1 n=$2
-  jq -c --argjson n "$n" '
-    (.iterations // [] | map(select((.number // .n) == $n)) | .[0]) // null
-  ' "$manifest"
+  local summary_json=$1 n=$2
+  printf '%s' "$summary_json" | jq -c --argjson n "$n" '
+    (.iterations // [] | map(select(.number == $n)) | .[0]) // null
+  '
 }
 
 mep_pr_owned_pathspecs() {
-  local manifest=$1 output_rel=${2:-} path
+  local summary_json=$1 output_rel=${2:-} path
   while IFS= read -r path; do
     [[ -z "$path" ]] && continue
     [[ "$path" == "$MEP_STORAGE_PR_DESCRIPTIONS_ROOT/**" ]] && continue
@@ -16,13 +17,13 @@ mep_pr_owned_pathspecs() {
     path=${path%/}
     [[ -z "$path" ]] && continue
     printf '%s\n' "$path"
-  done < <(jq -r '.ownedPaths[]? // empty' "$manifest" | sort -u)
+  done < <(printf '%s' "$summary_json" | jq -r '.ownedPaths[]? // empty' | sort -u)
   [[ -n "$output_rel" ]] && printf '%s\n' "$output_rel"
 }
 
 mep_pr_status_lines() {
-  local manifest=$1 output_rel=${2:-}
-  mapfile -t pathspecs < <(mep_pr_owned_pathspecs "$manifest" "$output_rel")
+  local summary_json=$1 output_rel=${2:-}
+  mapfile -t pathspecs < <(mep_pr_owned_pathspecs "$summary_json" "$output_rel")
   if (( ${#pathspecs[@]} == 0 )); then
     return 0
   fi
@@ -30,8 +31,8 @@ mep_pr_status_lines() {
 }
 
 mep_pr_diff_stat_lines() {
-  local manifest=$1 output_rel=${2:-}
-  mapfile -t pathspecs < <(mep_pr_owned_pathspecs "$manifest" "$output_rel")
+  local summary_json=$1 output_rel=${2:-}
+  mapfile -t pathspecs < <(mep_pr_owned_pathspecs "$summary_json" "$output_rel")
   if (( ${#pathspecs[@]} == 0 )); then
     return 0
   fi
@@ -50,7 +51,7 @@ mep_pr_scaffold_path_rel() {
 
 mep_pr_iteration_number() {
   local current_json=$1
-  printf '%s' "$current_json" | jq -r '(.number // .n // "") | tostring'
+  printf '%s' "$current_json" | jq -r '(.number // "") | tostring'
 }
 
 mep_pr_body_find_rel() {
@@ -125,14 +126,15 @@ mep_pr_scaffold() {
   [[ "$json_flag" == "--json" ]] || return 2
   mep_require jq git || return 3
 
-  local manifest iteration title status brief_path output_rel output_abs now status_lines diff_stat packet event_payload
-  manifest=$(mep_manifest_path "$slug")
-  if [[ ! -f "$manifest" ]]; then
-    printf '{"status":"not_found","path":%s}\n' "$(mep_json_string "$manifest")"
+  local summary_json state_path iteration title status brief_path output_rel output_abs now status_lines diff_stat packet event_payload
+  summary_json=$(mep_state_summary_json "$slug")
+  state_path=$(printf '%s' "$summary_json" | jq -r '.path')
+  if [[ "$(printf '%s' "$summary_json" | jq -r '.exists')" != true ]]; then
+    printf '{"status":"not_found","path":%s}\n' "$(mep_json_string "$state_path")"
     return 0
   fi
 
-  iteration=$(mep_pr_iteration_json "$manifest" "$n")
+  iteration=$(mep_pr_iteration_json "$summary_json" "$n")
   if [[ "$iteration" == "null" ]]; then
     printf '{"status":"not_found","iteration":%s}\n' "$(mep_json_string "$n")"
     return 0
@@ -145,8 +147,8 @@ mep_pr_scaffold() {
   output_abs=$(mep_abs_path "$output_rel")
   mkdir -p "$(dirname "$output_abs")"
   now=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-  status_lines=$(mep_pr_status_lines "$manifest" "$output_rel")
-  diff_stat=$(mep_pr_diff_stat_lines "$manifest" "$output_rel")
+  status_lines=$(mep_pr_status_lines "$summary_json" "$output_rel")
+  diff_stat=$(mep_pr_diff_stat_lines "$summary_json" "$output_rel")
 
   {
     printf '# %s - %02d %s\n\n' "$slug" "$n" "$title"
@@ -176,7 +178,7 @@ mep_pr_scaffold() {
     fi
     printf '## Test plan\n\n'
     printf '%s\n' '- [ ] TODO: list manual checks.'
-    printf '%s\n\n' '- [ ] `tools/mep/test/run.sh`'
+    printf '%s\n\n' '- [ ] `bash tools/mep/test/run-unix-contract.sh`'
     printf '## Reviewer notes\n\n'
     printf '%s\n' '- TODO: call out any deferred local commit/graduation policy.'
   } > "$output_abs"
@@ -197,7 +199,7 @@ mep_pr_scaffold() {
   printf '%s\n' "$packet"
   event_payload=$(printf '%s' "$packet" | jq -c '{
     status: "ready",
-    iteration: (.iteration.number // .iteration.n),
+    iteration: .iteration.number,
     localStatus: .iteration.status,
     title: .iteration.title,
     briefPath: .iteration.briefPath,

@@ -12,38 +12,48 @@ trap 'rm -rf "$TMP"' EXIT
 pass() { printf 'ok - %s\n' "$1"; }
 fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 
+set_frontmatter() {
+  local file=$1 key=$2 value=$3 tmp
+  tmp="${file}.tmp"
+  awk -v key="$key" -v value="$value" '
+    index($0, key ":") == 1 { print key ": " value; next }
+    { print }
+  ' "$file" >"$tmp"
+  mv "$tmp" "$file"
+}
+
 new_case() {
   local slug=$1 phase=$2 bootstrapped=$3 status=$4 slice_type=$5 initiative_status=$6
   local root="$TMP/$slug"
   mkdir -p "$root/.mep/prep/$slug/iterations" "$root/src"
-  printf '# %s brief\n\n**Status:** %s\n' "$slug" "$status" \
-    >"$root/.mep/prep/$slug/iterations/01.md"
+  cat >"$root/.mep/prep/$slug/04-iteration-roadmap.md" <<EOF
+---
+mepSlug: $slug
+mepPhase: $phase
+mepPrepDocsBootstrapped: $bootstrapped
+mepHandoffApproved: false
+mepInitiativeStatus: $initiative_status
+mepAuthorshipMode: default
+mepCurrentIteration: 1
+mepOwnedPaths: ["src/**",".mep/prep/$slug/**"]
+mepMasterPlanPath: .mep/prep/$slug/04-iteration-roadmap.md
+---
+
+# $slug roadmap
+EOF
+  cat >"$root/.mep/prep/$slug/iterations/01.md" <<EOF
+---
+mepIteration: 1
+mepTitle: Golden fixture
+mepStatus: $status
+mepSliceType: $slice_type
+mepDeliveryTrack: full-stack
+mepFanout: sequential
+---
+
+# $slug brief
+EOF
   printf '# fixture\n' >"$root/src/app.sh"
-  jq -n \
-    --arg slug "$slug" \
-    --argjson phase "$phase" \
-    --argjson bootstrapped "$bootstrapped" \
-    --arg status "$status" \
-    --arg sliceType "$slice_type" \
-    --arg initiativeStatus "$initiative_status" \
-    '{
-      slug: $slug,
-      schemaVersion: 1,
-      framework: "mise-en-place",
-      phase: $phase,
-      phaseApproved: {"1":true,"2":true,"3":true,"4":true,"5":true},
-      initiativeStatus: $initiativeStatus,
-      prepDocsBootstrapped: $bootstrapped,
-      currentIteration: 1,
-      ownedPaths: ["src/**", (".mep/prep/" + $slug + "/**")],
-      iterations: [{
-        number: 1,
-        title: "Golden fixture",
-        briefPath: (".mep/prep/" + $slug + "/iterations/01.md"),
-        status: $status,
-        sliceType: $sliceType
-      }]
-    }' >"$root/.mep/prep/$slug/manifest.json"
   git -C "$root" init -q -b main
   git -C "$root" config user.email mep@test
   git -C "$root" config user.name mep
@@ -100,9 +110,8 @@ root=$(new_case row2 5 true brief_ready cleanup active)
 assert_where "row 2 cleanup" "$root" row2 2 "/prep-cleanup row2" "$(request_for cleanup row2)"
 
 root=$(new_case row3 4 false pending behavioral active)
-jq '.currentIteration = null | .iterations = []' \
-  "$root/.mep/prep/row3/manifest.json" >"$root/manifest.tmp"
-mv "$root/manifest.tmp" "$root/.mep/prep/row3/manifest.json"
+set_frontmatter "$root/.mep/prep/row3/04-iteration-roadmap.md" mepCurrentIteration null
+rm "$root/.mep/prep/row3/iterations/01.md"
 git -C "$root" add -A
 git -C "$root" commit -q -m "row 3 no current iteration"
 assert_where "row 3 planning" "$root" row3 3 "/prep row3" "$(request_for prep row3)"
@@ -155,17 +164,38 @@ assert_where "row 10 beats dirty planning" "$root" row10-precedence 10 \
   "/prep row10-precedence checkpoint" "$(request_for checkpoint row10-precedence)"
 
 root=$(new_case row11 5 true committed behavioral active)
-jq '.iterations += [{
-      number: 2,
-      title: "Later work",
-      briefPath: ".mep/prep/row11/iterations/02.md",
-      status: "pending",
-      sliceType: "behavioral"
-    }]' "$root/.mep/prep/row11/manifest.json" >"$root/manifest.tmp"
-mv "$root/manifest.tmp" "$root/.mep/prep/row11/manifest.json"
+cat >"$root/.mep/prep/row11/iterations/02.md" <<'EOF'
+---
+mepIteration: 2
+mepTitle: Later work
+mepStatus: pending
+mepSliceType: behavioral
+mepDeliveryTrack: full-stack
+mepFanout: sequential
+---
+
+# Later work
+EOF
 git -C "$root" add -A
 git -C "$root" commit -q -m "row 11 later work"
 assert_where "row 11 recovery" "$root" row11 11 "/prep row11 checkpoint" \
   "$(request_for checkpoint row11)"
+
+root=$(new_case checkpoint-docs 5 true brief_ready behavioral active)
+printf '# landed implementation\n' >>"$root/src/app.sh"
+git -C "$root" add -A
+git -C "$root" commit -q -m "checkpoint implementation"
+out=$(cd "$root" && MEP_REPO_ROOT_OVERRIDE="$root" "$MEP" checkpoint checkpoint-docs --fix --json) || true
+[[ "$(printf '%s' "$out" | jq -r '.appliedWritebacks')" == 4 ]] || fail "checkpoint document writeback count"
+out=$(MEP_REPO_ROOT_OVERRIDE="$root" "$MEP" status checkpoint-docs --compact --json)
+jq -e '
+  .initiative.currentIteration == 1
+  and .initiative.currentIterationRecord.status == "committed"
+  and (.initiative.currentIterationRecord.briefRevision | length) > 0
+  and (.initiative.currentIterationRecord.implementationRevision | length) > 0
+  and (.initiative.currentIterationRecord.checkpointRevision | length) > 0
+' <<<"$out" >/dev/null || fail "checkpoint writebacks are not observable through composed state"
+[[ ! -e "$root/.mep/prep/checkpoint-docs/manifest.json" ]] || fail "checkpoint created routing manifest"
+pass "checkpoint writes document frontmatter"
 
 pass "run-golden-matrix"

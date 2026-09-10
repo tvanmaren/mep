@@ -7,7 +7,7 @@ alwaysApply: false
 
 `/mep <verb> <slug>` operates the framework with seven plain verbs — no need to know phases, slices,
 or modes. It is a **thin façade**: it infers where you are from state and routes to the existing
-commands (the lone exceptions are `mode`, which sets one manifest field, and `curate`, which
+commands (the lone exceptions are `mode`, which sets roadmap frontmatter, and `curate`, which
 synthesizes merge narrative). It reimplements nothing.
 
 **The deterministic reader is now the portable tool.** Prefer
@@ -23,8 +23,11 @@ v1).
 
 ## State you read (infer it — don't make the user name a phase or mode)
 
-- First run `tools/mep/bin/mep status <slug> --compact --json` for resolved paths, manifest summary,
-  dependency state, dirty scopes, vcs summary, warnings, and routing proof.
+- First run `tools/mep/bin/mep status <slug> --compact --json` for resolved paths, the composed
+  roadmap/brief summary, dependency state, dirty scopes, vcs summary, warnings, and routing proof.
+- Initiative state lives in `04-iteration-roadmap.md` frontmatter:
+  `mepAuthorshipMode`, `mepInitiativeStatus`, `mepOwnedPaths`, `mepMasterPlanPath`, and
+  `mepCurrentIteration`. The selected iteration brief owns `mepStatus` and its revision fields.
 - Treat non-empty `requiredWritebacks` as mode-governance work, not ignorable metadata. `blocker`
   writebacks stop slice advance until the marker/provenance issue is resolved.
 - For the next literal command, run `tools/mep/bin/mep where <slug> --json`. Treat its `nextCommand` as
@@ -40,7 +43,7 @@ v1).
 - If the tool is missing or reports `missing_dependency`, fall back to the glossary resolver reference
   and say which dependency blocked scripted resolution.
 
-**One exception to "don't ask":** when no manifest exists *and* the branch carries tracked work,
+**One exception to "don't ask":** when no document-native prep state exists *and* the branch carries tracked work,
 you **must** ask the user whether that work belongs to this effort before routing to `/tidy` —
 relevance is the one thing only the human can classify (state/mode you still infer yourself).
 
@@ -57,7 +60,7 @@ readable contract for checking the answer, not a second implementation to paste 
 | `done` | **executes after confirm** | graduates the effort |
 | `stage` | **previews by default; executes after confirm in effectful modes** | verifies promised work and prepares a review stack |
 | `curate` | **previews by default; executes after confirm** | lossy-compresses discovery into review narrative; publishes integration history on new branch(es) |
-| `mode` | **executes** (writes the manifest field) | sets/switches who authors — `manual` / `default` / `autopilot` |
+| `mode` | **executes** (writes roadmap frontmatter) | sets/switches who authors — `manual` / `default` / `autopilot` |
 
 The **do-vs-show split is the mode** — `next` does, `where` shows.
 
@@ -84,13 +87,13 @@ The **do-vs-show split is the mode** — `next` does, `where` shows.
    resolved path, e.g. `/implement-plan wiki/prep/<slug>/iterations/<n>-<name>.md`, not a
    placeholder — and a one-line description of what it will do.
 3. **Never** answer with `/mep next` — always the real routed command. The answer is correct even
-   after intervening questions/answers/digressions, because it is re-derived from `manifest.json` +
-   git, not from memory.
+   after intervening questions/answers/digressions, because it is re-derived from roadmap/brief
+   frontmatter + git, not from memory.
 
 ### `start <slug>` — begin a new effort
 
-No scaffolding yet (`wiki/prep/<slug>/manifest.json` absent)? Resolve per the glossary
-**precondition**:
+No document-native prep state yet (`wiki/prep/<slug>/04-iteration-roadmap.md` frontmatter absent)?
+Resolve per the glossary **precondition**:
 
 - no relevant tracked work (after checking commits + staged/unstaged; untracked unrelated files
   don't count) → `/prep <slug>` (greenfield macro prep).
@@ -98,7 +101,8 @@ No scaffolding yet (`wiki/prep/<slug>/manifest.json` absent)? Resolve per the gl
   **confirm with the user**; untracked unrelated files don't count) → `/tidy <slug>` (recovery; it
   backfills the prep tree, then `/prep checkpoint` resumes).
 
-If a manifest already exists, `start` is a no-op — use `next` / `where`.
+If document-native prep state already exists, `start` is a no-op — use `next` / `where`. A legacy
+`manifest.json` is import input only; use `mep migrate <slug> --json` before any state-writing verb.
 
 ### `done <slug>` — finish the effort
 
@@ -150,25 +154,25 @@ preview; code already exists on the lab branch.
 2. **`execute`:** **publication history** on integration branches (curated, not fabricated). Lab branch
    untouched.
 
-Optional: `--optimize reviewer-comprehension|merge-speed|earliest-value` (executor + manifest; CLI passthrough post-v0.1).
+Optional: `--optimize reviewer-comprehension|merge-speed|earliest-value` (invocation/artifact scoped).
 
 Then **`/mep stage`** maps shards → PR stack (profile `capabilities.publication`).
 
 Budget: merge course **~2k**; review shard **300** / **500** max. Outline: `wiki/plans/mep-curate-outline.md`
 
-### `mode <slug> <mode> [iteration N]` — choose who authors
+### `mode <slug> <mode>` — choose who authors
 
-Sets `manifest.authorshipMode` — the one verb that **writes state** rather than routing. `<mode>` is
-`manual | default | autopilot`.
+Sets roadmap frontmatter `mepAuthorshipMode` — the one verb that **writes state** rather than
+routing. `<mode>` is `manual | default | autopilot`.
 
-1. No `iteration N` → set the **initiative** default. With `N` → set that iteration's override
-   (`iterations[N].authorshipMode`); an iteration with no override **inherits** the initiative value.
+1. Set the **initiative-level** mode. Every iteration inherits it; there is no per-iteration
+   override.
 2. **State the change in plain language:** `<slug> now authors by <mode> (was <prior>)`. Translate via
    the glossary — don't expose the field name unless asked.
 3. Writes **only** the field; never the finish-map, never code. Switching mid-flight changes only *who
    acts next* — the planned slices and finishes are identical across modes (the seam).
 4. `default` is the standing behavior; `mode` is opt-in. The initial pick can also be made at `/prep`
-   bootstrap, alongside `sessionMode`.
+   bootstrap. `sessionMode` is scoped to that invocation and is never persisted.
 
 ### Mode governance (manual/autopilot)
 
@@ -180,7 +184,7 @@ tools/mep/bin/mep finish scan <slug> --json
 tools/mep/bin/mep status <slug> --compact --json
 ```
 
-The lifecycle is shared. Mode is an actor policy. Deterministic manifest sync (`mep checkpoint --fix`)
+The lifecycle is shared. Mode is an actor policy. Deterministic frontmatter sync (`mep checkpoint --fix`)
 runs as step 0 **inside** `/prep checkpoint`, not as a standalone operator step before it.
 
 - `manual`: human implements, authors finishes, and ratifies with human/manual provenance.
@@ -199,5 +203,5 @@ anyone who wants them — they are not in your face by default.
 ## Out of scope (v1)
 
 No slug/context inference, no free-text parsing — a verb is a verb. Verbs route to existing commands;
-the sole exception is `mode`, which writes one manifest field (`authorshipMode`) and routes nowhere.
+the sole exception is `mode`, which writes one roadmap field (`mepAuthorshipMode`) and routes nowhere.
 No verb edits a skill's internals.

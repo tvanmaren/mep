@@ -77,7 +77,7 @@ the policy — so autopilot adds the **verbs**, not the nouns.
 ## Boundaries (what autopilot does NOT do here)
 
 - **no mode selector** — *how* autopilot is chosen or switched is not this policy's concern; selection
-  lives in the manifest `authorshipMode` field + the `/mep mode` verb. This policy defines only what
+  lives in the roadmap's `mepAuthorshipMode` frontmatter + the `/mep mode` verb. This policy defines only what
   autopilot *does* once selected.
 - **graduation mechanics live in `/prep-cleanup`** — autopilot specifies the **depth** of the human's
   review over its map (delta 4); the strip itself (removing the `@mise`/`@finish` trail) is

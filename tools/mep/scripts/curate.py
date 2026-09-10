@@ -288,7 +288,7 @@ def validate_artifact(artifact: dict[str, Any], slug: str) -> list[str]:
 def cmd_status(args: argparse.Namespace) -> None:
     repo = Path(args.repo_root).resolve()
     json_path, md_path = artifact_paths(repo, args.prep_root, args.slug)
-    manifest = repo / args.prep_root / args.slug / "manifest.json"
+    roadmap = repo / args.prep_root / args.slug / "04-iteration-roadmap.md"
     trunk = args.trunk
     payload: dict[str, Any] = {
         "status": "ok",
@@ -298,7 +298,7 @@ def cmd_status(args: argparse.Namespace) -> None:
             "json": {"relative": rel_path(repo, json_path), "exists": json_path.is_file()},
             "markdown": {"relative": rel_path(repo, md_path), "exists": md_path.is_file()},
         },
-        "manifest": {"relative": rel_path(repo, manifest), "exists": manifest.is_file()},
+        "roadmap": {"relative": rel_path(repo, roadmap), "exists": roadmap.is_file()},
         "vcs": {
             "branch": run_git(repo, "rev-parse", "--abbrev-ref", "HEAD", check=False) or None,
             "head": run_git(repo, "rev-parse", "HEAD", check=False) or None,

@@ -12,17 +12,17 @@ only a human can (*is this the right thing to build*) instead of bookkeeping (*d
 tests*).
 
 **Unit:** one slice — its staged **diff**, judged against its **slice brief** (the contract) and
-the **manifest**. Never the commit message; that's one line and holds none of this.
+the **roadmap**. Never the commit message; that's one line and holds none of this.
 
 ## Inputs (how an agent gets them)
 
-Resolve from the active initiative's `wiki/prep/<slug>/manifest.json`, the same way `/commit-prep`
+Resolve from the active initiative's `wiki/prep/<slug>/04-iteration-roadmap.md`, the same way `/commit-prep`
 resolves its scope:
 
 - **slice brief** — `wiki/prep/<slug>/iterations/<n>-*.md` for the slice being committed; its
   file-ownership table and acceptance criteria *are* the contract.
 - **staged diff** — `git diff --cached`, scoped to that brief's file ownership.
-- **manifest** — `wiki/prep/<slug>/manifest.json`, for stack / iteration state.
+- **roadmap** — `wiki/prep/<slug>/04-iteration-roadmap.md`, whose frontmatter carries stack / iteration state.
 
 ## Core checks — does the diff honor the brief? (run these)
 

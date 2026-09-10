@@ -35,8 +35,8 @@
 - [ ] AskQuestion: approve prep tree?
 - [ ] Delete `.cursor/prep-active`
 - [ ] `/commit-prep {{SLUG}} docs-bootstrap` → human `git commit` (prep tree + `masterPlanPath` when set)
-- [ ] Set `manifest.phase: 5`, `manifest.phaseApproved["1".."5"]: true`, and `manifest.handoffApproved: true`
-- [ ] Set `manifest.prepDocsBootstrapped: true`; set `manifest.masterPlanPath` if plan exists
+- [ ] Set roadmap frontmatter `mepPhase: 5` and `mepHandoffApproved: true`
+- [ ] Set roadmap `mepPrepDocsBootstrapped: true`; set `mepMasterPlanPath` if plan exists
 
 ## 6. Next action — iteration 1 only
 

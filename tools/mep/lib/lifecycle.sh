@@ -165,9 +165,9 @@ mep_lifecycle_status_json() {
   mep_require jq rg "$MEP_VCS_KIND" || return $?
   mep_lifecycle_validate_mode "$mode" || mep_usage
 
-  manifest_json=$(mep_manifest_summary_json "$slug")
+  manifest_json=$(mep_state_summary_json "$slug")
   if [[ "$(printf '%s' "$manifest_json" | jq -r '.exists')" != true ]]; then
-    printf '{"status":"not_found","slug":%s,"manifest":%s}\n' "$(mep_json_string "$slug")" "$(printf '%s' "$manifest_json" | jq '.path')"
+    printf '{"status":"not_found","slug":%s,"statePath":%s}\n' "$(mep_json_string "$slug")" "$(printf '%s' "$manifest_json" | jq '.path')"
     return 0
   fi
 
@@ -243,7 +243,7 @@ mep_lifecycle_status_json() {
           "gh_pr_create_without_operator_approval",
           "gh_pr_merge_without_operator_approval"
         ],
-        manifest: {
+        documents: {
           currentIteration: $manifest.currentIteration,
           currentIterationStatus: ($manifest.currentIterationRecord.status // null),
           currentSliceType: ($manifest.currentIterationRecord.sliceType // null)
@@ -260,9 +260,9 @@ mep_lifecycle_status_json() {
       mode,
       canAdvance,
       asksUserMidSlice,
-      currentIteration: .manifest.currentIteration,
-      currentIterationStatus: .manifest.currentIterationStatus,
-      currentSliceType: .manifest.currentSliceType,
+      currentIteration: .documents.currentIteration,
+      currentIterationStatus: .documents.currentIterationStatus,
+      currentSliceType: .documents.currentSliceType,
       gateCount: ((.gates // []) | length),
       gateKinds: [(.gates // [])[] | .kind]
     }' 2>/dev/null) || event_payload=

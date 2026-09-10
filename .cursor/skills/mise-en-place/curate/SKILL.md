@@ -170,7 +170,7 @@ Not deducible from code or prep — organizational choices:
 
 ### Authorship mode (curate interpretation)
 
-Uses initiative `authorshipMode` — no separate curation mode field in v0.1.
+Uses initiative roadmap frontmatter `mepAuthorshipMode` — no separate curation mode field.
 
 | mode | curate behavior |
 |------|-----------------|
@@ -199,13 +199,15 @@ When tradeoffs conflict, prefer higher items:
 
 LOC is a **constraint**, not the objective function.
 
-### `--optimize` preset (executor + optional manifest)
+### `--optimize` preset (invocation + curation artifact)
 
 Override tradeoff order when the operator specifies a goal. Read from, in order:
 
 1. `/mep curate <slug> --preview --optimize <preset>`
-2. `manifest.curationOptimize` (optional; persisted on approve)
+2. the current `integration-curation.md` / `.json` artifact when resuming an approved curation
 3. default: `reviewer-comprehension`
+
+The preset is invocation/artifact scoped. It is never roadmap workflow state.
 
 | preset | when tradeoffs conflict, prefer… |
 |--------|----------------------------------|
@@ -215,7 +217,8 @@ Override tradeoff order when the operator specifies a goal. Read from, in order:
 
 Post-v0.1 presets (document only): `parallelism`, `release-risk`, `minimal-backport`.
 
-CLI wiring for `--optimize` is post-v0.1; executor honors the preset from invocation or manifest today.
+CLI wiring for `--optimize` is post-v0.1; executor honors the preset from the invocation or current
+curation artifact today.
 
 ---
 
@@ -257,9 +260,12 @@ CLI wiring for `--optimize` is post-v0.1; executor honors the preset from invoca
 ## Workflow
 
 1. Read `.cursor/commands/prep-curate.md`.
-2. Resolve **`curationOptimize`** preset (flag → manifest → default `reviewer-comprehension`).
-3. Preflight: `tools/mep/bin/mep curate <slug> --json --preview`.
-4. Read prep tree: manifest, iterations, invariant goal, architecture, reckoning, handoff.
+2. Resolve **`--optimize`** preset (invocation → current curation artifact → default
+   `reviewer-comprehension`).
+3. Preflight: read `tools/mep/bin/mep status <slug> --compact --json`, then run
+   `tools/mep/bin/mep curate <slug> --json --preview`.
+4. Read prep tree: roadmap frontmatter/body, iteration briefs (`mepStatus` + revisions), invariant
+   goal, architecture, reckoning, handoff.
 5. **Distill evidence** — requirements, architectural decisions, discoveries (exploration only).
 6. Git measure: `mep curate --json --measure` — LOC truth per path group (constraint, not headline).
 7. **Mergeability pass:** AD ship order, gating/stubs, **course-tip** smokes, shared-file ledger,
@@ -269,7 +275,7 @@ CLI wiring for `--optimize` is post-v0.1; executor honors the preset from invoca
 9. Apply **interaction policy**: state synthesis confidence (*considered whether to ask; concluded …*);
    level 2 alternatives if ambiguous; level 3 only for product decisions or thin prep.
 10. On approval: write `integration-curation.md` + `integration-curation.json` (`draft` → `approved`);
-    persist `curationOptimize` if set.
+    record the resolved optimize preset in those artifacts.
 11. On **execute** (explicit gate): `--dry-run` then `--confirm`; record branches in artifact.
 12. Hand off to `/mep stage`.
 

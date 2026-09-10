@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
+mep_rel_path() {
+  local path=$1
+  path=${path#"$MEP_REPO_ROOT"/}
+  printf '%s' "$path"
+}
+
 mep_manifest_rel() {
   printf '%s/%s/manifest.json' "$MEP_STORAGE_PREP_ROOT" "$1"
+}
+
+mep_roadmap_rel() {
+  printf '%s/%s/04-iteration-roadmap.md' "$MEP_STORAGE_PREP_ROOT" "$1"
 }
 
 mep_iteration_dir_rel() {
@@ -18,8 +28,8 @@ mep_pr_description_root_rel() {
 
 mep_paths_json() {
   local slug=$1
-  local manifest_rel iteration_dir_rel plan_rel pr_root_rel profile_dir_rel session_rel
-  manifest_rel=$(mep_manifest_rel "$slug")
+  local roadmap_rel iteration_dir_rel plan_rel pr_root_rel profile_dir_rel session_rel
+  roadmap_rel=$(mep_roadmap_rel "$slug")
   iteration_dir_rel=$(mep_iteration_dir_rel "$slug")
   plan_rel=$(mep_plan_rel "$slug")
   pr_root_rel=$(mep_pr_description_root_rel)
@@ -29,9 +39,9 @@ mep_paths_json() {
   printf '{'
   printf '"slug":%s,' "$(mep_json_string "$slug")"
   printf '"repoRoot":%s,' "$(mep_json_string "$MEP_REPO_ROOT")"
-  printf '"manifest":{'
-  printf '"relative":%s,' "$(mep_json_string "$manifest_rel")"
-  printf '"absolute":%s' "$(mep_json_string "$(mep_abs_path "$manifest_rel")")"
+  printf '"initiativeState":{'
+  printf '"relative":%s,' "$(mep_json_string "$roadmap_rel")"
+  printf '"absolute":%s' "$(mep_json_string "$(mep_abs_path "$roadmap_rel")")"
   printf '},"prepRoot":{'
   printf '"relative":%s,' "$(mep_json_string "$MEP_STORAGE_PREP_ROOT")"
   printf '"absolute":%s' "$(mep_json_string "$(mep_abs_path "$MEP_STORAGE_PREP_ROOT")")"

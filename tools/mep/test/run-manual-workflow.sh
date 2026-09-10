@@ -14,29 +14,27 @@ fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 
 root="$TMP/manual-fx"
 mkdir -p "$root/.mep/prep/manual-fx/iterations" "$root/src"
-cat >"$root/.mep/prep/manual-fx/manifest.json" <<'EOF'
-{
-  "slug": "manual-fx",
-  "schemaVersion": 1,
-  "framework": "mise-en-place",
-  "phase": 5,
-  "prepDocsBootstrapped": true,
-  "initiativeStatus": "active",
-  "currentIteration": 1,
-  "ownedPaths": ["src/**", ".mep/prep/manual-fx/**"],
-  "iterations": [{
-    "number": 1,
-    "title": "Manual fixture",
-    "briefPath": ".mep/prep/manual-fx/iterations/01.md",
-    "status": "brief_ready",
-    "sliceType": "behavioral"
-  }]
-}
-EOF
-cat >"$root/.mep/prep/manual-fx/iterations/01.md" <<'MD'
-# Iteration 1 — Manual fixture
+cat >"$root/.mep/prep/manual-fx/04-iteration-roadmap.md" <<'MD'
+---
+mepSlug: manual-fx
+mepPhase: 5
+mepPrepDocsBootstrapped: true
+mepInitiativeStatus: active
+mepCurrentIteration: 1
+mepOwnedPaths: ["src/**", ".mep/prep/manual-fx/**"]
+---
 
-**Status:** brief_ready
+# Iteration roadmap — manual-fx
+MD
+cat >"$root/.mep/prep/manual-fx/iterations/01.md" <<'MD'
+---
+mepIteration: 1
+mepTitle: Manual fixture
+mepStatus: brief_ready
+mepSliceType: behavioral
+---
+
+# Iteration 1 — Manual fixture
 
 ## File ownership
 
@@ -127,7 +125,7 @@ assert_checkpoint_blocks_open_finish "absent-mode"
 
 run_mep mode set manual-fx default --json >"$tmp" 2>"$err"
 jq -e '.status == "ok" and .authorshipMode == "default"' "$tmp" >/dev/null || fail "mode set default"
-git -C "$root" add .mep/prep/manual-fx/manifest.json
+git -C "$root" add .mep/prep/manual-fx/04-iteration-roadmap.md
 git -C "$root" commit -q -m "set default mode"
 
 assert_where_blocks_open_finish "default"
@@ -137,7 +135,7 @@ assert_checkpoint_blocks_open_finish "default"
 
 run_mep mode set manual-fx manual --json >"$tmp" 2>"$err"
 jq -e '.status == "ok" and .authorshipMode == "manual"' "$tmp" >/dev/null || fail "mode set manual"
-git -C "$root" add .mep/prep/manual-fx/manifest.json
+git -C "$root" add .mep/prep/manual-fx/04-iteration-roadmap.md
 git -C "$root" commit -q -m "set manual mode"
 
 assert_where_blocks_open_finish "manual"
@@ -176,7 +174,7 @@ EOF
 
 run_mep mode set manual-fx autopilot --json >"$tmp" 2>"$err"
 jq -e '.status == "ok" and .authorshipMode == "autopilot"' "$tmp" >/dev/null || fail "mode set autopilot"
-git -C "$root" add .mep/prep/manual-fx/manifest.json
+git -C "$root" add .mep/prep/manual-fx/04-iteration-roadmap.md
 git -C "$root" commit -q -m "set autopilot mode"
 
 assert_where_blocks_open_finish "autopilot"

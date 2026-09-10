@@ -18,19 +18,28 @@ fi
 pass "row 8 uses finish helper"
 
 root="$TMP/finish-scan-fixture"
-mkdir -p "$root/.mep/prep/finish-scan-fixture" "$root/src"
-cat >"$root/.mep/prep/finish-scan-fixture/manifest.json" <<'EOF'
-{
-  "slug": "finish-scan-fixture",
-  "schemaVersion": 1,
-  "phase": 5,
-  "prepDocsBootstrapped": true,
-  "authorshipMode": "default",
-  "currentIteration": 1,
-  "ownedPaths": ["src/**"],
-  "iterations": [{ "number": 1, "status": "brief_ready", "sliceType": "behavioral" }]
-}
-EOF
+mkdir -p "$root/.mep/prep/finish-scan-fixture/iterations" "$root/src"
+cat >"$root/.mep/prep/finish-scan-fixture/04-iteration-roadmap.md" <<'MD'
+---
+mepSlug: finish-scan-fixture
+mepPhase: 5
+mepPrepDocsBootstrapped: true
+mepAuthorshipMode: default
+mepCurrentIteration: 1
+mepOwnedPaths: ["src/**"]
+---
+
+# Iteration roadmap — finish-scan-fixture
+MD
+cat >"$root/.mep/prep/finish-scan-fixture/iterations/01.md" <<'MD'
+---
+mepIteration: 1
+mepStatus: brief_ready
+mepSliceType: behavioral
+---
+
+# Iteration 1 — finish scan
+MD
 cat >"$root/src/flags.sh" <<'EOF'
         --reason "owned paths contain @finish:open" \
 EOF

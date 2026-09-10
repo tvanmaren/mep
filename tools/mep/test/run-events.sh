@@ -15,29 +15,31 @@ fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 root="$TMP/events-fx"
 mkdir -p "$root/.mep/prep/events-fx/iterations" "$root/src"
 cat >"$root/.mep/prep/events-fx/iterations/01.md" <<'MD'
-# Iteration 1 — Events fixture
+---
+mepIteration: 1
+mepTitle: Events fixture
+mepStatus: brief_ready
+mepSliceType: behavioral
+mepFanout: sequential
+---
 
-**Status:** brief_ready
+# Iteration 1 — Events fixture
 MD
 printf '# fixture\n' >"$root/src/app.sh"
-jq -n '{
-  slug: "events-fx",
-  schemaVersion: 1,
-  framework: "mise-en-place",
-  phase: 5,
-  phaseApproved: {"1":true,"2":true,"3":true,"4":true,"5":true},
-  initiativeStatus: "active",
-  prepDocsBootstrapped: true,
-  currentIteration: 1,
-  ownedPaths: ["src/**", ".mep/prep/events-fx/**"],
-  iterations: [{
-    number: 1,
-    title: "Events fixture",
-    briefPath: ".mep/prep/events-fx/iterations/01.md",
-    status: "brief_ready",
-    sliceType: "behavioral"
-  }]
-}' >"$root/.mep/prep/events-fx/manifest.json"
+cat >"$root/.mep/prep/events-fx/04-iteration-roadmap.md" <<'MD'
+---
+mepSlug: events-fx
+mepPhase: 5
+mepPrepDocsBootstrapped: true
+mepHandoffApproved: true
+mepInitiativeStatus: active
+mepAuthorshipMode: default
+mepCurrentIteration: 1
+mepOwnedPaths: ["src/**", ".mep/prep/events-fx/**"]
+---
+
+# Iteration roadmap — events-fx
+MD
 
 git -C "$root" init -q -b main
 git -C "$root" config user.email mep@test

@@ -16,7 +16,8 @@ disable-model-invocation: true
 Use when a branch outran its docs: uncommitted chaos, missing prep artifacts,
 diverged plan, or pre-process WIP. **Tidy clears the board; prep continues.**
 
-Framework pairing: **tidy → prep** (same `.mep/prep/<slug>/` tree).
+Framework pairing: **tidy → prep** (same `.mep/prep/<slug>/` tree). Tidy writes the same
+document-native state as prep; it does not create or maintain `manifest.json`.
 
 ## Pipeline
 
@@ -46,7 +47,8 @@ Shares templates with mise-en-place:
 2. **Never** write application code.
 3. **Never** advance a tidy phase without **AskQuestion** gate approval.
 4. **Never** draft the *next forward* slice brief — that is `/prep checkpoint`.
-5. Retroactive slice briefs use `status: implicit-merged` (forensic, not fictional gates).
+5. Retroactive slice briefs use `mepStatus: committed | merged` only when git proves that state;
+   their bodies say reconstruction occurred and gates were not rerun.
 6. **Do not** create `.cursor/prep-active` — tidy clears toward commits, not away from them.
 7. One initiative per slug; mixed branches → stop and AskQuestion.
 
@@ -71,10 +73,15 @@ Shares templates with mise-en-place:
    - `git diff main...HEAD --stat` (or user base branch)
    - Optional: `rg '@(experimental|provisional|stable|foundational|reference-only)'` on diff paths
 3. Seed from `.mep/plans/<slug>.md`, existing `.mep/prep/<slug>/`, JIRA if keyed.
-4. Create/update `.mep/prep/<slug>/`, `iterations/`, `manifest.json`.
-5. Set `manifest.sessionMode = "tidy"`, `manifest.tidyPhase = 1`.
+4. Create/update `.mep/prep/<slug>/` and `iterations/`. Create
+   `04-iteration-roadmap.md` from the shared roadmap template when absent, and write initiative
+   frontmatter directly: `mepAuthorshipMode`, `mepInitiativeStatus`, `mepOwnedPaths`,
+   `mepMasterPlanPath`, and `mepCurrentIteration`.
+5. Treat `sessionMode: tidy` as invocation-scoped. Record tidy phase/progress in tidy artifacts
+   (`00-reckoning.md` through `08-tidy-handoff.md`), never in roadmap or brief workflow state.
 
-Extend manifest ([templates/manifest-tidy.json](templates/manifest-tidy.json)).
+Do not extend or synthesize a manifest. A legacy `manifest.json` may be read only as migration input;
+new recovery state is document-native.
 
 ## Five phases + gates
 
@@ -103,7 +110,7 @@ Template: [templates/00-reckoning.md](templates/00-reckoning.md)
 From **code + reckon**, not intent alone:
 
 - Update `03-core-vs-volatile.md` (falsification on each core item)
-- Set `manifest.ownedPaths` for later `/prep-cleanup`
+- Set roadmap frontmatter `mepOwnedPaths` for later `/prep-cleanup`
 - Note what is still volatile vs accidentally hardened
 
 Granular separation lives here — **sift** is a phase inside tidy, not the command.
@@ -116,9 +123,11 @@ Same-resolution vision — prep artifacts as if the process ran from the start:
 
 - Backfill or correct `01`–`05`, `04-iteration-roadmap.md`
 - Forensic slice briefs in `iterations/` for work **already on branch**:
-  - `status: implicit-merged`
+  - frontmatter `mepStatus: committed | merged`, according to git evidence
+  - frontmatter `mepBriefRevision` and `mepImplementationRevision` from the reconstructed git evidence
   - note in brief: *reconstructed at tidy; gates not rerun*
-- Mark pending work in roadmap; do **not** write next forward brief
+- Mark pending work in roadmap; set `mepCurrentIteration` only when a reconstructed current brief
+  exists; do **not** write next forward brief
 
 Reuse [slice-brief.md](../mise-en-place/templates/slice-brief.md) with retro header from
 [templates/retro-slice-brief.md](templates/retro-slice-brief.md).
@@ -140,15 +149,16 @@ rounds, staged handoff + message. Tidy does not execute commit-prep itself.
 
 **Prep docs are not in code groups.** Ship prep docs scope via
 `/commit-prep <slug> docs-bootstrap` after phase 5, before group 1.
-Includes `.mep/prep/<slug>/` and `manifest.masterPlanPath` when set.
+Includes `.mep/prep/<slug>/` and roadmap `mepMasterPlanPath` when set.
 
 Terminal case: if branch is **fully complete**, commit plan may be "one graduation
 group" → `/prep-cleanup` → `/pr-description`; skip prep checkpoint in handoff.
 
 ### Phase 5 — handoff
 
-Write [templates/08-tidy-handoff.md](templates/08-tidy-handoff.md). Set
-`manifest.boardCleared = true`, `manifest.tidyCompletedAt`.
+Write [templates/08-tidy-handoff.md](templates/08-tidy-handoff.md). Record `boardCleared: true` and
+the tidy completion time in that handoff artifact. These are tidy-only process facts, not roadmap
+frontmatter or iteration state.
 
 **Commit sequence after phase 5 approval:**
 

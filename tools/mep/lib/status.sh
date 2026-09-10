@@ -155,6 +155,7 @@ mep_owned_path_matches_dirty() {
 
   case "$owned" in
     *"*"*|*"?"*|*"["*)
+      # shellcheck disable=SC2053 # owned is intentionally a configured glob.
       if [[ "$dirty" == $owned ]]; then
         return 0
       fi
@@ -187,7 +188,7 @@ mep_status_warnings_json() {
     --argjson manifest "$manifest_json" '
       [
         (if ($configErrors | length) > 0 then "config has errors" else empty end),
-        (if ($manifest.exists | not) then "manifest not found" else empty end),
+        (if ($manifest.exists | not) then "initiative documents not found" else empty end),
         (if (($manifest.prepDocsBootstrapped // false) == false) then "prep docs not bootstrapped" else empty end)
       ]
     '
@@ -211,11 +212,11 @@ mep_routing_proof_json() {
         {
           source: "heuristic",
           row: "precondition",
-          reason: "manifest is absent; relevance classification remains human-owned"
+          reason: "initiative state is absent; relevance classification remains human-owned"
         }
       elif (($provenance.briefRevision != null) or ($provenance.implementationRevision != null) or ($provenance.checkpointRevision != null)) then
         {
-          source: "manifest_revision_provenance",
+          source: "document_revision_provenance",
           row: null,
           reason: "current iteration carries revision-neutral route provenance",
           provenance: $provenance
@@ -252,7 +253,7 @@ mep_status_compact_json() {
 
   deps_json=$(mep_dependency_report_json "$MEP_VCS_KIND")
   optional_deps_json=$(mep_optional_dependency_report_json gh jj)
-  manifest_json=$(mep_manifest_summary_json "$slug")
+  manifest_json=$(mep_state_summary_json "$slug")
   paths_json=$(mep_paths_json "$slug")
   vcs_json=$(mep_vcs_summary_json "$MEP_VCS_DEFAULT_TRUNK")
   dirty_prep_json=$(mep_dirty_prep_paths_json "$slug")
@@ -287,7 +288,7 @@ mep_status_compact_json() {
         paths: $paths,
         dependencies: $dependencies,
         optionalDependencies: $optionalDependencies,
-        manifest: $manifest,
+        initiative: $manifest,
         vcs: $vcs,
         dirtyPrepFiles: $dirtyPrepFiles,
         dirtyOwnedFiles: $dirtyOwnedFiles,

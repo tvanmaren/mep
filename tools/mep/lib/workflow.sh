@@ -53,7 +53,11 @@ mep_implement_scope_json() {
     return 0
   fi
 
-  status=$(awk -F'[*:]+' '/^\*\*Status:\*\*/ { gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); print $3; exit }' "$brief_abs")
+  status=$(mep_frontmatter_value "$brief_abs" mepStatus)
+  # Briefs authored before document-colocated state carry the status in the prose header only.
+  if [[ -z "$status" ]]; then
+    status=$(awk -F'[*:]+' '/^\*\*Status:\*\*/ { gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); print $3; exit }' "$brief_abs")
+  fi
   owns=$(mep_brief_constitution_text "$brief_abs" "Owns")
   may_know=$(mep_brief_constitution_text "$brief_abs" "May know")
   must_not_know=$(mep_brief_constitution_text "$brief_abs" "Must not know")
@@ -93,9 +97,9 @@ mep_commit_scope_json() {
   local slug=$1 manifest_json current_json brief_rel brief_abs owned_paths
   local markers_json dirty_owned_json dirty_implementation_json writebacks_json
   local finish_open_json
-  manifest_json=$(mep_manifest_summary_json "$slug")
+  manifest_json=$(mep_state_summary_json "$slug")
   if [[ "$(printf '%s' "$manifest_json" | jq -r '.exists')" != true ]]; then
-    jq -cn --arg slug "$slug" '{status:"not_found",reason:"manifest_not_found",slug:$slug}'
+    jq -cn --arg slug "$slug" '{status:"not_found",reason:"state_not_found",slug:$slug}'
     return 0
   fi
 
@@ -120,7 +124,7 @@ mep_commit_scope_json() {
     jq -cn \
       --arg slug "$slug" \
       --arg briefPath "$brief_rel" \
-      --argjson iteration "$(printf '%s' "$current_json" | jq '(.number // .n) // null')" \
+      --argjson iteration "$(printf '%s' "$current_json" | jq '.number // null')" \
       --argjson paths "$owned_paths" \
       --argjson finishOpen "$finish_open_json" \
       '{
@@ -139,7 +143,7 @@ mep_commit_scope_json() {
   jq -cn \
     --arg slug "$slug" \
     --arg briefPath "$brief_rel" \
-    --argjson iteration "$(printf '%s' "$current_json" | jq '(.number // .n) // null')" \
+    --argjson iteration "$(printf '%s' "$current_json" | jq '.number // null')" \
     --argjson paths "$owned_paths" \
     '{
       status: "ok",
@@ -152,36 +156,52 @@ mep_commit_scope_json() {
 }
 
 mep_mode_set_json() {
-  local slug=$1 mode=$2 dry_run=${3:-0} manifest output tmp
+  local slug=$1 mode=$2 dry_run=${3:-0} roadmap state_json authority state_path
   local dry_run_json=false
   (( dry_run )) && dry_run_json=true
-  manifest=$(mep_manifest_path "$slug")
-  if [[ ! -f "$manifest" ]]; then
-    jq -cn --arg slug "$slug" '{status:"not_found",reason:"manifest_not_found",slug:$slug}'
+
+  roadmap=$(mep_roadmap_path "$slug")
+  state_json=$(mep_state_summary_json "$slug")
+  authority=$(printf '%s' "$state_json" | jq -r '.authority')
+  state_path=$(printf '%s' "$state_json" | jq -r '.path')
+
+  if [[ "$(printf '%s' "$state_json" | jq -r '.exists')" != true ]]; then
+    jq -cn --arg slug "$slug" --arg path "$state_path" \
+      '{status:"not_found",reason:"state_not_found",slug:$slug,statePath:$path}'
     return 0
   fi
 
-  output=$(jq --arg mode "$mode" '.authorshipMode = $mode' "$manifest") || {
-    jq -cn --arg slug "$slug" '{status:"blocked",reason:"invalid_manifest",slug:$slug}'
+  if [[ "$(printf '%s' "$state_json" | jq '(.documentErrors // []) | length')" != 0 ]]; then
+    printf '%s' "$state_json" | jq -c --arg statePath "$state_path" '{
+      status: "blocked",
+      reason: "invalid_document_state",
+      slug,
+      statePath: $statePath,
+      findings: .documentErrors
+    }'
     return 0
-  }
+  fi
 
-  if (( ! dry_run )); then
-    tmp=$(mktemp "${manifest}.tmp.XXXXXX") || {
-      jq -cn '{status:"blocked",reason:"manifest_write_failed"}'
-      return 0
-    }
-    if ! cp -p "$manifest" "$tmp"; then
-      rm -f "$tmp"
-      jq -cn '{status:"blocked",reason:"manifest_write_failed"}'
-      return 0
-    fi
-    printf '%s\n' "$output" >"$tmp"
-    if ! mv "$tmp" "$manifest"; then
-      rm -f "$tmp"
-      jq -cn '{status:"blocked",reason:"manifest_write_failed"}'
+  if [[ "$authority" != documents ]]; then
+    if [[ "$authority" == legacy_import ]]; then
+      jq -cn --arg slug "$slug" --arg path "$state_path" '{
+        status: "blocked",
+        reason: "legacy_state_read_only",
+        slug: $slug,
+        statePath: $path,
+        detail: "initiative state is an import-only manifest at \($path); run `mep migrate` to write document frontmatter before setting a mode"
+      }'
       return 0
     fi
+    jq -cn --arg slug "$slug" --arg statePath "$state_path" --arg authority "$authority" \
+      '{status:"blocked",reason:"unsupported_state_authority",slug:$slug,statePath:$statePath,authority:$authority}'
+    return 0
+  fi
+
+  if (( ! dry_run )) && ! mep_frontmatter_set "$roadmap" mepAuthorshipMode "$mode"; then
+    jq -cn --arg slug "$slug" --arg statePath "$state_path" \
+      '{status:"blocked",reason:"state_write_failed",slug:$slug,statePath:$statePath}'
+    return 0
   fi
 
   jq -cn \

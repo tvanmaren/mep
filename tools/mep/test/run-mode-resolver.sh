@@ -15,29 +15,28 @@ fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 root="$TMP/mode-fx"
 mkdir -p "$root/.mep/prep/mode-fx/iterations" "$root/src"
 cat >"$root/.mep/prep/mode-fx/iterations/01.md" <<'MD'
-# Iteration 1 — Unblocked fixture
+---
+mepIteration: 1
+mepTitle: Unblocked fixture
+mepStatus: brief_ready
+mepSliceType: behavioral
+---
 
-**Status:** brief_ready
+# Iteration 1 — Unblocked fixture
 MD
 printf '# fixture\n' >"$root/src/app.sh"
-jq -n '{
-  slug: "mode-fx",
-  schemaVersion: 1,
-  framework: "mise-en-place",
-  phase: 5,
-  phaseApproved: {"1":true,"2":true,"3":true,"4":true,"5":true},
-  initiativeStatus: "active",
-  prepDocsBootstrapped: true,
-  currentIteration: 1,
-  ownedPaths: ["src/**", ".mep/prep/mode-fx/**"],
-  iterations: [{
-    number: 1,
-    title: "Unblocked fixture",
-    briefPath: ".mep/prep/mode-fx/iterations/01.md",
-    status: "brief_ready",
-    sliceType: "behavioral"
-  }]
-}' >"$root/.mep/prep/mode-fx/manifest.json"
+cat >"$root/.mep/prep/mode-fx/04-iteration-roadmap.md" <<'MD'
+---
+mepSlug: mode-fx
+mepPhase: 5
+mepPrepDocsBootstrapped: true
+mepInitiativeStatus: active
+mepCurrentIteration: 1
+mepOwnedPaths: ["src/**", ".mep/prep/mode-fx/**"]
+---
+
+# Iteration roadmap — mode-fx
+MD
 
 git -C "$root" init -q -b main
 git -C "$root" config user.email mep@test
@@ -76,7 +75,7 @@ pass "absent-mode unblocked where"
 
 for mode in default manual autopilot; do
   run_mep mode set mode-fx "$mode" --json >/dev/null || fail "mode set $mode"
-  git -C "$root" add .mep/prep/mode-fx/manifest.json
+  git -C "$root" add .mep/prep/mode-fx/04-iteration-roadmap.md
   git -C "$root" commit -q -m "set $mode mode"
   got=$(where_key "$mode")
   [[ "$got" == "$baseline" ]] || {

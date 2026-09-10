@@ -28,11 +28,11 @@ cleanup rules.
 
 ## inputs
 
-1. **Prep slug** — `wiki/prep/<slug>/manifest.json`
-2. **ownedPaths** — from manifest or `05-handoff.md` (glob list for ripgrep scope)
+1. **Prep slug** — `wiki/prep/<slug>/04-iteration-roadmap.md`
+2. **mepOwnedPaths** — from roadmap frontmatter (glob list for ripgrep scope)
 3. **Slice brief** (optional) — `iterations/N-cleanup.md` if cleanup was planned
 
-Set `manifest.initiativeStatus = graduating` at start.
+Set roadmap frontmatter `mepInitiativeStatus: graduating` at start.
 
 ## process
 
@@ -40,8 +40,8 @@ Set `manifest.initiativeStatus = graduating` at start.
 
 ```bash
 rg '@(experimental|provisional|stable|foundational|reference-only|maturity:)' \
-  -g '*.js' -g '*.vue' [ownedPaths…]
-rg 'PROVISIONAL:|TODO\\(stabilize-' -g '*.js' -g '*.vue' [ownedPaths…]
+  -g '*.js' -g '*.vue' [mepOwnedPaths…]
+rg 'PROVISIONAL:|TODO\\(stabilize-' -g '*.js' -g '*.vue' [mepOwnedPaths…]
 ```
 
 Report hit count and locations. **AskQuestion:** proceed with cleanup?
@@ -62,11 +62,11 @@ the dev cycle (e.g. USD compute invariant on fee fields).
 
 ### step 3 — verify & commit code
 
-Re-run ripgrep — **zero** maturity-tag matches in ownedPaths.
+Re-run ripgrep — **zero** maturity-tag matches in `mepOwnedPaths`.
 
 Run tests for touched areas.
 
-`/commit-prep <slug>` — code scope (ownedPaths cleanup diff) → human commits.
+`/commit-prep <slug>` — code scope (`mepOwnedPaths` cleanup diff) → human commits.
 
 ### step 4 — document & commit docs
 
@@ -76,10 +76,10 @@ Write `wiki/prep/<slug>/06-graduation.md`:
 - durable comments kept (with rationale)
 - final epistemic state: all subsystems → shipped
 
-Set `manifest.initiativeStatus = graduated`.
+Set roadmap frontmatter `mepInitiativeStatus: graduated`.
 
-Then — now that the graduation doc + manifest exist — ship the docs commit:
-`/commit-prep <slug> docs-delta` — includes `06-graduation.md` + manifest → human commits; then `/pr-description`.
+Then — now that the graduation doc + roadmap update exist — ship the docs commit:
+`/commit-prep <slug> docs-delta` — includes `06-graduation.md` + roadmap → human commits; then `/pr-description`.
 
 ### step 5 — pr description
 

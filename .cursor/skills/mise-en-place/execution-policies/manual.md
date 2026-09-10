@@ -83,7 +83,7 @@ only `:open` does.
 ## Boundaries (what manual does NOT do here)
 
 - **no mode selector** — *how* a mode is chosen or switched is not this policy's concern; selection lives
-  in the manifest `authorshipMode` field + the `/mep mode` verb. This policy defines only what manual
+  in the roadmap's `mepAuthorshipMode` frontmatter + the `/mep mode` verb. This policy defines only what manual
   *does* once selected.
 - **routing on finish-state lives in the resolver, not here** — the *scaffolded, finishes-open* row owns
   it; this policy defines the lifecycle the marker drives, not the route.

@@ -19,6 +19,7 @@ where	mep where <slug> --json	print next-command resolver packet
 exec dispatch	mep exec dispatch --json [--executor <preset>] [--request-json <json>] [--dry-run]	dispatch an executionRequest
 implement	mep implement --json <briefPath>	print read-only brief scope packet
 mode set	mep mode set <slug> <manual|default|autopilot> --json [--dry-run]	set initiative authorship mode
+migrate	mep migrate <slug> --json [--dry-run]	write document frontmatter and retire an import-only manifest
 commit scope	mep commit scope <slug> --json	print current slice commit paths
 evidence write	mep evidence write <slug> <kind> <state> --json [--detail <text>] [--dry-run]	append workflow evidence
 events tail	mep events tail --json [--slug <slug>] [--event <name>] [--version <n>] [--limit <n>]	read local event ledger

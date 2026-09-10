@@ -14,30 +14,28 @@ fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 
 root="$TMP/mark-fx"
 mkdir -p "$root/.mep/prep/mark-fx/iterations" "$root/src"
-cat >"$root/.mep/prep/mark-fx/manifest.json" <<'JSON'
-{
-  "slug": "mark-fx",
-  "schemaVersion": 1,
-  "framework": "mise-en-place",
-  "authorshipMode": "default",
-  "phase": 5,
-  "prepDocsBootstrapped": true,
-  "initiativeStatus": "active",
-  "currentIteration": 1,
-  "ownedPaths": ["src/**", ".mep/prep/mark-fx/**"],
-  "iterations": [{
-    "number": 1,
-    "title": "Mark fixture",
-    "briefPath": ".mep/prep/mark-fx/iterations/01.md",
-    "status": "brief_ready",
-    "sliceType": "behavioral"
-  }]
-}
-JSON
-cat >"$root/.mep/prep/mark-fx/iterations/01.md" <<'MD'
-# Iteration 1 — Mark fixture
+cat >"$root/.mep/prep/mark-fx/04-iteration-roadmap.md" <<'MD'
+---
+mepSlug: mark-fx
+mepPhase: 5
+mepPrepDocsBootstrapped: true
+mepInitiativeStatus: active
+mepAuthorshipMode: default
+mepCurrentIteration: 1
+mepOwnedPaths: ["src/**", ".mep/prep/mark-fx/**"]
+---
 
-**Status:** brief_ready
+# Iteration roadmap — mark-fx
+MD
+cat >"$root/.mep/prep/mark-fx/iterations/01.md" <<'MD'
+---
+mepIteration: 1
+mepTitle: Mark fixture
+mepStatus: brief_ready
+mepSliceType: behavioral
+---
+
+# Iteration 1 — Mark fixture
 
 ## File ownership
 

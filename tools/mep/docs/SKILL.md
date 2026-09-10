@@ -116,7 +116,8 @@ proxy runs manual's lifecycle, non-blocking). `default`'s policy follows.
 
 ## Session modes
 
-Set `manifest.sessionMode` at bootstrap (from user message or AskQuestion):
+Pick the session mode at bootstrap (from user message or AskQuestion). It scopes the current `/prep`
+invocation and is not persisted — nothing routes off it after the session ends:
 
 | Mode | Phases | `.cursor/prep-active` | Use when |
 |------|--------|----------------------|----------|
@@ -128,7 +129,7 @@ Set `manifest.sessionMode` at bootstrap (from user message or AskQuestion):
 Graduation is **not** a `/prep` mode — it edits application code (strips `@` tags), which
 hard rule #2 forbids here. It lives in the separate `/prep-cleanup` command.
 
-Set `manifest.authorshipMode` — **who authors the decision-bearing code** (orthogonal to `sessionMode`;
+Set roadmap frontmatter `mepAuthorshipMode` — **who authors the decision-bearing code** (orthogonal to session mode;
 **absent ⇒ `default`**, today's behavior):
 
 | Mode | Who authors the finishes | Approval gate |
@@ -137,8 +138,10 @@ Set `manifest.authorshipMode` — **who authors the decision-bearing code** (ort
 | `manual` | the operator authors the finishes; AI absorbs the mechanical remainder | blocking human |
 | `autopilot` | a dispatched cross-model proxy authors **and** ratifies, slice-to-slice | proxy in-flight; human at graduation |
 
-Initiative-level by default; an individual iteration may override via `iterations[].authorshipMode`
-(absent ⇒ inherit the initiative value). Switch mid-flight with `/mep mode <slug> <mode> [iteration N]`.
+Initiative-level; every iteration inherits it. Switch mid-flight with
+`mep mode set <slug> <mode>`, which rewrites the roadmap's `mepAuthorshipMode`. On an initiative
+that still carries a `manifest.json` it refuses with `legacy_state_read_only`; run `mep migrate`
+first.
 Each mode's execution policy lives in [execution-policies/](execution-policies/).
 
 **Invocation examples** (detect from user message or AskQuestion):
@@ -156,8 +159,10 @@ shifted. **After `/tidy`:** always enter checkpoint — do not rerun greenfield.
 1. Derive `slug` (kebab-case; JIRA key if given).
 2. Create `wiki/prep/<slug>/` and `wiki/prep/<slug>/iterations/` if missing.
 3. If `sessionMode` is `greenfield`: write `.cursor/prep-active` (slug only).
-4. Read or init `manifest.json` from [templates/manifest.json](templates/manifest.json).
-5. Execute only the current phase (`manifest.phase`).
+4. Read or init `04-iteration-roadmap.md` from
+   [templates/04-iteration-roadmap.md](templates/04-iteration-roadmap.md); its frontmatter is the
+   initiative's workflow state.
+5. Execute only the current phase (roadmap `mepPhase`).
 
 Delete `.cursor/prep-active` when user ends prep or starts implement in another
 session.
@@ -175,8 +180,8 @@ session.
 Every node — a skill, command, or agent in `.cursor/**`; a slice brief or macro-prep doc; a code
 comment — states **what it is and why it is right, as if it had always been so**. The journey is
 scrubbed: rejected paths, "changed from X", edit-narration, and rotted comments do not belong in the
-node. Lineage lives in git history and in **terse, transient** `manifest.deviations[]` entries —
-never in the node itself.
+node. Lineage lives in git history and in **terse, transient** entries under the **Amendments**
+section of `03-core-vs-volatile.md` — never in the node itself.
 
 This is the authoring twin of the `clean` integrity check, and it unifies three rules the framework
 states piecemeal: `/update-plan`'s "write as if definitive", graduation's `@`-tag stripping
@@ -266,8 +271,8 @@ one operator, no second.)
 **Deliberate it, don't default it.** When sequencing the first slices (Phase 4), treat the foundation
 strategy for the keystone as an architectural fork: surface 2–3 candidate shapes, weigh trade-offs,
 record the pick — **reuse** the [architect](../architect/SKILL.md) skill's fork → `AskQuestion` → AD
-pattern, not a bespoke one. Record as an AD (arch-doc work) or a `manifest.deviations[]` line (prep
-work); the chosen shape + the tiebreak are enough.
+pattern, not a bespoke one. Record as an AD (arch-doc work) or an **Amendments** line in
+`03-core-vs-volatile.md` (prep work); the chosen shape + the tiebreak are enough.
 
 ## Five phases + gates
 
@@ -281,15 +286,14 @@ work); the chosen shape + the tiebreak are enough.
 
 Templates: [templates/](templates/)
 
-**Manifest phase writeback.** When a phase gate is approved, immediately update `manifest.json`:
+**Phase writeback.** When a phase gate is approved, immediately update the frontmatter of
+`04-iteration-roadmap.md`:
 
-- Set `phase` to the approved phase number.
-- Set `phaseApproved["<n>"] = true`.
-- When phase 5 handoff is approved, set `phase = 5`, `phaseApproved["1".."5"] = true`, and
-  `handoffApproved = true`.
+- Set `mepPhase` to the approved phase number.
+- When phase 5 handoff is approved, set `mepPhase: 5` and `mepHandoffApproved: true`.
 
-The manifest is the routing source of truth. Do not leave phase advancement as chat memory or
-implicit doc state; stale macro phase fields can misroute later `/mep next` calls.
+The roadmap frontmatter is the routing source of truth. Do not leave phase advancement as chat
+memory or as prose in the body; a stale `mepPhase` misroutes later `/mep next` calls.
 
 ### Phase 1 — goal extraction
 
@@ -327,7 +331,7 @@ interchangeable elements** (deprecated alias: *volatile*). See template **Guidan
 This is the initiative **belief state**, amended every checkpoint — not a one-time split.
 
 Include **maturity ladder** per subsystem: experimental → provisional → stable → foundational.
-Record AD candidates. Set `manifest.ownedPaths` (globs for cleanup ripgrep scope).
+Record AD candidates. Set roadmap `mepOwnedPaths` (globs for cleanup ripgrep scope).
 
 ### Phase 4 — iteration roadmap
 
@@ -386,7 +390,8 @@ Produce:
 2. **`iterations/01-<short-title>.md`** — full slice brief from
    [templates/slice-brief.md](templates/slice-brief.md)
 
-Update `manifest.iterations[0].briefPath` and `status: brief_ready`.
+Set the brief's own frontmatter `mepIteration: 1` and `mepStatus: brief_ready`, and point the roadmap's
+`mepCurrentIteration` at it. The brief's path is its identity — there is no separate `briefPath` field.
 
 **Do not** default to `/create-plan`. Master plan is optional when:
 
@@ -395,7 +400,7 @@ Update `manifest.iterations[0].briefPath` and `status: brief_ready`.
 - Stakeholders need one assessable document
 
 Then: `/create-plan` consolidates prep artifacts → `wiki/plans/<slug>.md`.
-Set `manifest.masterPlanPath` and commit via `docs-delta` (or include in next checkpoint docs commit).
+Set roadmap `mepMasterPlanPath` and commit via `docs-delta` (or include in next checkpoint docs commit).
 
 ### Phase 5 — docs bootstrap (before implement)
 
@@ -403,7 +408,7 @@ Prep artifacts must be in git before the first implement pass.
 
 1. **AskQuestion:** approve prep tree for bootstrap commit?
 2. Delete `.cursor/prep-active` (unblocks commit hook).
-3. Record in `manifest.json`: `"prepDocsBootstrapped": true` (ISO timestamp optional) — set this *before* committing so the bootstrap commit captures its own state instead of leaving an uncommitted manifest delta.
+3. Record in the roadmap frontmatter: `mepPrepDocsBootstrapped: true` — set this *before* committing so the bootstrap commit captures its own state instead of leaving an uncommitted state delta.
 4. `/commit-prep <slug> docs-bootstrap` → human `git commit`.
 
 Then recommend `/implement-plan` scoped to iteration 1 brief only.
@@ -413,7 +418,7 @@ Then recommend `/implement-plan` scoped to iteration 1 brief only.
 Process memory lives in `wiki/prep/` and `wiki/plans/<slug>.md`. Product code and
 prep/plan docs use **separate** commit-prep scopes — never bundle by default.
 
-Set `manifest.masterPlanPath` when a master plan exists or is created (`/create-plan`,
+Set roadmap `mepMasterPlanPath` when a master plan exists or is created (`/create-plan`,
 pre-existing `wiki/plans/<slug>.md`, or tidy seed). Commit-prep docs modes always
 include that path when set.
 
@@ -451,8 +456,8 @@ sync (when eligible), replan, and draft-next are complete.
 
 0. **Sync (harness plumbing):** `tools/mep/bin/mep checkpoint <slug> --json`, then `--fix` only
    when the report has no blockers and no `commit_required_before_checkpoint`. Applies deterministic
-   manifest writebacks (`briefRevision`, `implementationRevision`, `status→committed`) from git —
-   not hand attestation.
+   frontmatter writebacks (`mepBriefRevision`, `mepImplementationRevision`, `mepStatus→committed`)
+   from git — not hand attestation.
 1. Re-read git diff + sync outcome. Optional **landed-slice retrospective:** was last commit scoped
    to its brief? Feed gaps into next **Avoid** or schedule consolidation (`brief-preflight-check.md`).
 2. **Revisit belief state (`03-core-vs-volatile.md`):** read landed slice **architectural diff** +
@@ -472,8 +477,8 @@ not the happy path. After a complete close+replan session, `where` should resolv
 `/implement-plan`, not another `/prep checkpoint`.
 
 **Amend ritual (scaffolding-free).** When a checkpoint *changes a prior decision* — re-scopes a
-slice, renumbers iterations, reverses an approach — do **both**: (a) append a **terse**
-`manifest.deviations[]` entry capturing the lineage, and (b) **rewrite the affected node(s) clean**,
+slice, renumbers iterations, reverses an approach — do **both**: (a) append a **terse** entry to the
+**Amendments** section of `03-core-vs-volatile.md` capturing the lineage, and (b) **rewrite the affected node(s) clean**,
 as if the new decision had always held. The deviation carries the journey; the node carries only the
 destination. This is what stops a palimpsest from forming as the plan evolves — the live half of the
 scaffolding-free convention.
@@ -492,10 +497,10 @@ Iteration `status` is self-attested, but the two rungs differ in *where their ev
 `committed` on a landed slice is sync-owned — `/prep checkpoint` step 0 applies it from git when
 eligible, not hand attestation mid-session. `merged` (trunk landing) happens later, elsewhere, by a
 human, so whoever writes it asserts a state they didn't witness; it can only be confirmed out-of-band,
-and that gap is where the manifest drifts from git. The **doctor** supplies that check:
+and that gap is where the recorded state drifts from git. The **doctor** supplies that check:
 
 ```bash
-.cursor/skills/mise-en-place/doctor.sh <slug> [--trunk main] [--fix]
+tools/mep/bin/mep doctor <slug> --json [--trunk main] [--fix]
 ```
 
 - **Reports** any iteration claiming `merged` that trunk does **not** contain (a false-merged
@@ -540,7 +545,7 @@ comments that explain permanent business rules.
 | `exploration` | confidence low/medium | working prototype; mock-api OK |
 | `hardening` | checkpoint passed | clean-code; `/commit-prep`; extract util layers |
 
-Set on each slice brief, not only manifest.
+Set on each slice brief, not only on the roadmap.
 
 ## Graduation cleanup (final pass)
 
@@ -549,7 +554,7 @@ PR-per-slice — and the initiative is complete:
 
 1. User runs `/prep-cleanup <slug>` (or `sliceType: cleanup` brief + implement).
 2. Remove all `@experimental|@provisional|@stable|@foundational|@reference-only`
-   tags and `PROVISIONAL:` markers from `manifest.ownedPaths`.
+   tags and `PROVISIONAL:` markers from the roadmap's `mepOwnedPaths`.
 3. Rewrite tag-only comments into **durable intent** prose where still needed.
 4. Write `06-graduation.md`; set `initiativeStatus: graduated`.
 5. `/commit-prep` (cleanup mode) → `/pr-description` (graduation PR) → human merge.
@@ -577,7 +582,7 @@ PR-per-slice — and the initiative is complete:
 
 Portable equivalents for the routing/handoff commands live in
 [portable-routing.md](portable-routing.md). Do not duplicate the resolver logic in command files or
-skills; re-read `manifest.json` + git state and translate the selected resolver row.
+skills; re-read the plan documents + git state and translate the selected resolver row.
 
 **Recommend after phase 5:**
 
@@ -602,8 +607,8 @@ After phase 5: docs-bootstrap instruction + slice brief path + `/implement-plan`
 
 ## Resuming
 
-If `.cursor/prep-active` exists, read slug + `manifest.json`; continue from
-`manifest.phase` or draft next iteration brief in checkpoint mode.
+If `.cursor/prep-active` exists, read slug + `04-iteration-roadmap.md`; continue from its
+`mepPhase` or draft next iteration brief in checkpoint mode.
 
 ## Examples
 

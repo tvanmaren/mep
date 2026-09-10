@@ -5,7 +5,7 @@ mep_execution_request_is_valid() {
   printf '%s' "$request_json" | jq -e '
     type == "object"
     and (keys | sort) == ["argv", "kind", "target"]
-    and (.kind | IN("implement", "checkpoint", "commit_prep", "prep", "cleanup", "none"))
+    and (.kind | IN("implement", "checkpoint", "commit_prep", "prep", "migrate", "cleanup", "none"))
     and (.argv | type == "array" and all(.[]; type == "string"))
     and (
       if .kind == "none"
@@ -31,6 +31,7 @@ mep_execution_primitive_for_kind() {
     checkpoint) printf 'mep checkpoint' ;;
     commit_prep) printf 'mep commit scope' ;;
     prep) printf 'mep evidence write <slug> prep <state>' ;;
+    migrate) printf 'mep migrate' ;;
     cleanup) printf 'mep evidence write <slug> cleanup <state>' ;;
     none) printf 'none' ;;
     *) return 70 ;;

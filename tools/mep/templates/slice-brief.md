@@ -1,12 +1,24 @@
+---
+mepIteration: {{N}}
+mepTitle: {{TITLE}}
+# status: draft | pending | brief_ready | committed | merged | skipped
+mepStatus: draft
+# slice type: behavioral | architectural | consolidation | cleanup
+mepSliceType: behavioral
+# delivery track: frontend-only | full-stack
+mepDeliveryTrack: full-stack
+# fanout: sequential | parallel
+mepFanout: sequential
+mepBriefRevision: null
+mepImplementationRevision: null
+mepCheckpointRevision: null
+mepImplementationPaths: []
+---
+
 # Iteration {{N}} — {{TITLE}}
 
 **Prep slug:** {{SLUG}}
-**Brief path:** `wiki/prep/{{SLUG}}/iterations/{{NN}}-{{SHORT_TITLE}}.md`
-**Status:** draft | brief_ready | committed | merged
-**Slice type:** behavioral | architectural | consolidation | cleanup
 **Mode:** exploration | hardening
-**Delivery track:** frontend-only | full-stack
-**Fanout:** sequential | parallel
 
 ## Epistemic transition
 

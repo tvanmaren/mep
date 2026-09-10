@@ -44,6 +44,8 @@ MEP_HOME=$(cd "$MEP_BIN_DIR/.." && pwd)
 . "$MEP_HOME/lib/exec.sh"
 # shellcheck source=../lib/workflow.sh
 . "$MEP_HOME/lib/workflow.sh"
+# shellcheck source=../lib/migrate.sh
+. "$MEP_HOME/lib/migrate.sh"
 
 mep_usage() {
   mep_usage_from_registry
@@ -214,6 +216,23 @@ case "${1:-}" in
     done
     (( json )) || mep_usage
     mep_dispatch_json mep_mode_set_json "$slug" "$mode" "$dry_run"
+    ;;
+  migrate)
+    slug=${2:-}
+    [[ -n "$slug" && "$slug" != --* ]] || mep_usage
+    shift 2
+    json=0
+    dry_run=0
+    while (( $# )); do
+      case "$1" in
+        --json) json=1 ;;
+        --dry-run) dry_run=1 ;;
+        *) mep_usage ;;
+      esac
+      shift
+    done
+    (( json )) || mep_usage
+    mep_dispatch_json mep_migrate_json "$slug" "$dry_run"
     ;;
   commit)
     [[ "${2:-}" == "scope" ]] || mep_usage

@@ -65,6 +65,15 @@ assert_jq '
   and .executors.presets.stub == {kind:"stub",command:"internal:stub"}
 ' "$dump" "engine defaults without overlay"
 
+migration=$("$MEP" migrate fixture-demo --json)
+assert_jq '
+  .status == "ok"
+  and .written == true
+  and .legacyRemoved == true
+' "$migration" "stranger migrates legacy fixture"
+git add -A
+git commit -q -m "migrate stranger fixture"
+
 where=$("$MEP" where fixture-demo --json)
 assert_jq '
   .status == "ok"

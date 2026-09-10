@@ -1,5 +1,5 @@
 ---
-description: "generate a plain-language, reviewer-facing PR description for a single prep slice (brief + manifest sourced)"
+description: "generate a plain-language, reviewer-facing PR description for a single prep slice (brief + roadmap sourced)"
 alwaysApply: false
 ---
 
@@ -21,8 +21,11 @@ artifacts — the reviewer never sees framework vocabulary.
 ## inputs
 
 1. **slice brief** — `wiki/prep/<slug>/iterations/<n>-*.md` (user passes the slug or brief path).
-2. **manifest** — `wiki/prep/<slug>/manifest.json` for series position, merged dependencies, and dependency order.
-3. **diff** — `git diff <base>...HEAD --stat` and `git diff <base>...HEAD`, using the branch's actual base.
+2. **composed state** — `tools/mep/bin/mep status <slug> --compact --json`, backed by roadmap
+   frontmatter + iteration-brief frontmatter + git.
+3. **roadmap** — `wiki/prep/<slug>/04-iteration-roadmap.md` for series position and dependency
+   order; initiative fields live in its frontmatter.
+4. **diff** — `git diff <base>...HEAD --stat` and `git diff <base>...HEAD`, using the branch's actual base.
 
 if no slice brief resolves, prompt: "no prep slice brief found. pass a slug/brief path, or use `/pr-description` for arch-doc work."
 
@@ -44,7 +47,7 @@ internal check names are sources only — they never appear in output.
 |-----------------|-------------------------|---------------|
 | brief "what becomes more certain" + Stabilizes | **What this adds** | the behavior/structure this PR introduces |
 | brief macro-constraints + already-merged dependencies | **What it relies on** | existing code / merged PRs it builds on |
-| `manifest.iterations[]` position + merged deps + **what's pending after** | **Where it sits** | "PR N of M; builds on the merged PRs that [did X]; later PRs will [Y]" — cite `#refs` only when known |
+| roadmap order + briefs' `mepStatus`/revision state + merged deps + **what's pending after** | **Where it sits** | "PR N of M; builds on the merged PRs that [did X]; later PRs will [Y]" — cite `#refs` only when known |
 | `integration-curation` `publication.mergePlaybook` + shard `stackRole` (when curated stack) | **Merge** | Pattern A/B playbook: parent vs trunk, when to fold, when to `gh stack sync` / `--prune` — required for stack-of-shards |
 | brief testing section / test files in the diff | **How this is tested** | what the tests exercise, in plain terms — never just "tests added" |
 | `git diff` | **Changes** | capability-grouped change list + file count |

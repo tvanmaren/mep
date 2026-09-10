@@ -77,6 +77,13 @@ run_mep() {
   printf '%s' "$out"
 }
 
+migration=$(run_mep "migrate" ok 0 migrate "$SLUG" --json)
+printf '%s' "$migration" | jq -e '.written == true and .legacyRemoved == true' >/dev/null \
+  || fail "migrate legacy fixture"
+git add -A
+git commit -q -m "migrate litmus fixture"
+pass "migrate"
+
 where=$(run_mep "where" ok 0 where "$SLUG" --json)
 printf '%s' "$where" | jq -e '
   .status == "ok"

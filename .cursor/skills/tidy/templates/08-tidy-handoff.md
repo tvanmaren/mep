@@ -16,7 +16,7 @@
 ## Docs bootstrap (before code groups)
 
 - [ ] AskQuestion: approve recovered prep tree?
-- [ ] Set `manifest.prepDocsBootstrapped: true` (before committing, so the bootstrap commit captures its own state)
+- [ ] Set roadmap `mepPrepDocsBootstrapped: true` (before committing, so the bootstrap commit captures its own state)
 - [ ] `/commit-prep {{SLUG}} docs-bootstrap` → human `git commit`
 
 Prep docs ship **once** in docs-bootstrap (prep tree + master plan when set) — not in code groups.
@@ -49,9 +49,9 @@ Prep drafts **next** forward `iterations/N.md` only. Checkpoint uses `docs-delta
 /pr-description
 ```
 
-## manifest updates
+## state updates
 
-- `boardCleared: true`
-- `tidyCompletedAt: {{ISO}}`
-- `prepDocsBootstrapped: true`
-- `sessionMode: tidy` → prep picks up with `checkpoint`
+- This artifact records `boardCleared: true`.
+- This artifact records `tidyCompletedAt: {{ISO}}`.
+- Roadmap frontmatter sets `mepPrepDocsBootstrapped: true`.
+- `sessionMode: tidy` was invocation-scoped; prep resumes with `checkpoint` without persisting it.

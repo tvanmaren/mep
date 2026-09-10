@@ -3,7 +3,7 @@
 The runtime records what it resolves and evaluates. Event classes cover resolver routes,
 checkpoint outcomes, lifecycle gates, and review-body readiness. Events are **runtime history, not
 current state** — they observe already-derived results and never participate in route derivation.
-Current state stays in `manifest.json`, `.mep/config`, git, and profiles; the ledger is a separate,
+Current state stays in the plan documents' frontmatter, `.mep/config`, git, and profiles; the ledger is a separate,
 append-only log.
 
 ## Storage
@@ -40,8 +40,8 @@ resolver proof contract version.
 ## `resolver_routed` payload
 
 The payload embeds the resolver result rather than recomputing it, so the event can explain the
-decision without becoming a second resolver. It carries the resolved `row`, `state`, `nextCommand`,
-and the full machine-facing `proof` object from the resolver contract
+decision without becoming a second resolver. It carries the resolved `status`, `row`, `state`,
+`nextCommand`, and the full machine-facing `proof` object from the resolver contract
 (`tools/mep/docs/portable-routing.md`):
 
 ```json
@@ -53,6 +53,7 @@ and the full machine-facing `proof` object from the resolver contract
   "slug": "mep-runtime-evolution",
   "source": "where",
   "payload": {
+    "status": "ok",
     "row": 7,
     "state": "plan is ready -> build the slice",
     "nextCommand": "/implement-plan wiki/prep/mep-runtime-evolution/iterations/02-resolver-event-primitive.md",
@@ -110,7 +111,7 @@ has produced the normal lifecycle packet. The payload records existing lifecycle
 }
 ```
 
-The event mirrors manifest-backed lifecycle status; it does not create lifecycle concepts or gates.
+The event mirrors document-backed lifecycle status; it does not create lifecycle concepts or gates.
 Lifecycle events omit revision context until the lifecycle packet itself derives one.
 
 ## `review_body_validated` payload

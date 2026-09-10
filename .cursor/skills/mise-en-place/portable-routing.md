@@ -4,10 +4,20 @@ Cursor slash commands are adapters. The durable behavior is the state contract b
 
 ## State Inputs
 
-- `wiki/prep/<slug>/manifest.json`
+- `wiki/prep/<slug>/04-iteration-roadmap.md` frontmatter — the initiative cursor (`mepCurrentIteration`,
+  `mepPhase`, `mepInitiativeStatus`, `mepAuthorshipMode`, `mepOwnedPaths`)
 - `git status --short`
 - `git log --oneline`
-- the active iteration brief from the manifest entry whose `n == currentIteration`
+- the active iteration brief — the one under `iterations/` whose frontmatter `mepIteration` equals the
+  roadmap's `mepCurrentIteration`; its `mepStatus` and revision triplet are that slice's state
+
+An initiative authored before document-colocated state has no roadmap frontmatter — a bare
+`04-iteration-roadmap.md` with no frontmatter block counts as absent. The resolver then imports its
+`manifest.json` read-only; `status --compact --json` reports `authority: "legacy_import"`. Reads and
+routing work; every writer refuses rather than no-opping — `checkpoint` and `doctor` with a
+`legacy_state_read_only` finding, `mode set` with a `legacy_state_read_only` reason, all of them
+`blocked` at exit 2. `mep migrate <slug> --json` writes modeled facts into frontmatter, names retired
+keys, and is the supported exit.
 
 Use the resolver table in `glossary.md` as the single source of truth. A non-Cursor harness reads the
 same inputs, resolves the same row, and performs the described procedure directly.
@@ -51,7 +61,7 @@ Every successful `where --json` packet includes:
 `executionRequest` is the durable routing field. It has exactly `kind`, `target`, and `argv`;
 `proof.executionRequest` is identical to the envelope field. The resolver derives it from the selected
 row, never by parsing `nextCommand`. Kinds are `implement`, `checkpoint`, `commit_prep`, `prep`,
-`cleanup`, and `none`; `target` is the brief path or slug, and is null only for `none`.
+`migrate`, `cleanup`, and `none`; `target` is the brief path or slug, and is null only for `none`.
 
 `nextCommand` remains optional adapter presentation for Cursor and may be null. Non-Cursor consumers
 must dispatch from `executionRequest`, not parse the slash string. `reason` is for operators. `proof`
@@ -62,7 +72,7 @@ is for adapters, events, tests, and future replay; consumers should key on `proo
 
 When a handoff needs "what next?", the agent resolves it in-turn:
 
-1. Read the manifest and git state.
+1. Read the plan documents and git state.
 2. Select the first matching resolver row in `glossary.md`.
 3. Output the concrete next procedure or command.
 4. Never ask the operator to run `/mep where` as the next step.
@@ -76,7 +86,7 @@ procedure:
 | `/implement-plan <briefPath>` | implement only that brief; treat prior prep docs as constraints, not extra scope |
 | `/commit-prep <slug> [mode]` | stage the intended scope, run the commit-prep audit gates, then hand the human the raw message block followed by the simplest valid commit command block |
 | `/prep-cleanup <slug>` | perform the final cleanup pass and write graduation notes after explicit confirmation |
-| `/prep-pr-description <slug> <n>` | render the reviewer-facing PR body from the brief, manifest, and branch diff |
+| `/prep-pr-description <slug> <n>` | render the reviewer-facing PR body from the brief, roadmap, and branch diff |
 
 ## PR Rendering
 
@@ -103,8 +113,8 @@ Commit-prep handoff always presents:
 2. `Commit command:` followed by a standalone `bash` code block.
 3. The continuation step outside the command block.
 
-For checkpoint `docs-delta`, the normal continuation after the human commit is to re-read manifest +
-git, resolve the next command, and print that concrete command. In Cursor, use
+For checkpoint `docs-delta`, the normal continuation after the human commit is to re-read the plan
+documents + git, resolve the next command, and print that concrete command. In Cursor, use
 `tools/mep/bin/mep where <slug> --json` and hand off its `nextCommand`; do not hand off
 `/mep next <slug>`.
 Review-stack presentation remains the glossary's aside, not a commit handoff route.

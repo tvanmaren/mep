@@ -65,8 +65,9 @@ points it somewhere else, like `wiki/prep`.
 /mep stage <slug>    # verify work and preview the review stack
 ```
 
-That's the main operator surface (`mode` below). `/mep` reads the configured prep root
-(default `.mep/prep/<slug>/manifest.json`) and git, figures out where you are, and routes to
+That's the main operator surface (`mode` below). `/mep` reads the plan documents in the configured
+prep root (default `.mep/prep/<slug>/`, whose roadmap and briefs carry the state in frontmatter)
+and git, figures out where you are, and routes to
 the right slash command. You don't memorize
 phases, slice statuses, or the pipeline.
 

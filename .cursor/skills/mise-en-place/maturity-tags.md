@@ -134,7 +134,7 @@ The second form stays; `@reference-only` goes.
 
 ## Cleanup protocol
 
-When `manifest.initiativeStatus === graduating`:
+When the roadmap's `mepInitiativeStatus` is `graduating`:
 
 1. `rg '@(experimental|provisional|stable|foundational|reference-only)'` scoped to
    initiative `ownedPaths`

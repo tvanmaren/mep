@@ -1,6 +1,17 @@
+---
+mepSlug: {{SLUG}}
+mepPhase: 4
+mepPrepDocsBootstrapped: false
+mepHandoffApproved: false
+mepInitiativeStatus: active
+mepAuthorshipMode: default
+mepCurrentIteration: null
+mepOwnedPaths: []
+mepMasterPlanPath: null
+---
+
 # Iteration roadmap — {{SLUG}}
 
-**Phase:** 4  
 **Status:** draft | approved  
 **Builds on:** [03-core-vs-volatile.md](./03-core-vs-volatile.md)
 

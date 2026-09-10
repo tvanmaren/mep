@@ -200,7 +200,7 @@ Operator surface              Deterministic tool              Adapters / orchest
 
 /prep checkpoint = atomic session: sync → replan → next brief → docs-delta
 
-State: .mep/config + manifest.json + git + structured profile seed (.mep/profiles/<name>.json)
+State: .mep/config + roadmap/iteration frontmatter + git + structured profile seed (.mep/profiles/<name>.json)
 History: append-only .mep/history/events.jsonl (runtime observability, not route input)
 Routing: lib/resolver.sh (glossary = human-readable contract)
 Profiles: lib/profile.sh + docs/profile-capabilities.md
@@ -223,13 +223,15 @@ flowchart LR
   end
   subgraph state
     CFG[".mep/config"]
-    MAN["manifest.json"]
+    ROADMAP["04-iteration-roadmap.md<br/>frontmatter"]
+    ITERATION["iterations/*.md<br/>frontmatter"]
     GIT["git"]
   end
   MEP --> BIN
   BIN --> LIB
   CFG --> BIN
-  MAN --> BIN
+  ROADMAP --> BIN
+  ITERATION --> BIN
   GIT --> BIN
   MEP --> CMD
   CMD --> SK
@@ -359,7 +361,7 @@ def generate(out: Path) -> int:
         "├── templates/                    # prep artifact templates",
         "├── examples/profiles/            # bundled profile examples",
         "├── adapters/cursor/              # Cursor adapter contract notes",
-        "├── test/run.sh                   # gate tests",
+        "├── test/run-unix-contract.sh     # gate tests",
         "└── scripts/bundle-reference.py   # this export",
         ".cursor/",
         "├── commands/                     # slash-command adapters",
@@ -396,9 +398,8 @@ def generate(out: Path) -> int:
             "Per-initiative outputs (slug-specific; not part of the framework bundle):",
             "",
             "```",
-            "wiki/prep/<slug>/manifest.json",
-            "wiki/prep/<slug>/0*.md",
-            "wiki/prep/<slug>/iterations/*.md",
+            "wiki/prep/<slug>/0*.md                  # roadmap frontmatter owns initiative state",
+            "wiki/prep/<slug>/iterations/*.md        # iteration frontmatter owns slice state",
             "wiki/prep/<slug>/06-graduation.md",
             "wiki/plans/<slug>.md",
             "wiki/pr-descriptions/<slug>-*.md",

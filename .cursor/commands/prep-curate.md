@@ -55,8 +55,8 @@ interpretation — see skill.
 
 `/mep curate <slug> --preview --optimize reviewer-comprehension|merge-speed|earliest-value`
 
-Default: `reviewer-comprehension`. Persist as `manifest.curationOptimize` or artifact field on approve.
-CLI passthrough post-v0.1; executor honors preset from invocation or manifest today.
+Default: `reviewer-comprehension`. The preset is scoped to this invocation; on approve, record it in
+`integration-curation.md` + `.json`. It is not initiative workflow state.
 
 ## Optimize (default order)
 
@@ -73,7 +73,8 @@ CLI passthrough post-v0.1; executor honors preset from invocation or manifest to
 
 ## Synthesis steps (preview)
 
-1. Merge + review budgets; resolve **`curationOptimize`** preset (see outline).
+1. Merge + review budgets; resolve the invocation's **`--optimize`** preset, or default to
+   `reviewer-comprehension` (see outline).
 2. **Distill evidence** — requirements, ADs, discoveries (exploration only).
 3. **Merge courses** from evidence + architecture ship order.
 4. **Mergeability pass:** sequential order, gating/stubs, **course-tip** smokes, shared-file

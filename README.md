@@ -165,8 +165,9 @@ point `mep` there instead.
 
 ## Project status
 
-This is **v0.1.0**. The short version: the planning half works end to end, and the half where a
-real agent does the building is still ahead of us.
+The latest tag is **v0.1.0**; main is building **v0.2.0**. The short version: the planning half works
+end to end, document-native state has landed after the tag, and the half where a real agent does the
+building is still ahead of us.
 
 **What works today**
 
@@ -178,6 +179,12 @@ real agent does the building is still ahead of us.
   software; it accepts or refuses a request and writes nothing.
 - Decision markers. A choice the tool considers yours blocks the commit until you answer it,
   in every authorship mode.
+- The plan documents *are* the state. Routing reads frontmatter on the roadmap and the iteration
+  briefs, so there is no sidecar that can disagree with the prose next to it. This landed after the
+  v0.1.0 tag; an initiative written under the tag still carries a `manifest.json`, which the resolver
+  imports read-only. It can be read and routed, but not checkpointed — `mep migrate <slug> --json`
+  writes the modeled facts into frontmatter, reports intentionally retired keys, and is what
+  unblocks it.
 - Curating a long branch into reviewable ones with `mep curate --execute`, without touching the
   branch you developed on. Stacking those for review is `/mep stage`, on the Cursor overlay
   rather than the CLI.
@@ -193,8 +200,6 @@ real agent does the building is still ahead of us.
   v0.1.0 tag via an agent harness driving the CLI — the failure list is
   [the default-mode record](tools/mep/docs/pilot-default-mode.md). Manual and autopilot pass
   their suites but have not been driven through real work on this remote.
-- **`manifest.json` still exists.** Workflow state is supposed to live on the plan documents
-  themselves; that's a v0.2 job.
 
 What v0.1 leaves unfinished on purpose is in
 [mep-v0.2-outline.md](.mep/plans/mep-v0.2-outline.md); the slice-by-slice ledger is

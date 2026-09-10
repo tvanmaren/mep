@@ -60,7 +60,7 @@ mep_event_append() {
 mep_event_emit_resolver_routed() {
   local packet=$1 slug=$2 emit_source=${3:-$MEP_EVENT_DEFAULT_SOURCE}
   local payload
-  payload=$(printf '%s' "$packet" | jq -c '{ row: .row, state: .state, nextCommand: .nextCommand, proof: .proof }' 2>/dev/null) || return 0 # best-effort: event payload extraction never disrupts resolver routes
+  payload=$(printf '%s' "$packet" | jq -c '{ status: .status, row: .row, state: .state, nextCommand: .nextCommand, proof: .proof }' 2>/dev/null) || return 0 # best-effort: event payload extraction never disrupts resolver routes
   mep_event_append "resolver_routed" "$slug" "$emit_source" "$payload"
 }
 

@@ -143,24 +143,29 @@ mep_finish_required_writebacks_json() {
 }
 
 mep_finish_scan_json() {
-  local slug=$1 manifest_json markers_json open_markers_json dirty_owned_json dirty_implementation_json writebacks_json
+  local slug=$1 state_json markers_json open_markers_json dirty_owned_json dirty_implementation_json writebacks_json
   mep_require jq rg "$MEP_VCS_KIND" || return $?
 
-  manifest_json=$(mep_manifest_summary_json "$slug")
-  if [[ "$(printf '%s' "$manifest_json" | jq -r '.exists')" != true ]]; then
-    printf '{"status":"not_found","slug":%s,"manifest":%s}\n' "$(mep_json_string "$slug")" "$(printf '%s' "$manifest_json" | jq '.path')"
+  state_json=$(mep_state_summary_json "$slug")
+  if [[ "$(printf '%s' "$state_json" | jq -r '.exists')" != true ]]; then
+    printf '{"status":"not_found","slug":%s,"statePath":%s}\n' "$(mep_json_string "$slug")" "$(printf '%s' "$state_json" | jq '.path')"
+    return 0
+  fi
+  if [[ "$(printf '%s' "$state_json" | jq '(.documentErrors // []) | length')" != 0 ]]; then
+    jq -cn --arg slug "$slug" --argjson findings "$(printf '%s' "$state_json" | jq -c '.documentErrors')" \
+      '{status:"blocked",reason:"invalid_document_state",slug:$slug,findings:$findings}'
     return 0
   fi
 
-  markers_json=$(mep_finish_marker_lines_json "$manifest_json")
+  markers_json=$(mep_finish_marker_lines_json "$state_json")
   open_markers_json=$(mep_finish_open_markers_json "$markers_json")
-  dirty_owned_json=$(mep_dirty_owned_paths_json "$manifest_json")
-  dirty_implementation_json=$(mep_dirty_implementation_paths_json "$slug" "$dirty_owned_json" "$manifest_json")
-  writebacks_json=$(mep_finish_required_writebacks_json "$manifest_json" "$markers_json" "$dirty_implementation_json")
+  dirty_owned_json=$(mep_dirty_owned_paths_json "$state_json")
+  dirty_implementation_json=$(mep_dirty_implementation_paths_json "$slug" "$dirty_owned_json" "$state_json")
+  writebacks_json=$(mep_finish_required_writebacks_json "$state_json" "$markers_json" "$dirty_implementation_json")
 
   jq -cn \
     --arg slug "$slug" \
-    --argjson manifest "$manifest_json" \
+    --argjson manifest "$state_json" \
     --argjson markers "$markers_json" \
     --argjson openMarkers "$open_markers_json" \
     --argjson dirtyOwned "$dirty_owned_json" \

@@ -4,7 +4,7 @@ Two jobs, one file:
 
 1. **Glossary** — translate the framework's vocabulary to plain developer language (and back), so
    an operator can drive without learning the ontology.
-2. **Resolver** — the single, authoritative table mapping initiative state (`manifest.json` + git)
+2. **Resolver** — the single, authoritative table mapping initiative state (roadmap + briefs + git)
    to the **literal next command**. `/mep` and any "what's next?" prose read *this* table; the
    logic is **not** copied into skill bodies (one home — don't smear next-command logic across skills).
    Non-Cursor harnesses use the same table, then translate the resolved command through
@@ -21,7 +21,7 @@ Read either column first; the map works both ways.
 | phase (1–5) | a step in the up-front planning |
 | slice / iteration | one small, self-contained piece of work — about one PR's worth |
 | brief | the written plan for a single piece of work |
-| checkpoint | `/prep <slug> checkpoint` — review what we learned, **amend belief state** (`03-core-vs-volatile`: core vs interchangeable), and plan the next piece of work; **one command per slice boundary** (manifest sync is step 0 inside the session, not a separate operator step) |
+| checkpoint | `/prep <slug> checkpoint` — review what we learned, **amend belief state** (`03-core-vs-volatile`: core vs interchangeable), and plan the next piece of work; **one command per slice boundary** (document sync is step 0 inside the session, not a separate operator step) |
 | belief state / core vs interchangeable | `03-core-vs-volatile.md` — what defines architectural **identity** (core) vs what is merely a **realization** (interchangeable); amended every checkpoint. Filename says *volatile*; use *interchangeable* in prose |
 | core certainty | an invariant of identity — substituting it falsifies the architecture; needs falsification criterion |
 | interchangeable element | another realization could occupy this slot without changing system identity; not the same as *plugin* or *will change soon*; **defer ≠ ignore** — still needs a roadmap home |
@@ -37,7 +37,8 @@ Read either column first; the map works both ways.
 | docs-delta | commit the updated planning notes |
 | graduation / prep-cleanup | the final cleanup pass before the effort is done |
 | stage / prep-stage | verify promised work and prepare it for review as a PR stack |
-| manifest | the initiative's state file (`wiki/prep/<slug>/manifest.json`) |
+| document state | initiative cursor in `04-iteration-roadmap.md` frontmatter; per-slice status/revisions in that iteration brief's frontmatter |
+| legacy manifest | import-only format for unmigrated initiatives; readable and routable, never writable — `mep migrate` converts it to frontmatter |
 | maturity tag (`@experimental` …) | a marker of how settled a piece of code is |
 | mise-en-place metaphor | AI is the **sous** (does the prep); the human is the **chef** (makes the calls) |
 | authorship mode | who writes the decision-bearing code and who signs off — `manual` (you write + own), `default` (AI writes, you audit before merge), `autopilot` (AI writes + self-approves, non-blocking, recorded) — over one shared plan |
@@ -60,7 +61,7 @@ The rest are already plain and need no translation.
 **Operator surface:** only `/prep <slug> checkpoint`. `/mep` macros and the resolver never route to
 `tools/mep/bin/mep checkpoint` as a separate next step.
 
-When git proves a slice landed but the manifest lags, the prep session opens with harness plumbing:
+When git proves a slice landed but document state lags, the prep session opens with harness plumbing:
 `tools/mep/bin/mep checkpoint <slug> --json`, then `--fix` only when the report has no blockers and
 no `commit_required_before_checkpoint` finding. That sync is **step 0 inside the session** — not a
 second checkpoint, not a standalone `/mep next` gate.
@@ -82,13 +83,14 @@ resolve to `/implement-plan`, not another `/prep checkpoint`.
 
 ## Resolver — state → next literal command
 
-Inputs: the initiative `manifest.json` and `git` (working-tree state **and commit log**). Resolve
+Inputs: the initiative roadmap frontmatter, iteration-brief frontmatter, and `git` (working-tree state
+**and commit log**). Resolve
 **top-down; first match wins**. `<slug>` comes from the invocation; `<briefPath>` comes from the
-manifest (when present). In Cursor, every result is a **concrete, resolvable command** — never the
+current iteration brief. In Cursor, every result is a **concrete, resolvable command** — never the
 self-referential `/mep next`. Outside Cursor, resolve the same row and perform the command-free
 procedure in [portable-routing.md](portable-routing.md).
 
-**Precondition — no scaffolding yet.** If `wiki/prep/<slug>/manifest.json` does **not** exist, the
+**Precondition — no scaffolding yet.** If `wiki/prep/<slug>/04-iteration-roadmap.md` does **not** exist, the
 table below has no state to read; resolve from the branch instead:
 
 - branch carries **no relevant tracked work** (no commits ahead, nothing staged/unstaged that
@@ -98,12 +100,14 @@ table below has no state to read; resolve from the branch instead:
   checkpoint` resumes). **Confirm relevance with the user first** — the driver detects *that* work
   exists, but only the human classifies it as this effort's vs. unrelated cruft.
 
-Mid-flight drift — a manifest that *exists* but lags the branch — is **not** detected here; this
-resolver trusts the forward invariant (docs lead code) and does not reconcile manifest claims
+Mid-flight drift — document state that exists but lags the branch — is **not** detected here; this
+resolver trusts the forward invariant (docs lead code) and does not reconcile document claims
 against git history.
 
-| # | state (manifest + git) | next literal command | plain "you are here" |
+| # | state (documents + git) | next literal command | plain "you are here" |
 |---|------------------------|----------------------|----------------------|
+| migration | legacy manifest is the read-only authority | `mep migrate <slug> --json` | legacy state must move into document frontmatter before writes |
+| invalid_document_state | roadmap or iteration frontmatter fails validation | — (repair the named findings) | document state is malformed |
 | 1 | `initiativeStatus == graduated` | — (nothing; the effort is done) | finished |
 | 2 | current iteration `sliceType == cleanup`, **or** every iteration `status` ∈ {`committed`, `merged`, `skipped`} | `/prep-cleanup <slug>` | all slices done → final cleanup |
 | 3 | `phase < 5`, prep is not bootstrapped/handed off, and no current iteration record exists | `/prep <slug>` | still planning the effort up front |
@@ -113,13 +117,14 @@ against git history.
 | 7 | current iteration `status == brief_ready` **and the slice isn't built yet** (no implementation change after the recorded or derivable brief revision; owned files clean) | `/implement-plan <briefPath>` | plan is ready → build the slice |
 | 8 | current iteration's **`status`** isn't `committed`/`merged` yet **and** owned paths contain an **open finish** (`@finish:open` present) | `/implement-plan <briefPath>` | the slice has an unmade decision → author the open finish(es) before it can be committed |
 | 9 | current iteration's **`status`** isn't `committed`/`merged` yet **and** owned files have **uncommitted** changes (work sits in the tree, not on the branch) | `/commit-prep <slug>` | slice built → stage and commit it |
-| 10 | current iteration's **`status`** isn't `committed`/`merged` yet **and** owned files are **clean** (the code already landed on the branch — the manifest just hasn't caught up) | `/prep <slug> checkpoint` | slice on the branch → review and plan next |
+| 10 | current iteration's **`status`** isn't `committed`/`merged` yet **and** owned files are **clean** (the code already landed on the branch — document state just hasn't caught up) | `/prep <slug> checkpoint` | slice on the branch → review and plan next |
 | 11 | current iteration `status` ∈ {`committed`, `merged`} **and** the next slice still needs a brief (recovery — interrupted session or sync without replan) | `/prep <slug> checkpoint` | recovery: plan the next slice (not the normal tail of row 10) |
 
-"current iteration" = the `iterations[]` entry whose `number == currentIteration` (`n` is legacy-readable). The build-state rows
-key on **git, not on a self-attested in-progress status** — the manifest has no `implementing` rung,
+"current iteration" = the iteration brief whose `mepIteration` equals the roadmap's
+`mepCurrentIteration`. The build-state rows
+key on **git, not on a self-attested in-progress status** — document state has no `implementing` rung,
 so a slice sits at `brief_ready` straight through its code commit until the checkpoint marks it
-`committed`. Four git-sensitive points, all because the manifest alone is blind to the working tree
+`committed`. Four git-sensitive points, all because documents alone are blind to the working tree
 and the commit log: **row 5** is an **implement interstitial**, not a first-match dirty-prep row —
 unsaved prep-tree docs divert rows 7–8 to docs-delta so a drafted checkpoint cannot skip straight
 into implement. pending, cleanup, and other non-implement routes keep their own rows even when prep
@@ -178,6 +183,6 @@ it verifies promised slices, previews branch/PR/body changes, and gates local or
 ## Re-derivability (the durable navigation requirement)
 
 This table is a **pure function of persisted state** — it uses no conversation memory. "Where were
-we?" after any digression is answered by re-reading `manifest.json` + `git` and re-resolving. That
+we?" after any digression is answered by re-reading roadmap + brief frontmatter + `git` and re-resolving. That
 is exactly what `/mep where <slug>` does, and why the answer survives intervening
 questions/answers/digressions.

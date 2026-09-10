@@ -42,8 +42,8 @@ before running `gh stack submit` or `gh pr edit`.
 
 ## Inputs
 
-- `wiki/prep/<slug>/manifest.json`
-- `manifest.iterations[]`
+- `tools/mep/bin/mep status <slug> --compact --json` — composed roadmap/brief reader
+- `wiki/prep/<slug>/04-iteration-roadmap.md` frontmatter for initiative fields and series order
 - `wiki/prep/<slug>/iterations/<n>-*.md`
 - generated `wiki/pr-descriptions/<slug>-<n>-<short>.md` files
 - `wiki/prep/<slug>/integration-curation.md` + `.json` when present (preferred over 1:1 iteration map); use **Execute record** integration branches when `execute` completed
@@ -52,7 +52,8 @@ before running `gh stack submit` or `gh pr edit`.
 
 ## Preflight
 
-1. Verify `manifest.json` exists and parses.
+1. Run `tools/mep/bin/mep status <slug> --compact --json`; verify document-native state composes
+   cleanly. A legacy-import result is read-only and must be migrated before any non-preview mode.
 2. Verify `gh stack` is installed before any non-preview mode.
 3. Resolve trunk, defaulting to `develop` unless the user provides another base.
 4. Verify working tree state:
@@ -60,7 +61,7 @@ before running `gh stack submit` or `gh pr edit`.
    - local/remote modes stop unless scoped changes are intentionally part of staging.
 5. Read existing stack state via `gh stack view --json` when available, and PR state via `gh pr list`
    by branch naming convention when needed.
-6. List selected iterations and their status:
+6. List selected iterations and their brief-frontmatter `mepStatus`:
    - `committed` / `merged` slices are candidates for review-stack presentation.
    - `brief_ready` / `pending` slices are only eligible for `greenfield` skeletons.
 

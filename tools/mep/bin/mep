@@ -30,6 +30,8 @@ MEP_HOME=$(cd "$MEP_BIN_DIR/.." && pwd)
 . "$MEP_HOME/lib/checks.sh"
 # shellcheck source=../lib/doctor.sh
 . "$MEP_HOME/lib/doctor.sh"
+# shellcheck source=../lib/document.sh
+. "$MEP_HOME/lib/document.sh"
 # shellcheck source=../lib/resolver.sh
 . "$MEP_HOME/lib/resolver.sh"
 # shellcheck source=../lib/pr.sh

@@ -23,6 +23,8 @@ fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 # shellcheck source=/dev/null
 . "$SRC/tools/mep/lib/paths.sh"
 # shellcheck source=/dev/null
+. "$SRC/tools/mep/lib/document.sh"
+# shellcheck source=/dev/null
 . "$SRC/tools/mep/lib/resolver.sh"
 
 # @provisional — lock the row-derived request while routing adapters are still being built.

@@ -139,7 +139,7 @@ mep_mark_atomic_finish_write() {
   fi
 }
 
-# @provisional — first deterministic writer for authorship and finish markers.
+# Deterministic writer for authorship and finish markers.
 mep_mark_mise_json() {
   local path=$1 dry_run=${2:-0} target style open close marker_count=0 open_count=0 close_count=0
   local line text trimmed line_number=0 open_line=0 close_line=0 expected_open_line=1 first_line=""

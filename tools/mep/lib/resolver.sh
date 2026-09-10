@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# @stable — evaluation-order rows. persistence primitives live in document.sh.
+# Evaluation-order rows. persistence primitives live in document.sh.
 mep_execution_request_json() {
   local row=$1 slug=$2 brief_path=${3:-}
 
-  # @stable — resolver rows, not adapter command strings, define the public execution request.
+  # Resolver rows, not adapter command strings, define the public execution request.
   case "$row" in
     '"precondition"'|3)
       jq -cn --arg target "$slug" '{kind:"prep",target:$target,argv:[]}'

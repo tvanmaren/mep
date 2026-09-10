@@ -23,7 +23,7 @@ mep_finish_owned_pathspecs() {
   done < <(printf '%s' "$manifest_json" | jq -r '.ownedPaths[]?')
 }
 
-# @stable — finish markers live on language-comment lines, not bash --flags.
+# Finish markers live on language-comment lines, not bash --flags.
 mep_finish_line_is_language_comment() {
   local marker_text=$1
   case "$marker_text" in
@@ -65,7 +65,7 @@ mep_finish_marker_lines_json() {
   printf ']'
 }
 
-# @provisional — one readiness fact shared by resolver, lifecycle, scope, and checkpoint.
+# One readiness fact shared by resolver, lifecycle, scope, and checkpoint.
 mep_finish_open_markers_json() {
   local markers_json=$1
   printf '%s' "$markers_json" | jq -c '[.[] | select(.state == "open")]'

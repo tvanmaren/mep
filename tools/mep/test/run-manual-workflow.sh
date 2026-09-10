@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @provisional — @finish:open cannot look committable in any authorship mode.
+# @finish:open cannot look committable in any authorship mode.
 set -euo pipefail
 
 SRC=${MEP_REPO_ROOT_OVERRIDE:-$(git rev-parse --show-toplevel)}

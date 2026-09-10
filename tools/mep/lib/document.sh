@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# @stable — public persistence primitives. the mutable ledger is plan documents, not a sidecar.
+# Public persistence primitives. the mutable ledger is plan documents, not a sidecar.
 mep_roadmap_path() {
   mep_abs_path "$(mep_roadmap_rel "$1")"
 }
@@ -76,7 +76,7 @@ mep_frontmatter_set() {
   fi
 }
 
-# @stable — document authority requires an actual frontmatter block, not merely a roadmap file.
+# Document authority requires an actual frontmatter block, not merely a roadmap file.
 # Every pre-migration initiative has an `04-iteration-roadmap.md` with no frontmatter; those must
 # fall through to the legacy importer instead of resolving to an empty cursor.
 mep_document_state_present() {

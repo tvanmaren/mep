@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @provisional — one-release bridge: retires an import-only manifest by writing the same facts
+# One-release bridge: retires an import-only manifest by writing the same facts
 # into roadmap and brief frontmatter. Deletable once no unmigrated initiative remains.
 
 mep_migrate_roadmap_complete() {

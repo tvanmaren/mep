@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @stable — finish-scan counts language comments, not bash --flags.
+# Finish-scan counts language comments, not bash --flags.
 set -euo pipefail
 
 SRC=${MEP_REPO_ROOT_OVERRIDE:-$(git rev-parse --show-toplevel)}

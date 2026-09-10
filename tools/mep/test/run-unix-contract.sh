@@ -27,7 +27,7 @@ fail() { printf 'not ok - %s\n' "$1" >&2; exit 1; }
 # shellcheck source=/dev/null
 . "$SRC/tools/mep/lib/resolver.sh"
 
-# @provisional — lock the row-derived request while routing adapters are still being built.
+# Lock the row-derived request while routing adapters are still being built.
 assert_execution_request() {
   local row=$1 slug=$2 brief_path=$3 expected=$4 actual
   actual=$(mep_execution_request_json "$row" "$slug" "$brief_path") || fail "request row $row emitted"

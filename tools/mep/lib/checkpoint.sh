@@ -105,7 +105,7 @@ mep_checkpoint_apply_fix() {
   brief=$(mep_abs_path "$brief")
   roadmap=$(mep_roadmap_path "$slug")
 
-  # @provisional — frontmatter key spellings are the document-state instance.
+  # Frontmatter key spellings are the document-state instance.
   if printf '%s' "$findings_json" | jq -e 'any(.kind == "write_brief_revision")' >/dev/null; then
     value=$(printf '%s' "$findings_json" | jq -r '[.[] | select(.kind == "write_brief_revision") | .value][0]')
     mep_frontmatter_set "$brief" mepBriefRevision "$value" || { printf '%s\n' "$applied"; return 1; }

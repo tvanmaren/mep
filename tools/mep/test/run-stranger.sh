@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @provisional — defaults suite is the self-host boundary. Stranger CI: temp git
+# Defaults suite is the self-host boundary. Stranger CI: temp git
 # root, no host .mep/config, engine storage defaults, fixture-demo only.
 set -euo pipefail
 

@@ -4,7 +4,7 @@ mep_manifest_path() {
   mep_abs_path "$(mep_manifest_rel "$1")"
 }
 
-# @provisional — one-release importer; document-native callers consume its normalized state shape.
+# One-release importer; document-native callers consume its normalized state shape.
 mep_legacy_manifest_summary_json() {
   local manifest=$1
   jq -c --arg path "$manifest" '

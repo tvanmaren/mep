@@ -119,7 +119,7 @@ mep_commit_scope_json() {
   writebacks_json=$(mep_finish_required_writebacks_json "$manifest_json" "$markers_json" "$dirty_implementation_json")
   finish_open_json=$(printf '%s' "$writebacks_json" | jq -c '[.[] | select(.kind == "finish_open")]')
 
-  # @provisional — open finishes cannot look committable in any authorship mode.
+  # Open finishes cannot look committable in any authorship mode.
   if [[ "$(printf '%s' "$finish_open_json" | jq 'length')" -gt 0 ]]; then
     jq -cn \
       --arg slug "$slug" \

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @provisional — unblocked where packets stay identical across authorship modes.
+# Unblocked where packets stay identical across authorship modes.
 set -euo pipefail
 
 SRC=${MEP_REPO_ROOT_OVERRIDE:-$(git rev-parse --show-toplevel)}

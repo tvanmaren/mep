@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @provisional — documented event classes append and round-trip through events tail.
+# Documented event classes append and round-trip through events tail.
 set -euo pipefail
 
 SRC=${MEP_REPO_ROOT_OVERRIDE:-$(git rev-parse --show-toplevel)}

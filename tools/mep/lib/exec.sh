@@ -38,7 +38,7 @@ mep_execution_primitive_for_kind() {
   esac
 }
 
-# @stable — dispatch consumes the public executionRequest object without translating adapter strings.
+# Dispatch consumes the public executionRequest object without translating adapter strings.
 mep_exec_dispatch_json() {
   local request_json=$1 executor=${2:-$MEP_EXECUTORS_DEFAULT} dry_run=${3:-0}
   local preset_json preset_kind preset_command primitive dry_run_json=false
@@ -82,7 +82,7 @@ mep_exec_dispatch_json() {
 
   case "$preset_kind:$preset_command" in
     stub:internal:stub)
-      # @provisional — deterministic test double; live vendor drivers remain external contracts.
+      # Deterministic test double; live vendor drivers remain external contracts.
       primitive=$(mep_execution_primitive_for_kind "$(printf '%s' "$request_json" | jq -r '.kind')")
       jq -cn \
         --arg executor "$executor" \

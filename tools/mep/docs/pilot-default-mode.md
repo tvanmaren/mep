@@ -1,7 +1,6 @@
 <!--
 Evidence record for default authorship on this repo. Not a routing contract.
 Runtime and adapters must not parse this file.
-@reference-only
 -->
 
 # Default-mode record (v0.1)

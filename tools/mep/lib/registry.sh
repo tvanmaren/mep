@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @stable — public shell contract: JSON status → process exit; this registry feeds help, usage, and tests.
+# Public shell contract: JSON status → process exit; this registry feeds help, usage, and tests.
 
 MEP_VERSION=0.1.0
 

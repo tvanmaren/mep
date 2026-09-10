@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @provisional — deterministic marker emission is new in the v0.1 workflow.
+# Deterministic marker emission for the v0.1 workflow.
 set -euo pipefail
 
 SRC=${MEP_REPO_ROOT_OVERRIDE:-$(git rev-parse --show-toplevel)}

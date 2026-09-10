@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @stable — golden proof for resolver rows, first-match precedence, and executionRequest parity.
+# Golden proof for resolver rows, first-match precedence, and executionRequest parity.
 set -euo pipefail
 
 SRC=${MEP_REPO_ROOT_OVERRIDE:-$(git rev-parse --show-toplevel)}

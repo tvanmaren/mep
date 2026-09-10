@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# @provisional — append-only runtime history; never a routing input.
+# Append-only runtime history; never a routing input.
 # Events are runtime history, not current state: they observe already-derived
 # runtime results without participating in route derivation, and never feed manifest/config.
 
